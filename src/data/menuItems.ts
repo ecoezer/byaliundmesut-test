@@ -105,6 +105,7 @@ export const pizzaExtras: PizzaExtra[] = [
   { name: 'Rindersalami', price: 1.00 },
   { name: 'Sauce Hollandaise', price: 1.00 },
   { name: 'Spinat', price: 1.00 },
+  { name: 'Sucuk', price: 1.00 },
   { name: 'Tomaten', price: 1.00 },
   { name: 'Zwiebeln', price: 1.00 }
 ];
