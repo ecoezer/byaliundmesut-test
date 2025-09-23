@@ -1,41 +1,40 @@
 export const useOpeningHours = () => {
   const now = new Date();
   const day = now.getDay();
-  const currentTime = now.getHours() + now.getMinutes() / 60;
 
   const CLOSED_DAY = 2; // Tuesday
   const OPENING_HOUR = 12;
-  const CLOSING_HOUR = 21.5; // 21:30
+  const CLOSING_HOUR = 21.5;
 
-  const isClosedToday = day === CLOSED_DAY;
-  const isOpenToday = !isClosedToday;
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
 
-  const isOpen = isOpenToday && currentTime >= OPENING_HOUR && currentTime < CLOSING_HOUR;
+  if (hours > 23 || minutes > 59) throw new Error("Invalid time");
 
-  const getDayName = (date: Date) =>
-    new Intl.DateTimeFormat('de-DE', { weekday: 'long' }).format(date);
+  const currentTime = hours + minutes / 60;
+  const isClosed = day === CLOSED_DAY;
+  const isOpen = !isClosed && currentTime >= OPENING_HOUR && currentTime < CLOSING_HOUR;
+
+  const formatDay = new Intl.DateTimeFormat('de-DE', { weekday: 'long' }).format;
 
   const nextOpeningTime = (() => {
-    if (!isOpenToday) return 'Mittwoch ab 12:00 Uhr wieder geöffnet';
+    if (isClosed) return 'Mittwoch ab 12:00 Uhr wieder geöffnet';
     if (currentTime < OPENING_HOUR) return 'heute ab 12:00 Uhr wieder geöffnet';
     if (currentTime >= CLOSING_HOUR) {
       let nextDay = new Date(now);
-      do {
-        nextDay.setDate(nextDay.getDate() + 1);
-      } while (nextDay.getDay() === CLOSED_DAY);
-      return `${getDayName(nextDay)} ab 12:00 Uhr wieder geöffnet`;
+      do nextDay.setDate(nextDay.getDate() + 1);
+      while (nextDay.getDay() === CLOSED_DAY);
+      return `${formatDay(nextDay)} ab 12:00 Uhr wieder geöffnet`;
     }
     return '';
   })();
 
-  const currentHours = isClosedToday ? 'Ruhetag' : '12:00–21:30';
-
   return {
     isOpen,
-    openingTime: isOpenToday ? OPENING_HOUR : 0,
-    closingTime: isOpenToday ? CLOSING_HOUR : 0,
+    openingTime: isClosed ? 0 : OPENING_HOUR,
+    closingTime: isClosed ? 0 : CLOSING_HOUR,
     nextOpeningTime,
-    currentHours,
-    isTuesday: isClosedToday
+    currentHours: isClosed ? 'Ruhetag' : '12:00–21:30',
+    isTuesday: isClosed
   };
 };
