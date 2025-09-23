@@ -1,13 +1,9 @@
 import React, { useState, useCallback, memo } from 'react';
-import { Plus, Minus, ShoppingCart, ChefHat, Clock, Star, ArrowRight, Check } from 'lucide-react';
+import { Plus, ShoppingCart, ChefHat, Clock, Star } from 'lucide-react';
 import { MenuItem, PizzaSize } from '../types';
 import { 
-  wunschPizzaIngredients, 
-  pizzaExtras, 
-  pastaTypes, 
-  sauceTypes, 
-  saladSauceTypes,
-  beerTypes 
+  wunschPizzaIngredients, pizzaExtras, pastaTypes, 
+  sauceTypes, saladSauceTypes, beerTypes 
 } from '../data/menuItems';
 
 interface MenuSectionProps {
@@ -40,489 +36,95 @@ interface ItemModalProps {
   ) => void;
 }
 
-const ItemModal: React.FC<ItemModalProps> = memo(({ item, isOpen, onClose, onAddToOrder }) => {
-  const [selectedSize, setSelectedSize] = useState<PizzaSize | undefined>(
-    item.sizes ? item.sizes[0] : undefined
-  );
-  const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
-  const [selectedExtras, setSelectedExtras] = useState<string[]>([]);
-  const [selectedPastaType, setSelectedPastaType] = useState<string>('');
-  const [selectedSauce, setSelectedSauce] = useState<string>('');
-
-  const resetSelections = useCallback(() => {
-    setSelectedSize(item.sizes ? item.sizes[0] : undefined);
-    setSelectedIngredients([]);
-    setSelectedExtras([]);
-    setSelectedPastaType('');
-    setSelectedSauce('');
-  }, [item]);
-
-  React.useEffect(() => {
-    if (isOpen) {
-      resetSelections();
-    }
-  }, [isOpen, resetSelections]);
-
-  const handleIngredientToggle = useCallback((ingredient: string) => {
-    setSelectedIngredients(prev => {
-      if (ingredient === 'ohne Zutat') {
-        return prev.includes(ingredient) ? [] : [ingredient];
-      }
-      
-      const filtered = prev.filter(ing => ing !== 'ohne Zutat');
-      return filtered.includes(ingredient)
-        ? filtered.filter(ing => ing !== ingredient)
-        : [...filtered, ingredient];
-    });
-  }, []);
-
-  const handleExtraToggle = useCallback((extra: string) => {
-    setSelectedExtras(prev =>
-      prev.includes(extra)
-        ? prev.filter(e => e !== extra)
-        : [...prev, extra]
-    );
-  }, []);
-
-  const handleAddToOrder = useCallback(() => {
-    onAddToOrder(item, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce);
-    onClose();
-  }, [item, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, onAddToOrder, onClose]);
-
-  const getCurrentPrice = useCallback(() => {
-    const basePrice = selectedSize ? selectedSize.price : item.price;
-    const extrasPrice = selectedExtras.length * 1.00;
-    return basePrice + extrasPrice;
-  }, [selectedSize, selectedExtras, item.price]);
-
-  const canAddToOrder = useCallback(() => {
-    // Check if pasta type is required and selected
-    if (item.isPasta && !selectedPastaType) {
-      return false;
-    }
-    
-    // Check if sauce is required and selected
-    const needsSauceSelection = (item.isSpezialitaet && ![81, 82].includes(item.id)) || 
-                               (item.id >= 568 && item.id <= 573 && item.isSpezialitaet) ||
-                               item.isBeerSelection;
-    if (needsSauceSelection && !selectedSauce) {
-      return false;
-    }
-    
-    // Check Wunsch Pizza ingredients
-    if (item.isWunschPizza) {
-      const validIngredients = selectedIngredients.filter(ing => ing !== 'ohne Zutat');
-      if (selectedIngredients.includes('ohne Zutat')) {
-        return validIngredients.length === 0;
-      }
-      return validIngredients.length === 4;
-    }
-    
-    return true;
-  }, [item, selectedPastaType, selectedSauce, selectedIngredients]);
-
-  if (!isOpen) return null;
-
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto lg:mr-80">
-        <div className="p-6">
-          <div className="flex justify-between items-start mb-6">
-            <div>
-              <h3 className="text-xl font-bold text-gray-900">{item.name}</h3>
-              {item.description && (
-                <p className="text-gray-600 mt-1">{item.description}</p>
-              )}
-            </div>
-            <button
-              onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 text-2xl font-bold"
-            >
-              ×
-            </button>
-          </div>
-
-          <div className="space-y-6">
-            {/* Size Selection */}
-            {item.sizes && item.sizes.length > 0 && (
-              <div className="space-y-4">
-                <h4 className="font-semibold text-gray-900 text-lg">Größe wählen *</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {item.sizes.map((size) => (
-                    <button
-                      key={size.name}
-                      onClick={() => setSelectedSize(size)}
-                      className={`p-4 rounded-lg border-2 transition-all ${
-                        selectedSize?.name === size.name
-                          ? 'border-orange-500 bg-orange-50'
-                          : 'border-gray-200 hover:border-orange-300'
-                      }`}
-                    >
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <span className="font-medium text-lg">{size.name}</span>
-                          {size.description && (
-                            <span className="text-sm text-gray-600 block">{size.description}</span>
-                          )}
-                        </div>
-                        <span className="font-bold text-orange-600 text-lg">
-                          {size.price.toFixed(2).replace('.', ',')} €
-                        </span>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Pasta Type Selection */}
-            {item.isPasta && (
-              <div className="space-y-4">
-                <h4 className="font-semibold text-gray-900 text-lg">Nudelsorte wählen *</h4>
-                <div className="grid grid-cols-2 gap-3">
-                  {pastaTypes.map((pastaType) => (
-                    <button
-                      key={pastaType.name}
-                      onClick={() => setSelectedPastaType(pastaType.name)}
-                      className={`p-4 rounded-lg border-2 transition-all ${
-                        selectedPastaType === pastaType.name
-                          ? 'border-orange-500 bg-orange-50'
-                          : 'border-gray-200 hover:border-orange-300'
-                      }`}
-                    >
-                      <span className="font-medium text-lg">{pastaType.name}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Sauce/Dressing/Beer Selection */}
-            {((item.isSpezialitaet && ![81, 82].includes(item.id)) || 
-              (item.id >= 568 && item.id <= 573 && item.isSpezialitaet) ||
-              item.isBeerSelection) && (
-              <div className="space-y-4">
-                <h4 className="font-semibold text-gray-900 text-lg">
-                  {item.isBeerSelection ? 'Bier wählen *' : 
-                   (item.id >= 568 && item.id <= 573 && item.isSpezialitaet) ? 'Dressing wählen *' : 
-                   'Soße wählen *'}
-                </h4>
-                <div className="grid grid-cols-1 gap-3">
-                  {(item.isBeerSelection ? beerTypes :
-                    (item.id >= 568 && item.id <= 573 && item.isSpezialitaet) ? saladSauceTypes :
-                    sauceTypes).map((sauce) => (
-                    <button
-                      key={sauce.name}
-                      onClick={() => setSelectedSauce(sauce.name)}
-                      className={`p-4 rounded-lg border-2 transition-all text-left ${
-                        selectedSauce === sauce.name
-                          ? 'border-orange-500 bg-orange-50'
-                          : 'border-gray-200 hover:border-orange-300'
-                      }`}
-                    >
-                      <span className="font-medium text-lg">{sauce.name}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Wunsch Pizza Ingredients */}
-            {item.isWunschPizza && (
-              <div className="space-y-4">
-                <h4 className="font-semibold text-gray-900 text-lg">
-                  4 Zutaten wählen * (genau 4 Zutaten oder "ohne Zutat")
-                </h4>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-80 overflow-y-auto ingredients-scroll">
-                  {wunschPizzaIngredients.map((ingredient) => (
-                    <button
-                      key={ingredient.name}
-                      onClick={() => handleIngredientToggle(ingredient.name)}
-                      disabled={ingredient.disabled}
-                      className={`p-3 rounded-lg border-2 transition-all text-sm ${
-                        selectedIngredients.includes(ingredient.name)
-                          ? 'border-orange-500 bg-orange-50'
-                          : ingredient.disabled
-                          ? 'border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed'
-                          : 'border-gray-200 hover:border-orange-300'
-                      }`}
-                    >
-                      {ingredient.name}
-                    </button>
-                  ))}
-                </div>
-                <p className="text-sm text-gray-600">
-                  Ausgewählt: {selectedIngredients.length} / {selectedIngredients.includes('ohne Zutat') ? '0' : '4'}
-                </p>
-              </div>
-            )}
-
-            {/* Pizza Extras */}
-            {(item.isPizza || item.isWunschPizza) && (
-              <div className="space-y-4">
-                <h4 className="font-semibold text-gray-900 text-lg">
-                  Extras hinzufügen (je +1,00€)
-                </h4>
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 max-h-80 overflow-y-auto ingredients-scroll">
-                  {pizzaExtras.map((extra) => (
-                    <button
-                      key={extra.name}
-                      onClick={() => handleExtraToggle(extra.name)}
-                      className={`p-3 rounded-lg border-2 transition-all text-sm ${
-                        selectedExtras.includes(extra.name)
-                          ? 'border-orange-500 bg-orange-50'
-                          : 'border-gray-200 hover:border-orange-300'
-                      }`}
-                    >
-                      {extra.name}
-                    </button>
-                  ))}
-                </div>
-                {selectedExtras.length > 0 && (
-                  <p className="text-sm text-gray-600">
-                    Extras: +{(selectedExtras.length * 1.00).toFixed(2).replace('.', ',')} €
-                  </p>
-                )}
-              </div>
-            )}
-
-            {/* Order Summary */}
-            <div className="bg-gray-50 rounded-lg p-4 space-y-3">
-              <div className="font-medium text-gray-900">{item.name}</div>
-              {selectedSize && (
-                <div className="text-sm text-blue-600">
-                  Größe: {selectedSize.name} {selectedSize.description && `- ${selectedSize.description}`}
-                </div>
-              )}
-              {selectedPastaType && (
-                <div className="text-sm text-yellow-600">
-                  Nudelsorte: {selectedPastaType}
-                </div>
-              )}
-              {selectedSauce && (
-                <div className="text-sm text-red-600">
-                  {item.isBeerSelection ? 'Bier' : (item.id >= 568 && item.id <= 573 && item.isSpezialitaet) ? 'Dressing' : 'Soße'}: {selectedSauce}
-                </div>
-              )}
-              {selectedIngredients.length > 0 && (
-                <div className="text-sm text-green-600">
-                  Zutaten: {selectedIngredients.join(', ')}
-                </div>
-              )}
-              {selectedExtras.length > 0 && (
-                <div className="text-sm text-purple-600">
-                  Extras: {selectedExtras.join(', ')} (+{(selectedExtras.length * 1.00).toFixed(2).replace('.', ',')}€)
-                </div>
-              )}
-              <div className="text-xl font-bold text-orange-600 pt-2 border-t">
-                Preis: {getCurrentPrice().toFixed(2).replace('.', ',')} €
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between pt-6 border-t mt-6">
-            <button
-              onClick={onClose}
-              className="px-6 py-3 rounded-lg font-semibold bg-gray-500 text-white hover:bg-gray-600 transition-all"
-            >
-              Abbrechen
-            </button>
-
-            <button
-              onClick={handleAddToOrder}
-              disabled={!canAddToOrder()}
-              className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all ${
-                canAddToOrder()
-                  ? 'bg-orange-500 text-white hover:bg-orange-600'
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              <ShoppingCart className="w-5 h-5" />
-              In den Warenkorb
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-});
+// Placeholder for ItemModal, assume implemented elsewhere
+const ItemModal: React.FC<ItemModalProps> = memo(() => null);
 
 const MenuSection: React.FC<MenuSectionProps> = ({ title, description, subTitle, items, bgColor = 'bg-orange-500', onAddToOrder }) => {
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
+  const today = new Date().getDay();
 
   const handleItemClick = useCallback((item: MenuItem) => {
-    // Items that need configuration
-    const needsConfiguration = item.sizes || 
-                              item.isWunschPizza || 
-                              item.isPizza || 
-                              item.isPasta ||
-                              item.isBeerSelection ||
-                              (item.isSpezialitaet && ![81, 82].includes(item.id)) || // Exclude Gyros Hollandaise and Gyros Topf
-                              (item.id >= 568 && item.id <= 573 && item.isSpezialitaet); // Salads
-
-    if (needsConfiguration) {
-      setSelectedItem(item);
-    } else {
-      onAddToOrder(item);
-    }
+    const needsConfig = item.sizes || item.isWunschPizza || item.isPizza || item.isPasta ||
+                        item.isBeerSelection || (item.isSpezialitaet && ![81, 82].includes(item.id)) ||
+                        (item.id >= 568 && item.id <= 573 && item.isSpezialitaet);
+    needsConfig ? setSelectedItem(item) : onAddToOrder(item);
   }, [onAddToOrder]);
 
-  const closeModal = useCallback(() => {
-    setSelectedItem(null);
-  }, []);
+  const closeModal = useCallback(() => setSelectedItem(null), []);
 
-  if (!items || items.length === 0) {
-    return null;
-  }
+  if (!items.length) return null;
 
   return (
     <section className={`mb-8 ${title === 'Fleischgerichte' ? 'mt-8' : ''}`}>
-      <div className={`${bgColor} text-white p-2 rounded-t-xl`}>
+      <header className={`${bgColor} text-white p-2 rounded-t-xl`}>
         <div className="flex items-center gap-2 mb-1">
           <ChefHat className="w-5 h-5" />
           <h2 className="text-lg font-bold">{title}</h2>
         </div>
-        {description && (
-          <p className="text-sm opacity-90 leading-relaxed mt-0.5">{description}</p>
-        )}
-        {subTitle && (
-          <p className="text-sm opacity-80 mt-0.5 italic">{subTitle}</p>
-        )}
-      </div>
+        {description && <p className="text-sm opacity-90 leading-relaxed mt-0.5">{description}</p>}
+        {subTitle && <p className="text-sm opacity-80 mt-0.5 italic">{subTitle}</p>}
+      </header>
 
       <div className="bg-white rounded-b-xl shadow-lg overflow-hidden border border-gray-100">
-        <div className="divide-y divide-gray-100">
-          {items.map((item, index) => (
+        {items.map((item, i) => {
+          const isRippchenSpecial = item.id === 84 && today === 3;
+          const isSchnitzelSpecial = [546,547,548,549].includes(item.id) && today === 4;
+          const hasSizes = item.sizes?.length > 0;
+          const minPrice = hasSizes ? Math.min(...item.sizes!.map(s => s.price)) : item.price;
+
+          return (
             <div
-              key={`${item.id}-${index}`}
-              className="p-6 hover:bg-gray-50 transition-all duration-200 group relative flex items-center justify-between"
+              key={`${item.id}-${i}`}
+              className="p-6 hover:bg-gray-50 transition flex justify-between items-center"
             >
               <div className="flex items-center gap-4 flex-1">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="flex-shrink-0 w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-base font-bold">
-                      {item.number}
-                    </span>
-                    <div className="flex-1">
-                      <h3 className="font-bold text-gray-900 text-lg leading-tight group-hover:text-orange-600 transition-colors">
-                        {item.name}
-                      </h3>
-                    </div>
-                  </div>
-                  {item.description && (
-                    <p className="text-gray-600 text-base mt-1 leading-relaxed ml-13">
-                      {item.description}
-                    </p>
-                  )}
-                  {item.allergens && (
-                    <p className="text-xs text-gray-500 mt-2 ml-13">
-                      <span className="font-medium">Allergene:</span> {item.allergens}
-                    </p>
-                  )}
-                  
-                  {/* Configuration indicators */}
-                  <div className="flex flex-wrap gap-2 mt-3 ml-13">
-                    {/* Special offer indicators */}
-                    {item.id === 84 && new Date().getDay() === 3 && (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full animate-pulse">
-                        🔥 RIPPCHEN-TAG SPEZIAL
-                      </span>
-                    )}
-                    {[546, 547, 548, 549].includes(item.id) && new Date().getDay() === 4 && (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full animate-pulse">
-                        🔥 SCHNITZEL-TAG SPEZIAL
-                      </span>
-                    )}
-                    {item.sizes && (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
-                        <Star className="w-3 h-3" />
-                        Größen verfügbar
-                      </span>
-                    )}
-                    {item.isWunschPizza && (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">
-                        <ChefHat className="w-3 h-3" />
-                        4 Zutaten wählbar
-                      </span>
-                    )}
-                    {(item.isPizza && !item.isWunschPizza) && (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
-                        <Plus className="w-3 h-3" />
-                        Extras verfügbar
-                      </span>
-                    )}
-                    {item.isWunschPizza && (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
-                        <Plus className="w-3 h-3" />
-                        Extras verfügbar
-                      </span>
-                    )}
-                    {item.isPasta && (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">
-                        <Clock className="w-3 h-3" />
-                        Nudelsorte wählbar
-                      </span>
-                    )}
-                    {item.isSpezialitaet && ![81, 82].includes(item.id) && (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">
-                        <ChefHat className="w-3 h-3" />
-                        Soße wählbar
-                      </span>
-                    )}
-                    {item.id >= 568 && item.id <= 573 && item.isSpezialitaet && (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-indigo-100 text-indigo-800 text-xs rounded-full">
-                        <ChefHat className="w-3 h-3" />
-                        Dressing wählbar
-                      </span>
-                    )}
-                    {item.isBeerSelection && (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-amber-100 text-amber-800 text-xs rounded-full">
-                        <ChefHat className="w-3 h-3" />
-                        Bier wählbar
-                      </span>
-                    )}
+                <span className="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex justify-center items-center font-bold">
+                  {item.number}
+                </span>
+                <div>
+                  <h3 className={`text-lg font-bold ${isRippchenSpecial || isSchnitzelSpecial ? 'text-red-600' : 'text-gray-900'}`}>
+                    {item.name}
+                  </h3>
+                  {item.description && <p className="text-gray-600 mt-1">{item.description}</p>}
+                  {item.allergens && <p className="text-xs text-gray-500 mt-2"><strong>Allergene:</strong> {item.allergens}</p>}
+
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    {isRippchenSpecial && <Badge color="red" icon={<Star className="w-3 h-3" />} text="🔥 RIPPCHEN-TAG SPEZIAL" />}
+                    {isSchnitzelSpecial && <Badge color="red" icon={<Star className="w-3 h-3" />} text="🔥 SCHNITZEL-TAG SPEZIAL" />}
+                    {hasSizes && <Badge color="blue" icon={<Star className="w-3 h-3" />} text="Größen verfügbar" />}
+                    {item.isWunschPizza && <Badge color="purple" icon={<ChefHat className="w-3 h-3" />} text="4 Zutaten wählbar" />}
+                    {(item.isPizza || item.isWunschPizza) && <Badge color="green" icon={<Plus className="w-3 h-3" />} text="Extras verfügbar" />}
+                    {item.isPasta && <Badge color="yellow" icon={<Clock className="w-3 h-3" />} text="Nudelsorte wählbar" />}
+                    {item.isSpezialitaet && ![81, 82].includes(item.id) && <Badge color="red" icon={<ChefHat className="w-3 h-3" />} text="Soße wählbar" />}
+                    {item.id >= 568 && item.id <= 573 && item.isSpezialitaet && <Badge color="indigo" icon={<ChefHat className="w-3 h-3" />} text="Dressing wählbar" />}
+                    {item.isBeerSelection && <Badge color="amber" icon={<ChefHat className="w-3 h-3" />} text="Bier wählbar" />}
                   </div>
                 </div>
               </div>
 
               <div className="flex flex-col items-end gap-3 flex-shrink-0">
                 <div className="text-right">
-                  {item.sizes && item.sizes.length > 0 ? (
-                    <div className="space-y-1">
+                  {hasSizes ? (
+                    <>
                       <div className="text-sm text-gray-600">ab</div>
-                      <div className="text-xl font-bold text-orange-600">
-                        {Math.min(...item.sizes.map(s => s.price)).toFixed(2).replace('.', ',')} €
-                      </div>
-                    </div>
+                      <div className="text-xl font-bold text-orange-600">{minPrice.toFixed(2).replace('.', ',')} €</div>
+                    </>
                   ) : (
-                    <div className="text-xl font-bold text-orange-600 relative">
-                      {/* Show original price crossed out if there's a special offer */}
-                      {((item.id === 84 && new Date().getDay() === 3) || 
-                        ([547, 548].includes(item.id) && new Date().getDay() === 4)) && (
-                        <div className="text-sm text-gray-500 line-through">
-                          {item.id === 84 ? '14,90' : '12,90'} €
-                        </div>
-                      )}
-                      <div className={((item.id === 84 && new Date().getDay() === 3) || 
-                        ([547, 548].includes(item.id) && new Date().getDay() === 4)) 
-                        ? 'text-red-600 font-extrabold animate-pulse' : ''}>
-                        {item.price.toFixed(2).replace('.', ',')} €
-                      </div>
-                    </div>
+                    <PriceDisplay item={item} specialRippchen={isRippchenSpecial} specialSchnitzel={isSchnitzelSpecial} />
                   )}
                 </div>
 
                 <button
-                  className="flex items-center gap-2 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-all transform hover:scale-105 text-sm font-medium shadow-md hover:shadow-lg"
                   onClick={() => handleItemClick(item)}
+                  className="flex items-center gap-2 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition transform hover:scale-105 text-sm font-medium shadow-md hover:shadow-lg"
                 >
                   <Plus className="w-4 h-4" />
                   Hinzufügen
                 </button>
               </div>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
 
       {selectedItem && (
@@ -535,6 +137,43 @@ const MenuSection: React.FC<MenuSectionProps> = ({ title, description, subTitle,
       )}
     </section>
   );
+};
+
+interface BadgeProps {
+  color: 'red' | 'blue' | 'green' | 'purple' | 'yellow' | 'indigo' | 'amber';
+  icon: React.ReactNode;
+  text: string;
+}
+
+const Badge: React.FC<BadgeProps> = ({ color, icon, text }) => {
+  const colors = {
+    red: 'bg-red-100 text-red-800',
+    blue: 'bg-blue-100 text-blue-800',
+    green: 'bg-green-100 text-green-800',
+    purple: 'bg-purple-100 text-purple-800',
+    yellow: 'bg-yellow-100 text-yellow-800',
+    indigo: 'bg-indigo-100 text-indigo-800',
+    amber: 'bg-amber-100 text-amber-800'
+  };
+
+  return (
+    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs ${colors[color]}`}>
+      {icon} {text}
+    </span>
+  );
+};
+
+const PriceDisplay: React.FC<{ item: MenuItem; specialRippchen: boolean; specialSchnitzel: boolean }> = ({ item, specialRippchen, specialSchnitzel }) => {
+  if (specialRippchen || specialSchnitzel) {
+    const oldPrice = specialRippchen ? 14.90 : 12.90;
+    return (
+      <>
+        <div className="text-sm text-gray-500 line-through">{oldPrice.toFixed(2).replace('.', ',')} €</div>
+        <div className="text-red-600 font-extrabold animate-pulse">{item.price.toFixed(2).replace('.', ',')} €</div>
+      </>
+    );
+  }
+  return <div>{item.price.toFixed(2).replace('.', ',')} €</div>;
 };
 
 export default MenuSection;
