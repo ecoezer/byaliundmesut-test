@@ -125,7 +125,7 @@ const ItemModal: React.FC<ItemModalProps> = memo(({ item, isOpen, onClose, onAdd
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto lg:mr-80">
         <div className="p-6">
           <div className="flex justify-between items-start mb-6">
             <div>
@@ -263,7 +263,7 @@ const ItemModal: React.FC<ItemModalProps> = memo(({ item, isOpen, onClose, onAdd
                 <h4 className="font-semibold text-gray-900 text-lg">
                   Extras hinzufügen (je +1,00€)
                 </h4>
-                <div className="grid grid-cols-2 gap-2 max-h-80 overflow-y-auto ingredients-scroll">
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 max-h-80 overflow-y-auto ingredients-scroll">
                   {pizzaExtras.map((extra) => (
                     <button
                       key={extra.name}
