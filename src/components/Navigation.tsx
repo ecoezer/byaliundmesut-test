@@ -9,7 +9,7 @@ const Navigation = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const navigationItems = [
-    ['fleischgerichte', 'Fleischgerichte'],
+    ['fleischgerichte', 'Drehspieß'],
     ['snacks', 'Snacks'],
     ['vegetarische-gerichte', 'Vegetarische Gerichte'],
     ['pizza', 'Pizza'],

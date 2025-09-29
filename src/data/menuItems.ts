@@ -70,7 +70,7 @@ export const croques: readonly MenuItem[] = [
   { id: 558, number: 58, name: "Hamburger Croque", description: "mit Hamburger-Patty, Röstzwiebeln", price: 9.00 },
   { id: 559, number: 59, name: "Nuggets Croque", description: "mit Chicken-Nuggets & Paprika", price: 9.00 },
   { id: 560, number: 60, name: "Jalapenos Croque", description: "mit Schinken, Salami & Peperoni", price: 9.00 },
-  { id: 561, number: 61, name: "Drehspieß Croque", description: "mit Fleischgericht nach Wahl: Kalb oder Hähnchen", price: 9.00 }
+  { id: 561, number: 61, name: "Drehspieß Croque", description: "mit Drehspieß nach Wahl: Kalb oder Hähnchen", price: 9.00 }
 ];
 
 // Snacks
@@ -121,17 +121,17 @@ export const drinks: readonly MenuItem[] = [
   { id: 112, name: "Alkoholfreies Bier", description: "0,33 L", price: 2.00 }
 ];
 
-// Fleischgerichte (Meat dishes)
+// Drehspieß (Meat dishes)
 export const fleischgerichte: readonly MenuItem[] = [
-  { id: 529, number: 1, name: "Fleischgericht Tasche", description: "mit Fleischgericht nach Wahl: Kalb oder Hähnchen im Fladenbrot, gemischtem Salat & Soße", price: 7.50, isSpezialitaet: true },
-  { id: 530, number: 2, name: "Fleischgericht Dürüm", description: "mit Fleischgericht nach Wahl: Kalb oder Hähnchen, gemischtem Salat & Soße", price: 8.50, isSpezialitaet: true },
-  { id: 531, number: 3, name: "Fleischgericht Box", description: "mit Fleischgericht nach Wahl: Kalb oder Hähnchen, Pommes frites & Soße", price: 7.50, isSpezialitaet: true },
-  { id: 532, number: 4, name: "Fleischgericht Teller (mit Pommes)", description: "mit Fleischgericht nach Wahl: Kalb oder Hähnchen, Pommes frites oder Bulgur & Soße", price: 13.50, isSpezialitaet: true },
-  { id: 533, number: 5, name: "Fleischgericht (mit Salat)", description: "mit Fleischgericht nach Wahl: Kalb oder Hähnchen, Salat & Soße", price: 13.50, isSpezialitaet: true },
+  { id: 529, number: 1, name: "Drehspieß Tasche", description: "mit Drehspieß nach Wahl: Kalb oder Hähnchen im Fladenbrot, gemischtem Salat & Soße", price: 7.50, isSpezialitaet: true },
+  { id: 530, number: 2, name: "Drehspieß Dürüm", description: "mit Drehspieß nach Wahl: Kalb oder Hähnchen, gemischtem Salat & Soße", price: 8.50, isSpezialitaet: true },
+  { id: 531, number: 3, name: "Drehspieß Box", description: "mit Drehspieß nach Wahl: Kalb oder Hähnchen, Pommes frites & Soße", price: 7.50, isSpezialitaet: true },
+  { id: 532, number: 4, name: "Drehspieß Teller (mit Pommes)", description: "mit Drehspieß nach Wahl: Kalb oder Hähnchen, Pommes frites oder Bulgur & Soße", price: 13.50, isSpezialitaet: true },
+  { id: 533, number: 5, name: "Drehspieß (mit Salat)", description: "mit Drehspieß nach Wahl: Kalb oder Hähnchen, Salat & Soße", price: 13.50, isSpezialitaet: true },
   { id: 534, number: 6, name: "Sucuk Tasche", description: "mit türkischer Knoblauchwurst im Fladenbrot, mit gemischtem Salat & Soße", price: 9.00, isSpezialitaet: true },
   { id: 535, number: 7, name: "Sucuk Teller", description: "mit türkischer Knoblauchwurst mit Bulgur oder Pommes, mit gemischtem Salat & Soße", price: 13.50, isSpezialitaet: true },
   { id: 536, number: 8, name: "Lahmacun Salat", description: "mit gemischtem Salat & Soße", price: 6.00, isSpezialitaet: true },
-  { id: 537, number: 9, name: "Lahmacun Kalb oder Hähnchen", description: "Fleischgericht nach Wahl: Kalb oder Hähnchen mit gemischtem Salat & Soße", price: 7.00, isSpezialitaet: true },
+  { id: 537, number: 9, name: "Lahmacun Kalb oder Hähnchen", description: "Drehspieß nach Wahl: Kalb oder Hähnchen mit gemischtem Salat & Soße", price: 7.00, isSpezialitaet: true },
   { id: 538, number: 10, name: "Lahmacun Weichkäse", description: "mit Weichkäse, gemischtem Salat & Soße", price: 7.00, isSpezialitaet: true }
 ];
 
@@ -148,7 +148,7 @@ export const pizzas: readonly MenuItem[] = [
   { id: 534, number: 34, name: "Pizza Athen", description: "mit Spinat & Weichkäse", price: 12.00, isPizza: true },
   { id: 535, number: 35, name: "Pizza Rio", description: "mit Sucuk, Weichkäse, Zwiebeln & Peperoni", price: 12.50, isPizza: true },
   { id: 536, number: 36, name: "Calzone", description: "mit 3 Zutaten nach Wahl, jede extra Zutat +1 €", price: 12.00, isPizza: true },
-  { id: 537, number: 37, name: "Pizza Art Drehspieß", description: "mit Fleischgericht nach Wahl & Zwiebeln", price: 12.50, isPizza: true },
+  { id: 537, number: 37, name: "Pizza Art Drehspieß", description: "mit Drehspieß nach Wahl & Zwiebeln", price: 12.50, isPizza: true },
   { id: 538, number: 38, name: "Pizza Hamburger", description: "mit Hamburger-Patty, Salat, jede extra Zutat +1 €, Burgersoße", price: 12.00, isPizza: true },
   { id: 539, number: 39, name: "Pizza Mozzarella", description: "mit frischem Mozzarella & Tomaten", price: 12.00, isPizza: true },
   { id: 540, number: 40, name: "Pizza Italia", description: "mit Salami, Mozzarella & frischem Basilikum", price: 11.00, isPizza: true },

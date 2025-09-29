@@ -36,7 +36,7 @@ const BUTTON_CLASSES = {
 };
 
 const MENU_SECTIONS = [
-  { id: 'fleischgerichte', title: 'Fleischgerichte', description: 'Döner, Dürüm, Lahmacun und mehr', items: fleischgerichte },
+  { id: 'fleischgerichte', title: 'Drehspieß', description: 'Döner, Dürüm, Lahmacun und mehr', items: fleischgerichte },
   { id: 'snacks', title: 'Snacks', description: 'Kleine Gerichte und Menüs', items: snacks },
   { id: 'vegetarische-gerichte', title: 'Vegetarische Gerichte', description: 'Fleischlose Alternativen', items: vegetarischeGerichte },
   { id: 'pizza', title: 'Pizza', description: 'Frisch gebackene Pizzen', items: pizzas },
