@@ -33,6 +33,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
   const [selectedMeatType, setSelectedMeatType] = useState<string>(
     item.isMeatSelection ? meatTypes[0] : ''
   );
+  const [currentStep, setCurrentStep] = useState<'meat' | 'sauce' | 'complete'>('meat');
 
   const handleIngredientToggle = useCallback((ingredient: string) => {
     setSelectedIngredients(prev => {
@@ -60,6 +61,12 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
   }, [item.price, selectedSize, selectedExtras]);
 
   const handleAddToCart = useCallback(() => {
+    // For meat selection items, check if we need to go to sauce selection step
+    if (item.isMeatSelection && currentStep === 'meat') {
+      setCurrentStep('sauce');
+      return;
+    }
+    
     onAddToOrder(
       item,
       selectedSize,
@@ -69,7 +76,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
       selectedSauce || selectedMeatType || undefined
     );
     onClose();
-  }, [item, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedMeatType, onAddToOrder, onClose]);
+  }, [item, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedMeatType, onAddToOrder, onClose, currentStep]);
 
   const getSauceOptions = useCallback(() => {
     if (item.id >= 568 && item.id <= 573 && item.isSpezialitaet) {
@@ -77,6 +84,29 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
     }
     return sauceTypes;
   }, [item.id, item.isSpezialitaet]);
+
+  const handleBackToMeat = useCallback(() => {
+    setCurrentStep('meat');
+    setSelectedSauce(''); // Reset sauce selection when going back
+  }, []);
+
+  const getModalTitle = useCallback(() => {
+    if (item.isMeatSelection) {
+      if (currentStep === 'meat') {
+        return 'Schritt 1: Fleischauswahl';
+      } else if (currentStep === 'sauce') {
+        return 'Schritt 2: Soße wählen';
+      }
+    }
+    return `Nr. ${item.number} ${item.name}`;
+  }, [item, currentStep]);
+
+  const getButtonText = useCallback(() => {
+    if (item.isMeatSelection && currentStep === 'meat') {
+      return 'Weiter zur Soßenauswahl';
+    }
+    return `Hinzufügen - ${calculatePrice().toFixed(2).replace('.', ',')} €`;
+  }, [item.isMeatSelection, currentStep, calculatePrice]);
 
   if (!isOpen) return null;
 
@@ -86,22 +116,65 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
         {/* Header */}
         <div className="sticky top-0 bg-orange-500 text-white p-4 rounded-t-xl flex justify-between items-center">
           <div>
-            <h2 className="text-xl font-bold">Nr. {item.number} {item.name}</h2>
+            <h2 className="text-xl font-bold">{getModalTitle()}</h2>
+            {currentStep === 'meat' && (
             {item.description && (
               <p className="text-sm opacity-90 mt-1">{item.description}</p>
             )}
+            )}
+            {currentStep === 'sauce' && (
+              <p className="text-sm opacity-90 mt-1">
+                {selectedMeatType} - Nr. {item.number} {item.name}
+              </p>
+            )}
           </div>
-          <button
+          <div className="flex items-center gap-2">
+            {item.isMeatSelection && currentStep === 'sauce' && (
+              <button
+                onClick={handleBackToMeat}
+                className="p-2 hover:bg-orange-600 rounded-full transition-colors"
+                title="Zurück zur Fleischauswahl"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+            )}
+            <button
             onClick={onClose}
             className="p-2 hover:bg-orange-600 rounded-full transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
+          </div>
         </div>
 
         <div className="p-6 space-y-6">
+          {/* Step indicator for meat selection items */}
+          {item.isMeatSelection && (
+            <div className="flex items-center justify-center space-x-4 mb-4">
+              <div className={`flex items-center space-x-2 ${currentStep === 'meat' ? 'text-orange-600' : 'text-gray-400'}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                  currentStep === 'meat' ? 'bg-orange-500 text-white' : 'bg-gray-200'
+                }`}>
+                  1
+                </div>
+                <span className="text-sm font-medium">Fleisch</span>
+              </div>
+              <div className={`w-8 h-px ${currentStep === 'sauce' ? 'bg-orange-500' : 'bg-gray-300'}`}></div>
+              <div className={`flex items-center space-x-2 ${currentStep === 'sauce' ? 'text-orange-600' : 'text-gray-400'}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                  currentStep === 'sauce' ? 'bg-orange-500 text-white' : 'bg-gray-200'
+                }`}>
+                  2
+                </div>
+                <span className="text-sm font-medium">Soße</span>
+              </div>
+            </div>
+          )}
+
           {/* Size Selection */}
-          {item.sizes && (
+          {item.sizes && (!item.isMeatSelection || currentStep !== 'sauce') && (
             <div>
               <h3 className="font-semibold text-gray-900 mb-3">Größe wählen *</h3>
               <div className="space-y-2">
@@ -140,7 +213,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
           )}
 
           {/* Wunsch Pizza Ingredients */}
-          {item.isWunschPizza && (
+          {item.isWunschPizza && (!item.isMeatSelection || currentStep !== 'sauce') && (
             <div>
               <h3 className="font-semibold text-gray-900 mb-3">
                 Zutaten wählen ({selectedIngredients.length}/4) *
@@ -174,7 +247,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
           )}
 
           {/* Pizza Extras */}
-          {(item.isPizza || item.isWunschPizza) && (
+          {(item.isPizza || item.isWunschPizza) && (!item.isMeatSelection || currentStep !== 'sauce') && (
             <div>
               <h3 className="font-semibold text-gray-900 mb-3">
                 Extras (+1,00€ pro Extra)
@@ -203,7 +276,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
           )}
 
           {/* Pasta Type Selection */}
-          {item.isPasta && (
+          {item.isPasta && (!item.isMeatSelection || currentStep !== 'sauce') && (
             <div>
               <h3 className="font-semibold text-gray-900 mb-3">Nudelsorte wählen *</h3>
               <div className="space-y-2">
@@ -231,7 +304,8 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
             </div>
           )}
 
-          {item.isMeatSelection && (
+          {/* Meat Selection - Only show in step 1 */}
+          {item.isMeatSelection && currentStep === 'meat' && (
             <div>
               <h3 className="font-semibold text-gray-900 mb-3">Fleischauswahl *</h3>
               <div className="space-y-2">
@@ -260,10 +334,14 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
           )}
 
           {/* Sauce Selection */}
-          {(item.isSpezialitaet && ![81, 82].includes(item.id) && !item.isMeatSelection) || (item.id >= 568 && item.id <= 573 && item.isSpezialitaet) ? (
+          {((item.isSpezialitaet && ![81, 82].includes(item.id) && !item.isMeatSelection) || 
+            (item.id >= 568 && item.id <= 573 && item.isSpezialitaet) ||
+            (item.isMeatSelection && currentStep === 'sauce')) && (
             <div>
               <h3 className="font-semibold text-gray-900 mb-3">
-                {item.id >= 568 && item.id <= 573 ? 'Dressing wählen' : 'Soße wählen'} *
+                {item.id >= 568 && item.id <= 573 ? 'Dressing wählen' : 'Soße wählen'} 
+                {(item.isMeatSelection && currentStep === 'sauce') || 
+                 (item.isSpezialitaet && ![81, 82].includes(item.id)) ? ' *' : ''}
               </h3>
               <div className="space-y-2">
                 {getSauceOptions().map((sauce) => (
@@ -291,7 +369,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
           ) : null}
 
           {/* Beer Selection */}
-          {item.isBeerSelection && (
+          {item.isBeerSelection && (!item.isMeatSelection || currentStep !== 'sauce') && (
             <div>
               <h3 className="font-semibold text-gray-900 mb-3">Bier wählen *</h3>
               <div className="space-y-2">
@@ -325,8 +403,19 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
               onClick={handleAddToCart}
               className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 px-6 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors"
             >
-              <ShoppingCart className="w-5 h-5" />
-              Hinzufügen - {calculatePrice().toFixed(2).replace('.', ',')} €
+              {item.isMeatSelection && currentStep === 'meat' ? (
+                <>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                  {getButtonText()}
+                </>
+              ) : (
+                <>
+                  <ShoppingCart className="w-5 h-5" />
+                  {getButtonText()}
+                </>
+              )}
             </button>
           </div>
         </div>
