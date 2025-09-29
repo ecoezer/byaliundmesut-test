@@ -364,7 +364,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
                 ))}
               </div>
             </div>
-          ) : null}
+          )}
 
           {/* Beer Selection */}
           {item.isBeerSelection && (!item.isMeatSelection || currentStep !== 'sauce') && (
