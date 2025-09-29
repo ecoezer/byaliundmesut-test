@@ -59,7 +59,7 @@ export const vegetarischeGerichte: readonly MenuItem[] = [
 // Croques
 export const croques: readonly MenuItem[] = [
   { id: 548, number: 48, name: "Brokkoli Croque", description: "mit Broccoli, Zwiebeln, Paprika & Spinat", price: 8.00 },
-  { id: 549, number: 49, name: "Salami Croque", description: "mit Salami", price: 8.50 },
+  { id: 549, number: 49, name: "Rindersalami Croque", description: "mit Rindersalami", price: 8.50 },
   { id: 550, number: 50, name: "Schinken Croque", description: "mit Schinken", price: 8.50 },
   { id: 551, number: 51, name: "Tonno Croque", description: "mit Thunfisch & Zwiebeln", price: 9.00 },
   { id: 552, number: 52, name: "Hawaii Croque", description: "mit Schinken & Ananas", price: 9.00 },
@@ -70,7 +70,7 @@ export const croques: readonly MenuItem[] = [
   { id: 557, number: 57, name: "Funghi Croque", description: "mit Champignons, Schinken & Weichkäse", price: 9.00 },
   { id: 558, number: 58, name: "Hamburger Croque", description: "mit Hamburger-Patty, Röstzwiebeln", price: 9.00 },
   { id: 559, number: 59, name: "Nuggets Croque", description: "mit Chicken-Nuggets & Paprika", price: 9.00 },
-  { id: 560, number: 60, name: "Jalapenos Croque", description: "mit Schinken, Salami & Peperoni", price: 9.00 },
+  { id: 560, number: 60, name: "Jalapenos Croque", description: "mit Schinken, Rindersalami & Peperoni", price: 9.00 },
   { id: 561, number: 61, name: "Drehspieß Croque", description: "mit Drehspieß nach Wahl: Kalb oder Hähnchen", price: 9.00 }
 ];
 
@@ -139,7 +139,7 @@ export const fleischgerichte: readonly MenuItem[] = [
 // Pizza dishes
 export const pizzas: readonly MenuItem[] = [
   { id: 526, number: 26, name: "Pizza Margherita", description: "", price: 9.00, isPizza: true },
-  { id: 527, number: 27, name: "Pizza Salami", description: "mit Salami", price: 10.00, isPizza: true },
+  { id: 527, number: 27, name: "Pizza Rindersalami", description: "mit Rindersalami", price: 10.00, isPizza: true },
   { id: 528, number: 28, name: "Pizza Schinken", description: "mit Schinken", price: 10.00, isPizza: true },
   { id: 529, number: 29, name: "Pizza Funghi", description: "mit Champignons", price: 10.00, isPizza: true },
   { id: 530, number: 30, name: "Pizza Tonno", description: "mit Thunfisch & Zwiebeln", price: 11.00, isPizza: true },
@@ -152,12 +152,12 @@ export const pizzas: readonly MenuItem[] = [
   { id: 537, number: 37, name: "Pizza Art Drehspieß", description: "mit Drehspieß nach Wahl & Zwiebeln", price: 12.50, isPizza: true },
   { id: 538, number: 38, name: "Pizza Hamburger", description: "mit Hamburger-Patty, Salat, jede extra Zutat +1 €, Burgersoße", price: 12.00, isPizza: true },
   { id: 539, number: 39, name: "Pizza Mozzarella", description: "mit frischem Mozzarella & Tomaten", price: 12.00, isPizza: true },
-  { id: 540, number: 40, name: "Pizza Italia", description: "mit Salami, Mozzarella & frischem Basilikum", price: 11.00, isPizza: true },
-  { id: 541, number: 41, name: "Pizza Rustica", description: "mit Schinken, Salami & frischen Champignons", price: 11.00, isPizza: true },
+  { id: 540, number: 40, name: "Pizza Italia", description: "mit Rindersalami, Mozzarella & frischem Basilikum", price: 11.00, isPizza: true },
+  { id: 541, number: 41, name: "Pizza Rustica", description: "mit Schinken, Rindersalami & frischen Champignons", price: 11.00, isPizza: true },
   { id: 542, number: 42, name: "Pizza Grüne Oase", description: "mit Paprika, Tomaten, Broccoli & Champignons", price: 12.00, isPizza: true },
   { id: 543, number: 43, name: "Pizza Mexico", description: "mit Jalapenos, Hähnchenfleisch, Mais, Paprika & Champignons", price: 12.00, isPizza: true },
-  { id: 544, number: 44, name: "Pizza Quattro Stagioni", description: "mit Schinken, Salami, Champignons & Artischocken", price: 12.00, isPizza: true },
+  { id: 544, number: 44, name: "Pizza Quattro Stagioni", description: "mit Schinken, Rindersalami, Champignons & Artischocken", price: 12.00, isPizza: true },
   { id: 545, number: 45, name: "Pizza India", description: "mit Schinken, Hähnchenbrustfilet, Ananas & Currysauce", price: 12.00, isPizza: true },
-  { id: 546, number: 46, name: "Pizza Diavolo", description: "mit Salami, Champignons & Peperoni", price: 12.50, isPizza: true },
+  { id: 546, number: 46, name: "Pizza Diavolo", description: "mit Rindersalami, Champignons & Peperoni", price: 12.50, isPizza: true },
   { id: 547, number: 47, name: "Pizza Brötchen", description: "jede extra Zutat +1 €", price: 5.00, isPizza: true }
 ];
