@@ -34,6 +34,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
   const [selectedMeatType, setSelectedMeatType] = useState<string>(
     item.isMeatSelection ? meatTypes[0] : ''
   );
+  const [selectedSauces, setSelectedSauces] = useState<string[]>([]);
   const [selectedExclusions, setSelectedExclusions] = useState<string[]>([]);
   const [currentStep, setCurrentStep] = useState<'meat' | 'sauce' | 'exclusions' | 'complete'>('meat');
   const [showAllSauces, setShowAllSauces] = useState(false);
@@ -66,6 +67,14 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
     );
   }, []);
 
+  const handleSauceToggle = useCallback((sauce: string) => {
+    setSelectedSauces(prev => 
+      prev.includes(sauce) 
+        ? prev.filter(s => s !== sauce)
+        : [...prev, sauce]
+    );
+  }, []);
+
   const calculatePrice = useCallback(() => {
     let basePrice = selectedSize ? selectedSize.price : item.price;
     const extrasPrice = selectedExtras.length * 1.00;
@@ -91,11 +100,11 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
       selectedIngredients,
       selectedExtras,
       selectedPastaType || undefined,
-      selectedSauce || selectedMeatType || undefined,
+      (selectedSauces.length > 0 ? selectedSauces.join(', ') : selectedSauce) || selectedMeatType || undefined,
       selectedExclusions
     );
     onClose();
-  }, [item, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedMeatType, selectedExclusions, onAddToOrder, onClose, currentStep]);
+  }, [item, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedSauces, selectedMeatType, selectedExclusions, onAddToOrder, onClose, currentStep]);
 
   const getSauceOptions = useCallback(() => {
     if (item.id >= 568 && item.id <= 573 && item.isSpezialitaet) {
@@ -128,14 +137,19 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
     setSelectedExclusions([]); // Reset exclusions when going back
   }, []);
 
+  const handleBackToMeat = useCallback(() => {
+    setCurrentStep('meat');
+    setSelectedSauces([]); // Reset sauce selections when going back
+  }, []);
+
   const getModalTitle = useCallback(() => {
     if (item.isMeatSelection) {
       if (currentStep === 'meat') {
         return 'Schritt 1: Fleischauswahl';
       } else if (currentStep === 'sauce') {
-        return 'Schritt 2: Soße wählen';
+        return 'Schritt 2: Soßen wählen (mehrere möglich)';
       } else if (currentStep === 'exclusions') {
-        return 'Schritt 3: Salat anpassen';
+        return 'Schritt 3: Salat anpassen (mehrere möglich)';
       }
     }
     return `Nr. ${item.number} ${item.name}`;
@@ -169,7 +183,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
             )}
             {currentStep === 'exclusions' && (
               <p className="text-sm opacity-90 mt-1">
-                {selectedMeatType} mit {selectedSauce} - Nr. {item.number} {item.name}
+                {selectedMeatType} mit {selectedSauces.length > 0 ? selectedSauces.join(', ') : 'ohne Soße'} - Nr. {item.number} {item.name}
               </p>
             )}
           </div>
@@ -393,32 +407,57 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
             (item.isMeatSelection && currentStep === 'sauce')) && (
             <div>
               <h3 className="font-semibold text-gray-900 mb-3">
-                {item.id >= 568 && item.id <= 573 ? 'Dressing wählen' : 'Soße wählen'} 
-                {(item.isMeatSelection && currentStep === 'sauce') || 
-                 (item.isSpezialitaet && ![81, 82].includes(item.id)) ? ' *' : ''}
+                {item.id >= 568 && item.id <= 573 ? 'Dressing wählen' : (item.isMeatSelection && currentStep === 'sauce' ? 'Soßen wählen (mehrere möglich)' : 'Soße wählen')}
+                {!item.isMeatSelection && ((item.isSpezialitaet && ![81, 82].includes(item.id)) || (item.id >= 568 && item.id <= 573)) ? ' *' : ''}
               </h3>
-              <div className="space-y-2">
-                {getVisibleSauceOptions().map((sauce) => (
-                  <label
-                    key={sauce}
-                    className={`flex items-center space-x-2 p-2 rounded-lg border-2 cursor-pointer transition-all ${
-                      selectedSauce === sauce
-                        ? 'border-orange-500 bg-orange-50'
-                        : 'border-gray-200 hover:border-orange-300'
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="sauce"
-                      value={sauce}
-                      checked={selectedSauce === sauce}
-                      onChange={(e) => setSelectedSauce(e.target.value)}
-                      className="text-orange-500 focus:ring-orange-500 w-4 h-4"
-                    />
-                    <span className="font-medium">{sauce}</span>
-                  </label>
-                ))}
-              </div>
+              
+              {item.isMeatSelection && currentStep === 'sauce' ? (
+                // Multiple selection for meat selection items in step 2
+                <div className="space-y-2">
+                  {getVisibleSauceOptions().map((sauce) => (
+                    <label
+                      key={sauce}
+                      className={`flex items-center space-x-2 p-2 rounded-lg border-2 cursor-pointer transition-all ${
+                        selectedSauces.includes(sauce)
+                          ? 'border-orange-500 bg-orange-50'
+                          : 'border-gray-200 hover:border-orange-300'
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedSauces.includes(sauce)}
+                        onChange={() => handleSauceToggle(sauce)}
+                        className="text-orange-500 focus:ring-orange-500 w-4 h-4"
+                      />
+                      <span className="font-medium">{sauce}</span>
+                    </label>
+                  ))}
+                </div>
+              ) : (
+                // Single selection for other items
+                <div className="space-y-2">
+                  {getVisibleSauceOptions().map((sauce) => (
+                    <label
+                      key={sauce}
+                      className={`flex items-center space-x-2 p-2 rounded-lg border-2 cursor-pointer transition-all ${
+                        selectedSauce === sauce
+                          ? 'border-orange-500 bg-orange-50'
+                          : 'border-gray-200 hover:border-orange-300'
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="sauce"
+                        value={sauce}
+                        checked={selectedSauce === sauce}
+                        onChange={(e) => setSelectedSauce(e.target.value)}
+                        className="text-orange-500 focus:ring-orange-500 w-4 h-4"
+                      />
+                      <span className="font-medium">{sauce}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
               
               {/* Show More/Less Button for Sauce Selection in Step 2 */}
               {item.isMeatSelection && currentStep === 'sauce' && getSauceOptions().length > 3 && (
@@ -481,7 +520,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
           {/* Salad Exclusions - Only show in step 3 for meat selection items */}
           {item.isMeatSelection && currentStep === 'exclusions' && (
             <div>
-              <h3 className="font-semibold text-gray-900 mb-3">Salat anpassen (optional)</h3>
+              <h3 className="font-semibold text-gray-900 mb-3">Salat anpassen (mehrere möglich, optional)</h3>
               <p className="text-sm text-gray-600 mb-4">Wählen Sie aus, was Sie nicht in Ihrem Salat möchten:</p>
               <div className="space-y-2">
                 {getVisibleExclusionOptions().map((exclusion) => (
@@ -494,9 +533,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
                     }`}
                   >
                     <input
-                      type="radio"
-                      name="exclusion"
-                      value={exclusion}
+                      type="checkbox"
                       checked={selectedExclusions.includes(exclusion)}
                       onChange={() => handleExclusionToggle(exclusion)}
                       className="text-orange-500 focus:ring-orange-500 w-4 h-4"
