@@ -494,7 +494,9 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
                     }`}
                   >
                     <input
-                      type="checkbox"
+                      type="radio"
+                      name="exclusion"
+                      value={exclusion}
                       checked={selectedExclusions.includes(exclusion)}
                       onChange={() => handleExclusionToggle(exclusion)}
                       className="text-orange-500 focus:ring-orange-500 w-4 h-4"
