@@ -19,7 +19,8 @@ interface MenuSectionProps {
     selectedIngredients?: string[], 
     selectedExtras?: string[],
     selectedPastaType?: string,
-    selectedSauce?: string
+    selectedSauce?: string,
+    selectedExclusions?: string[]
   ) => void;
 }
 

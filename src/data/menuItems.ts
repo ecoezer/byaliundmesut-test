@@ -26,6 +26,15 @@ export const saladSauceTypes = ['Joghurt', 'French', 'Essig/Öl'] as const;
 export const beerTypes = ['Becks', 'Herrenhäuser'] as const;
 export const meatTypes = ['mit Kalbfleisch', 'mit Hähnchenfleisch'] as const;
 
+// Salad exclusion options for Drehspieß items
+export const saladExclusionOptions = [
+  'ohne Eisbergsalat',
+  'ohne Zwiebel', 
+  'ohne Rotkohl',
+  'ohne Tomaten',
+  'ohne Gurken'
+] as const;
+
 // Wunsch Pizza ingredients
 export const wunschPizzaIngredients = [
   'Ananas', 'Artischocken', 'Barbecuesauce', 'Brokkoli', 'Champignons frisch',

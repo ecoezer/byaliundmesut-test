@@ -84,14 +84,14 @@ function App() {
   }, []);
 
   // Add/remove/update item callbacks
-  const memoizedAddItem = useCallback((menuItem, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce) => {
-    addItem(menuItem, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce);
+  const memoizedAddItem = useCallback((menuItem, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions) => {
+    addItem(menuItem, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions);
     triggerCartAnimation();
   }, [addItem, triggerCartAnimation]);
-  const memoizedRemoveItem = useCallback((id, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce) =>
-    removeItem(id, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce), [removeItem]);
-  const memoizedUpdateQuantity = useCallback((id, quantity, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce) =>
-    updateQuantity(id, quantity, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce), [updateQuantity]);
+  const memoizedRemoveItem = useCallback((id, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions) =>
+    removeItem(id, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions), [removeItem]);
+  const memoizedUpdateQuantity = useCallback((id, quantity, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions) =>
+    updateQuantity(id, quantity, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions), [updateQuantity]);
   const memoizedClearCart = useCallback(() => clearCart(), [clearCart]);
 
   // Mobile cart toggling
