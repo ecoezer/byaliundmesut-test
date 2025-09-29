@@ -262,10 +262,10 @@ const OrderForm: React.FC<OrderFormProps> = ({
     setIsSubmitting(true);
     
     try {
-      // Send email notification
+      // Send email notification first
       try {
         const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-order-email`;
-        await fetch(apiUrl, {
+        const emailResponse = await fetch(apiUrl, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
@@ -288,6 +288,12 @@ const OrderForm: React.FC<OrderFormProps> = ({
             total
           }),
         });
+        
+        if (emailResponse.ok) {
+          console.log('Email notification sent successfully');
+        } else {
+          console.warn('Email notification failed, but continuing with WhatsApp order');
+        }
       } catch (error) {
         console.warn('Email notification error:', error);
       }

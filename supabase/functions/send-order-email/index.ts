@@ -272,7 +272,7 @@ Deno.serve(async (req: Request) => {
 
     // Send email using Resend
     const resendApiKey = Deno.env.get('RESEND_API_KEY');
-    const restaurantEmail = Deno.env.get('RESTAURANT_EMAIL') || 'orders@foodstaxi-gronau.de';
+    const restaurantEmail = Deno.env.get('RESTAURANT_EMAIL') || 'orders@byaliundmesut.de';
 
     if (!resendApiKey) {
       console.error('RESEND_API_KEY not configured');
@@ -292,7 +292,7 @@ Deno.serve(async (req: Request) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'byAliundMesut <noreply@byaliundmesut.de>',
+        from: 'by Ali und Mesut <noreply@byaliundmesut.de>',
         to: [restaurantEmail],
         subject: `🍕 Neue Bestellung von ${orderData.name} - ${orderData.total.toFixed(2).replace('.', ',')} €`,
         html: emailHTML,
