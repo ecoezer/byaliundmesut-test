@@ -37,6 +37,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
   const [selectedExclusions, setSelectedExclusions] = useState<string[]>([]);
   const [currentStep, setCurrentStep] = useState<'meat' | 'sauce' | 'exclusions' | 'complete'>('meat');
   const [showAllSauces, setShowAllSauces] = useState(false);
+  const [showAllExclusions, setShowAllExclusions] = useState(false);
 
   const handleIngredientToggle = useCallback((ingredient: string) => {
     setSelectedIngredients(prev => {
@@ -111,6 +112,12 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
     return allSauces;
   }, [getSauceOptions, item.isMeatSelection, currentStep, showAllSauces]);
 
+  const getVisibleExclusionOptions = useCallback(() => {
+    if (item.isMeatSelection && currentStep === 'exclusions') {
+      return showAllExclusions ? saladExclusionOptions : saladExclusionOptions.slice(0, 3);
+    }
+    return saladExclusionOptions;
+  }, [item.isMeatSelection, currentStep, showAllExclusions]);
   const handleBackToMeat = useCallback(() => {
     setCurrentStep('meat');
     setSelectedSauce(''); // Reset sauce selection when going back
@@ -477,7 +484,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
               <h3 className="font-semibold text-gray-900 mb-3">Salat anpassen (optional)</h3>
               <p className="text-sm text-gray-600 mb-4">Wählen Sie aus, was Sie nicht in Ihrem Salat möchten:</p>
               <div className="space-y-2">
-                {saladExclusionOptions.map((exclusion) => (
+                {getVisibleExclusionOptions().map((exclusion) => (
                   <label
                     key={exclusion}
                     className={`flex items-center space-x-3 p-3 rounded-lg border-2 cursor-pointer transition-all ${
@@ -496,6 +503,33 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
                   </label>
                 ))}
               </div>
+              
+              {/* Show More/Less Button for Exclusions in Step 3 */}
+              {item.isMeatSelection && currentStep === 'exclusions' && saladExclusionOptions.length > 3 && (
+                <div className="mt-4 text-center">
+                  <button
+                    type="button"
+                    onClick={() => setShowAllExclusions(!showAllExclusions)}
+                    className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-orange-600 hover:text-orange-700 hover:bg-orange-50 rounded-lg transition-colors"
+                  >
+                    {showAllExclusions ? (
+                      <>
+                        <span>Weniger anzeigen</span>
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                        </svg>
+                      </>
+                    ) : (
+                      <>
+                        <span>Mehr anzeigen ({saladExclusionOptions.length - 3} weitere)</span>
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </>
+                    )}
+                  </button>
+                </div>
+              )}
             </div>
           )}
 
