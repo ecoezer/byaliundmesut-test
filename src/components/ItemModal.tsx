@@ -3,7 +3,7 @@ import { X, Plus, ShoppingCart } from 'lucide-react';
 import { MenuItem, PizzaSize } from '../types';
 import { 
   wunschPizzaIngredients, pizzaExtras, pastaTypes, 
-  sauceTypes, saladSauceTypes, beerTypes 
+  sauceTypes, saladSauceTypes, beerTypes, meatTypes 
 } from '../data/menuItems';
 
 interface ItemModalProps {
@@ -30,6 +30,9 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
     item.isPasta ? pastaTypes[0] : ''
   );
   const [selectedSauce, setSelectedSauce] = useState<string>('');
+  const [selectedMeatType, setSelectedMeatType] = useState<string>(
+    item.isMeatSelection ? meatTypes[0] : ''
+  );
 
   const handleIngredientToggle = useCallback((ingredient: string) => {
     setSelectedIngredients(prev => {
@@ -63,10 +66,10 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
       selectedIngredients,
       selectedExtras,
       selectedPastaType || undefined,
-      selectedSauce || undefined
+      selectedSauce || selectedMeatType || undefined
     );
     onClose();
-  }, [item, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, onAddToOrder, onClose]);
+  }, [item, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedMeatType, onAddToOrder, onClose]);
 
   const getSauceOptions = useCallback(() => {
     if (item.id >= 568 && item.id <= 573 && item.isSpezialitaet) {
@@ -228,8 +231,36 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
             </div>
           )}
 
+          {item.isMeatSelection && (
+            <div>
+              <h3 className="font-semibold text-gray-900 mb-3">Fleischauswahl *</h3>
+              <div className="space-y-2">
+                {meatTypes.map((meatType) => (
+                  <label
+                    key={meatType}
+                    className={`flex items-center space-x-3 p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                      selectedMeatType === meatType
+                        ? 'border-orange-500 bg-orange-50'
+                        : 'border-gray-200 hover:border-orange-300'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="meatType"
+                      value={meatType}
+                      checked={selectedMeatType === meatType}
+                      onChange={(e) => setSelectedMeatType(e.target.value)}
+                      className="text-orange-500 focus:ring-orange-500"
+                    />
+                    <span className="font-medium">{meatType}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Sauce Selection */}
-          {(item.isSpezialitaet && ![81, 82].includes(item.id)) || (item.id >= 568 && item.id <= 573 && item.isSpezialitaet) ? (
+          {(item.isSpezialitaet && ![81, 82].includes(item.id) && !item.isMeatSelection) || (item.id >= 568 && item.id <= 573 && item.isSpezialitaet) ? (
             <div>
               <h3 className="font-semibold text-gray-900 mb-3">
                 {item.id >= 568 && item.id <= 573 ? 'Dressing wählen' : 'Soße wählen'} *

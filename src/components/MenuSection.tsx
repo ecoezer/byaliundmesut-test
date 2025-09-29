@@ -3,7 +3,7 @@ import { Plus, ShoppingCart, ChefHat, Clock, Star } from 'lucide-react';
 import { MenuItem, PizzaSize } from '../types';
 import { 
   wunschPizzaIngredients, pizzaExtras, pastaTypes, 
-  sauceTypes, saladSauceTypes, beerTypes 
+  sauceTypes, saladSauceTypes, beerTypes, meatTypes 
 } from '../data/menuItems';
 import ItemModal from './ItemModal';
 
@@ -30,7 +30,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({ title, description, subTitle,
 
   const handleItemClick = useCallback((item: MenuItem) => {
     const needsConfig = item.sizes || item.isWunschPizza || item.isPizza || item.isPasta ||
-                        item.isBeerSelection || (item.isSpezialitaet && ![81, 82].includes(item.id)) ||
+                        item.isBeerSelection || item.isMeatSelection || (item.isSpezialitaet && ![81, 82].includes(item.id) && !item.isMeatSelection) ||
                         (item.id >= 568 && item.id <= 573 && item.isSpezialitaet);
     needsConfig ? setSelectedItem(item) : onAddToOrder(item);
   }, [onAddToOrder]);
@@ -80,7 +80,8 @@ const MenuSection: React.FC<MenuSectionProps> = ({ title, description, subTitle,
                     {item.isWunschPizza && <Badge color="purple" icon={<ChefHat className="w-3 h-3" />} text="4 Zutaten wählbar" />}
                     {(item.isPizza || item.isWunschPizza) && <Badge color="green" icon={<Plus className="w-3 h-3" />} text="Extras verfügbar" />}
                     {item.isPasta && <Badge color="yellow" icon={<Clock className="w-3 h-3" />} text="Nudelsorte wählbar" />}
-                    {item.isSpezialitaet && ![81, 82].includes(item.id) && <Badge color="red" icon={<ChefHat className="w-3 h-3" />} text="Soße wählbar" />}
+                    {item.isMeatSelection && <Badge color="red" icon={<ChefHat className="w-3 h-3" />} text="Fleischauswahl" />}
+                    {item.isSpezialitaet && ![81, 82].includes(item.id) && !item.isMeatSelection && <Badge color="red" icon={<ChefHat className="w-3 h-3" />} text="Soße wählbar" />}
                     {item.id >= 568 && item.id <= 573 && item.isSpezialitaet && <Badge color="indigo" icon={<ChefHat className="w-3 h-3" />} text="Dressing wählbar" />}
                     {item.isBeerSelection && <Badge color="amber" icon={<ChefHat className="w-3 h-3" />} text="Bier wählbar" />}
                   </div>

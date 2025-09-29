@@ -24,6 +24,7 @@ export const sauceTypes = [
 
 export const saladSauceTypes = ['Joghurt', 'French', 'Essig/Öl'] as const;
 export const beerTypes = ['Becks', 'Herrenhäuser'] as const;
+export const meatTypes = ['mit Kalbfleisch', 'mit Hähnchenfleisch'] as const;
 
 // Wunsch Pizza ingredients
 export const wunschPizzaIngredients = [
@@ -123,15 +124,15 @@ export const drinks: readonly MenuItem[] = [
 
 // Drehspieß (Meat dishes)
 export const fleischgerichte: readonly MenuItem[] = [
-  { id: 529, number: 1, name: "Drehspieß Tasche", description: "mit Drehspieß nach Wahl: Kalb oder Hähnchen im Fladenbrot, gemischtem Salat & Soße", price: 7.50, isSpezialitaet: true },
-  { id: 530, number: 2, name: "Drehspieß Dürüm", description: "mit Drehspieß nach Wahl: Kalb oder Hähnchen, gemischtem Salat & Soße", price: 8.50, isSpezialitaet: true },
-  { id: 531, number: 3, name: "Drehspieß Box", description: "mit Drehspieß nach Wahl: Kalb oder Hähnchen, Pommes frites & Soße", price: 7.50, isSpezialitaet: true },
-  { id: 532, number: 4, name: "Drehspieß Teller (mit Pommes)", description: "mit Drehspieß nach Wahl: Kalb oder Hähnchen, Pommes frites oder Bulgur & Soße", price: 13.50, isSpezialitaet: true },
-  { id: 533, number: 5, name: "Drehspieß (mit Salat)", description: "mit Drehspieß nach Wahl: Kalb oder Hähnchen, Salat & Soße", price: 13.50, isSpezialitaet: true },
+  { id: 529, number: 1, name: "Drehspieß Tasche", description: "mit Drehspieß nach Wahl: Kalb oder Hähnchen im Fladenbrot, gemischtem Salat & Soße", price: 7.50, isSpezialitaet: true, isMeatSelection: true },
+  { id: 530, number: 2, name: "Drehspieß Dürüm", description: "mit Drehspieß nach Wahl: Kalb oder Hähnchen, gemischtem Salat & Soße", price: 8.50, isSpezialitaet: true, isMeatSelection: true },
+  { id: 531, number: 3, name: "Drehspieß Box", description: "mit Drehspieß nach Wahl: Kalb oder Hähnchen, Pommes frites & Soße", price: 7.50, isSpezialitaet: true, isMeatSelection: true },
+  { id: 532, number: 4, name: "Drehspieß Teller (mit Pommes)", description: "mit Drehspieß nach Wahl: Kalb oder Hähnchen, Pommes frites oder Bulgur & Soße", price: 13.50, isSpezialitaet: true, isMeatSelection: true },
+  { id: 533, number: 5, name: "Drehspieß (mit Salat)", description: "mit Drehspieß nach Wahl: Kalb oder Hähnchen, Salat & Soße", price: 13.50, isSpezialitaet: true, isMeatSelection: true },
   { id: 534, number: 6, name: "Sucuk Tasche", description: "mit türkischer Knoblauchwurst im Fladenbrot, mit gemischtem Salat & Soße", price: 9.00, isSpezialitaet: true },
   { id: 535, number: 7, name: "Sucuk Teller", description: "mit türkischer Knoblauchwurst mit Bulgur oder Pommes, mit gemischtem Salat & Soße", price: 13.50, isSpezialitaet: true },
   { id: 536, number: 8, name: "Lahmacun Salat", description: "mit gemischtem Salat & Soße", price: 6.00, isSpezialitaet: true },
-  { id: 537, number: 9, name: "Lahmacun Kalb oder Hähnchen", description: "Drehspieß nach Wahl: Kalb oder Hähnchen mit gemischtem Salat & Soße", price: 7.00, isSpezialitaet: true },
+  { id: 537, number: 9, name: "Lahmacun Kalb oder Hähnchen", description: "Drehspieß nach Wahl: Kalb oder Hähnchen mit gemischtem Salat & Soße", price: 7.00, isSpezialitaet: true, isMeatSelection: true },
   { id: 538, number: 10, name: "Lahmacun Weichkäse", description: "mit Weichkäse, gemischtem Salat & Soße", price: 7.00, isSpezialitaet: true }
 ];
 
