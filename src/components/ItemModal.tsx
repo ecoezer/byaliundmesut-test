@@ -535,6 +535,20 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
 
           {/* Add to Cart Button */}
           <div className="sticky bottom-0 bg-white pt-4 border-t">
+            {/* Back button for Step 2 and Step 3 */}
+            {item.isMeatSelection && (currentStep === 'sauce' || currentStep === 'exclusions') && (
+              <button
+                type="button"
+                onClick={currentStep === 'sauce' ? handleBackToMeat : handleBackToSauce}
+                className="w-full mb-3 bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-6 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors border border-gray-300"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+                {currentStep === 'sauce' ? 'Zurück zur Fleischauswahl' : 'Zurück zur Soßenauswahl'}
+              </button>
+            )}
+            
             <button
               onClick={handleAddToCart}
               className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 px-6 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors"
