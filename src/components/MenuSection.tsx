@@ -81,9 +81,6 @@ const MenuSection: React.FC<MenuSectionProps> = ({ title, description, subTitle,
                     {(item.isPizza || item.isWunschPizza) && <Badge color="green" icon={<Plus className="w-3 h-3" />} text="Extras verfügbar" />}
                     {item.isPasta && <Badge color="yellow" icon={<Clock className="w-3 h-3" />} text="Nudelsorte wählbar" />}
                     {item.isMeatSelection && <Badge color="red" icon={<ChefHat className="w-3 h-3" />} text="Fleischauswahl" />}
-                    {((item.isSpezialitaet && ![81, 82].includes(item.id) && !item.isMeatSelection) || 
-                      (item.id >= 568 && item.id <= 573 && item.isSpezialitaet)) && 
-                      <Badge color="red" icon={<ChefHat className="w-3 h-3" />} text="Soße wählbar" />}
                     {item.isSpezialitaet && ![81, 82].includes(item.id) && !item.isMeatSelection && !(item.id >= 568 && item.id <= 573) && <Badge color="red" icon={<ChefHat className="w-3 h-3" />} text="Soße wählbar" />}
                     {item.id >= 568 && item.id <= 573 && item.isSpezialitaet && <Badge color="indigo" icon={<ChefHat className="w-3 h-3" />} text="Dressing wählbar" />}
                     {item.isBeerSelection && <Badge color="amber" icon={<ChefHat className="w-3 h-3" />} text="Bier wählbar" />}
