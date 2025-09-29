@@ -5,6 +5,7 @@ import {
   wunschPizzaIngredients, pizzaExtras, pastaTypes, 
   sauceTypes, saladSauceTypes, beerTypes 
 } from '../data/menuItems';
+import ItemModal from './ItemModal';
 
 interface MenuSectionProps {
   title: string;
@@ -22,22 +23,6 @@ interface MenuSectionProps {
   ) => void;
 }
 
-interface ItemModalProps {
-  item: MenuItem;
-  isOpen: boolean;
-  onClose: () => void;
-  onAddToOrder: (
-    menuItem: MenuItem, 
-    selectedSize?: PizzaSize, 
-    selectedIngredients?: string[], 
-    selectedExtras?: string[],
-    selectedPastaType?: string,
-    selectedSauce?: string
-  ) => void;
-}
-
-// Placeholder for ItemModal, assume implemented elsewhere
-const ItemModal: React.FC<ItemModalProps> = memo(() => null);
 
 const MenuSection: React.FC<MenuSectionProps> = ({ title, description, subTitle, items, bgColor = 'bg-orange-500', onAddToOrder }) => {
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
