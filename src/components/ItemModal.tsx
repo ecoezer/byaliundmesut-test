@@ -122,6 +122,9 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
               <p className="text-sm opacity-90 mt-1">{item.description}</p>
             )}
             )}
+            {currentStep === 'meat' && item.description && (
+              <p className="text-sm opacity-90 mt-1">{item.description}</p>
+            )}
             {currentStep === 'sauce' && (
               <p className="text-sm opacity-90 mt-1">
                 {selectedMeatType} - Nr. {item.number} {item.name}
