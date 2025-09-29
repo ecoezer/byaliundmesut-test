@@ -235,20 +235,20 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
                 {item.sizes.map((size) => (
                   <label
                     key={size.name}
-                    className={`flex items-center justify-between p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                    className={`flex items-center justify-between p-2 rounded-lg border-2 cursor-pointer transition-all ${
                       selectedSize?.name === size.name
                         ? 'border-orange-500 bg-orange-50'
                         : 'border-gray-200 hover:border-orange-300'
                     }`}
                   >
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-2">
                       <input
                         type="radio"
                         name="size"
                         value={size.name}
                         checked={selectedSize?.name === size.name}
                         onChange={() => setSelectedSize(size)}
-                        className="text-orange-500 focus:ring-orange-500"
+                        className="text-orange-500 focus:ring-orange-500 w-4 h-4"
                       />
                       <div>
                         <div className="font-medium">{size.name}</div>
@@ -276,7 +276,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
                 {wunschPizzaIngredients.map((ingredient) => (
                   <label
                     key={ingredient}
-                    className={`flex items-center space-x-2 p-2 rounded-lg border cursor-pointer transition-all text-sm ${
+                    className={`flex items-center space-x-2 p-1.5 rounded-lg border cursor-pointer transition-all text-sm ${
                       selectedIngredients.includes(ingredient)
                         ? 'border-orange-500 bg-orange-50'
                         : 'border-gray-200 hover:border-orange-300'
@@ -291,7 +291,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
                       checked={selectedIngredients.includes(ingredient)}
                       onChange={() => handleIngredientToggle(ingredient)}
                       disabled={!selectedIngredients.includes(ingredient) && selectedIngredients.length >= 4}
-                      className="text-orange-500 focus:ring-orange-500"
+                      className="text-orange-500 focus:ring-orange-500 w-4 h-4"
                     />
                     <span>{ingredient}</span>
                   </label>
@@ -310,7 +310,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
                 {pizzaExtras.map((extra) => (
                   <label
                     key={extra}
-                    className={`flex items-center space-x-2 p-2 rounded-lg border cursor-pointer transition-all text-sm ${
+                    className={`flex items-center space-x-2 p-1.5 rounded-lg border cursor-pointer transition-all text-sm ${
                       selectedExtras.includes(extra)
                         ? 'border-orange-500 bg-orange-50'
                         : 'border-gray-200 hover:border-orange-300'
@@ -320,7 +320,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
                       type="checkbox"
                       checked={selectedExtras.includes(extra)}
                       onChange={() => handleExtraToggle(extra)}
-                      className="text-orange-500 focus:ring-orange-500"
+                      className="text-orange-500 focus:ring-orange-500 w-4 h-4"
                     />
                     <span>{extra}</span>
                   </label>
@@ -337,7 +337,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
                 {pastaTypes.map((pastaType) => (
                   <label
                     key={pastaType}
-                    className={`flex items-center space-x-3 p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                    className={`flex items-center space-x-2 p-2 rounded-lg border-2 cursor-pointer transition-all ${
                       selectedPastaType === pastaType
                         ? 'border-orange-500 bg-orange-50'
                         : 'border-gray-200 hover:border-orange-300'
@@ -349,7 +349,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
                       value={pastaType}
                       checked={selectedPastaType === pastaType}
                       onChange={(e) => setSelectedPastaType(e.target.value)}
-                      className="text-orange-500 focus:ring-orange-500"
+                      className="text-orange-500 focus:ring-orange-500 w-4 h-4"
                     />
                     <span className="font-medium">{pastaType}</span>
                   </label>
@@ -366,7 +366,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
                 {meatTypes.map((meatType) => (
                   <label
                     key={meatType}
-                    className={`flex items-center space-x-3 p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                    className={`flex items-center space-x-2 p-2 rounded-lg border-2 cursor-pointer transition-all ${
                       selectedMeatType === meatType
                         ? 'border-orange-500 bg-orange-50'
                         : 'border-gray-200 hover:border-orange-300'
@@ -378,7 +378,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
                       value={meatType}
                       checked={selectedMeatType === meatType}
                       onChange={(e) => setSelectedMeatType(e.target.value)}
-                      className="text-orange-500 focus:ring-orange-500"
+                      className="text-orange-500 focus:ring-orange-500 w-4 h-4"
                     />
                     <span className="font-medium">{meatType}</span>
                   </label>
@@ -401,7 +401,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
                 {getVisibleSauceOptions().map((sauce) => (
                   <label
                     key={sauce}
-                    className={`flex items-center space-x-3 p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                    className={`flex items-center space-x-2 p-2 rounded-lg border-2 cursor-pointer transition-all ${
                       selectedSauce === sauce
                         ? 'border-orange-500 bg-orange-50'
                         : 'border-gray-200 hover:border-orange-300'
@@ -413,7 +413,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
                       value={sauce}
                       checked={selectedSauce === sauce}
                       onChange={(e) => setSelectedSauce(e.target.value)}
-                      className="text-orange-500 focus:ring-orange-500"
+                      className="text-orange-500 focus:ring-orange-500 w-4 h-4"
                     />
                     <span className="font-medium">{sauce}</span>
                   </label>
@@ -457,7 +457,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
                 {beerTypes.map((beer) => (
                   <label
                     key={beer}
-                    className={`flex items-center space-x-3 p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                    className={`flex items-center space-x-2 p-2 rounded-lg border-2 cursor-pointer transition-all ${
                       selectedSauce === beer
                         ? 'border-orange-500 bg-orange-50'
                         : 'border-gray-200 hover:border-orange-300'
@@ -469,7 +469,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
                       value={beer}
                       checked={selectedSauce === beer}
                       onChange={(e) => setSelectedSauce(e.target.value)}
-                      className="text-orange-500 focus:ring-orange-500"
+                      className="text-orange-500 focus:ring-orange-500 w-4 h-4"
                     />
                     <span className="font-medium">{beer}</span>
                   </label>
@@ -487,7 +487,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
                 {getVisibleExclusionOptions().map((exclusion) => (
                   <label
                     key={exclusion}
-                    className={`flex items-center space-x-3 p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                    className={`flex items-center space-x-2 p-2 rounded-lg border-2 cursor-pointer transition-all ${
                       selectedExclusions.includes(exclusion)
                         ? 'border-orange-500 bg-orange-50'
                         : 'border-gray-200 hover:border-orange-300'
@@ -497,7 +497,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
                       type="checkbox"
                       checked={selectedExclusions.includes(exclusion)}
                       onChange={() => handleExclusionToggle(exclusion)}
-                      className="text-orange-500 focus:ring-orange-500"
+                      className="text-orange-500 focus:ring-orange-500 w-4 h-4"
                     />
                     <span className="font-medium">{exclusion}</span>
                   </label>
