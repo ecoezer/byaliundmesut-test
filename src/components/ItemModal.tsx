@@ -137,11 +137,6 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
     setSelectedExclusions([]); // Reset exclusions when going back
   }, []);
 
-  const handleBackToMeat = useCallback(() => {
-    setCurrentStep('meat');
-    setSelectedSauces([]); // Reset sauce selections when going back
-  }, []);
-
   const getModalTitle = useCallback(() => {
     if (item.isMeatSelection) {
       if (currentStep === 'meat') {
