@@ -117,13 +117,11 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
         <div className="sticky top-0 bg-orange-500 text-white p-4 rounded-t-xl flex justify-between items-center">
           <div>
             <h2 className="text-xl font-bold">{getModalTitle()}</h2>
-            {currentStep === 'meat' && (
-            {item.description && (
+            {currentStep === 'meat' && item.description && (
               <p className="text-sm opacity-90 mt-1">{item.description}</p>
             )}
             )}
             {currentStep === 'meat' && item.description && (
-              <p className="text-sm opacity-90 mt-1">{item.description}</p>
             )}
             {currentStep === 'sauce' && (
               <p className="text-sm opacity-90 mt-1">
