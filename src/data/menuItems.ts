@@ -88,14 +88,14 @@ export const croques: readonly MenuItem[] = [
 
 // Snacks
 export const snacks: readonly MenuItem[] = [
-  { id: 580, number: 11, name: "Hamburger", description: "125g Burger-Patty", price: 5.50 },
-  { id: 581, number: 12, name: "Cheeseburger", description: "125g Burger-Patty mit Schmelzkäse", price: 6.00 },
+  { id: 580, number: 11, name: "Hamburger", description: "125g Burger-Patty", price: 5.50, isSpezialitaet: true },
+  { id: 581, number: 12, name: "Cheeseburger", description: "125g Burger-Patty mit Schmelzkäse", price: 6.00, isSpezialitaet: true },
   { id: 582, number: 13, name: "Currywurst & Pommes", description: "mit würziger Currysauce und knusprigen Pommes frites", price: 8.50 },
-  { id: 583, number: 14, name: "Hamburger Menü", description: "125g Burger-Patty, Pommes frites und Getränk", price: 11.00 },
-  { id: 584, number: 15, name: "Cheeseburger Menü", description: "125g Burger-Patty mit Schmelzkäse, Pommes frites und Getränk", price: 11.50 },
-  { id: 585, number: 16, name: "Chicken-Nuggets Menü", description: "6 Stück mit Pommes frites & Getränk", price: 10.00 },
-  { id: 586, number: 17, name: "Pommes frites", description: "", price: 4.00 },
-  { id: 587, number: 18, name: "Chicken-Nuggets 6 Stück", description: "", price: 6.00 }
+  { id: 583, number: 14, name: "Hamburger Menü", description: "125g Burger-Patty, Pommes frites und Getränk", price: 11.00, isSpezialitaet: true },
+  { id: 584, number: 15, name: "Cheeseburger Menü", description: "125g Burger-Patty mit Schmelzkäse, Pommes frites und Getränk", price: 11.50, isSpezialitaet: true },
+  { id: 585, number: 16, name: "Chicken-Nuggets Menü", description: "6 Stück mit Pommes frites & Getränk", price: 10.00, isSpezialitaet: true },
+  { id: 586, number: 17, name: "Pommes frites", description: "", price: 4.00, isSpezialitaet: true },
+  { id: 587, number: 18, name: "Chicken-Nuggets 6 Stück", description: "", price: 6.00, isSpezialitaet: true }
 ];
 
 // Salads

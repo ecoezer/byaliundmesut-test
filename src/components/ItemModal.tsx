@@ -126,7 +126,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
 
   const getVisibleSauceOptions = useCallback(() => {
     const allSauces = getSauceOptions();
-    if ((item.isMeatSelection && currentStep === 'sauce') || [6, 7, 8, 10].includes(item.number)) {
+    if ((item.isMeatSelection && currentStep === 'sauce') || [6, 7, 8, 10, 11, 12, 14, 15, 16, 17, 18].includes(item.number)) {
       return showAllSauces ? allSauces : allSauces.slice(0, 3);
     }
     return allSauces;
@@ -435,7 +435,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
           )}
 
           {/* Sauce Selection */}
-          {((item.isSpezialitaet && ![81, 82].includes(item.id) && !item.isMeatSelection) || 
+          {((item.isSpezialitaet && ![81, 82, 562, 563, 564, 565, 566].includes(item.id) && !item.isMeatSelection) ||
             (item.id >= 568 && item.id <= 573 && item.isSpezialitaet) ||
             (item.isMeatSelection && currentStep === 'sauce')) && (
             <div>
@@ -493,7 +493,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
               )}
               
               {/* Show More/Less Button for Sauce Selection in Step 2 and Sucuk items */}
-              {((item.isMeatSelection && currentStep === 'sauce') || [6, 7, 8, 10].includes(item.number)) && getSauceOptions().length > 3 && (
+              {((item.isMeatSelection && currentStep === 'sauce') || [6, 7, 8, 10, 11, 12, 14, 15, 16, 17, 18].includes(item.number)) && getSauceOptions().length > 3 && (
                 <div className="mt-4 text-center">
                   <button
                     type="button"
