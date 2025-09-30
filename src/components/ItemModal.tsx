@@ -121,8 +121,11 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
     if (item.id >= 568 && item.id <= 573 && item.isSpezialitaet) {
       return saladSauceTypes;
     }
+    if ([11, 12, 13, 14, 15].includes(item.number)) {
+      return sauceTypes.filter(sauce => !['Tzatziki', 'Kräutersoße', 'Curry Sauce'].includes(sauce)).concat('Burger Sauce');
+    }
     return sauceTypes;
-  }, [item.id, item.isSpezialitaet]);
+  }, [item.id, item.number, item.isSpezialitaet]);
 
   const getVisibleSauceOptions = useCallback(() => {
     const allSauces = getSauceOptions();
