@@ -172,7 +172,7 @@ function App() {
         />
       </div>
 
-      <div className='pt-24 lg:pr-80'>
+      <div className='pt-32 lg:pr-80'>
         <Header />
         <main className='container mx-auto px-6 py-6 max-w-5xl'>
           {searchQuery.trim() && !hasSearchResults && (
