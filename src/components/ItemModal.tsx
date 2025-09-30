@@ -122,7 +122,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
       return saladSauceTypes;
     }
     if ([11, 12, 13, 14, 15].includes(item.number)) {
-      return sauceTypes.filter(sauce => !['Tzatziki', 'Kräutersoße', 'Curry Sauce'].includes(sauce)).concat('Burger Sauce');
+      return sauceTypes.filter(sauce => !['Tzatziki', 'Kräutersoße', 'Curry Sauce'].includes(sauce)).concat('Burger Sauce').sort();
     }
     return sauceTypes;
   }, [item.id, item.number, item.isSpezialitaet]);
