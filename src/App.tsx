@@ -185,7 +185,7 @@ function App() {
             const filtered = filterItems(section.items);
             if (searchQuery.trim() && filtered.length === 0) return null;
             return (
-              <div key={section.id} id={section.id} className='scroll-mt-[6.5rem]'>
+              <div key={section.id} id={section.id} className='scroll-mt-32'>
                 <MenuSection
                   title={section.title}
                   description={section.description}
