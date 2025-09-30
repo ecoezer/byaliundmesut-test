@@ -72,11 +72,17 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
   }, []);
 
   const handleSauceToggle = useCallback((sauce: string) => {
-    setSelectedSauces(prev => 
-      prev.includes(sauce) 
-        ? prev.filter(s => s !== sauce)
-        : [...prev, sauce]
-    );
+    setSelectedSauces(prev => {
+      if (sauce === 'ohne Soße') {
+        return prev.includes(sauce) ? [] : ['ohne Soße'];
+      }
+
+      const withoutOhneSose = prev.filter(s => s !== 'ohne Soße');
+
+      return withoutOhneSose.includes(sauce)
+        ? withoutOhneSose.filter(s => s !== sauce)
+        : [...withoutOhneSose, sauce];
+    });
   }, []);
 
   const calculatePrice = useCallback(() => {
