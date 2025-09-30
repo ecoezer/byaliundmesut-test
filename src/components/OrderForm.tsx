@@ -21,12 +21,13 @@ interface OrderItem {
   selectedPastaType?: string;
   selectedSauce?: string;
   selectedExclusions?: string[];
+  selectedSideDish?: string;
 }
 
 interface OrderFormProps {
   orderItems: OrderItem[];
-  onRemoveItem: (id: number, selectedSize?: any, selectedIngredients?: string[], selectedExtras?: string[], selectedPastaType?: string, selectedSauce?: string, selectedExclusions?: string[]) => void;
-  onUpdateQuantity: (id: number, quantity: number, selectedSize?: any, selectedIngredients?: string[], selectedExtras?: string[], selectedPastaType?: string, selectedSauce?: string, selectedExclusions?: string[]) => void;
+  onRemoveItem: (id: number, selectedSize?: any, selectedIngredients?: string[], selectedExtras?: string[], selectedPastaType?: string, selectedSauce?: string, selectedExclusions?: string[], selectedSideDish?: string) => void;
+  onUpdateQuantity: (id: number, quantity: number, selectedSize?: any, selectedIngredients?: string[], selectedExtras?: string[], selectedPastaType?: string, selectedSauce?: string, selectedExclusions?: string[], selectedSideDish?: string) => void;
   onClearCart: () => void;
   onCloseMobileCart?: () => void;
   hideTitle?: boolean;
@@ -194,7 +195,11 @@ const OrderForm: React.FC<OrderFormProps> = ({
       if (item.selectedExclusions && item.selectedExclusions.length > 0) {
         itemText += ` - Salat: ${item.selectedExclusions.join(', ')}`;
       }
-      
+
+      if (item.selectedSideDish) {
+        itemText += ` - Beilage: ${item.selectedSideDish}`;
+      }
+
       if (item.selectedIngredients && item.selectedIngredients.length > 0) {
         itemText += ` - Zutaten: ${item.selectedIngredients.join(', ')}`;
       }
@@ -346,7 +351,8 @@ const OrderForm: React.FC<OrderFormProps> = ({
         item.selectedExtras,
         item.selectedPastaType,
         item.selectedSauce,
-        item.selectedExclusions
+        item.selectedExclusions,
+        item.selectedSideDish
       );
     } else {
       onUpdateQuantity(
@@ -357,7 +363,8 @@ const OrderForm: React.FC<OrderFormProps> = ({
         item.selectedExtras,
         item.selectedPastaType,
         item.selectedSauce,
-        item.selectedExclusions
+        item.selectedExclusions,
+        item.selectedSideDish
       );
     }
   }, [onRemoveItem, onUpdateQuantity]);
@@ -370,7 +377,8 @@ const OrderForm: React.FC<OrderFormProps> = ({
       item.selectedExtras,
       item.selectedPastaType,
       item.selectedSauce,
-      item.selectedExclusions
+      item.selectedExclusions,
+      item.selectedSideDish
     );
   }, [onRemoveItem]);
 
@@ -502,6 +510,14 @@ const OrderForm: React.FC<OrderFormProps> = ({
                           </span>
                         ))}
                       </div>
+                    </div>
+                  )}
+
+                  {item.selectedSideDish && (
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                        🍟 {item.selectedSideDish}
+                      </span>
                     </div>
                   )}
                   

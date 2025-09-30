@@ -84,14 +84,14 @@ function App() {
   }, []);
 
   // Add/remove/update item callbacks
-  const memoizedAddItem = useCallback((menuItem, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions) => {
-    addItem(menuItem, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions);
+  const memoizedAddItem = useCallback((menuItem, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions, selectedSideDish) => {
+    addItem(menuItem, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions, selectedSideDish);
     triggerCartAnimation();
   }, [addItem, triggerCartAnimation]);
-  const memoizedRemoveItem = useCallback((id, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions) =>
-    removeItem(id, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions), [removeItem]);
-  const memoizedUpdateQuantity = useCallback((id, quantity, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions) =>
-    updateQuantity(id, quantity, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions), [updateQuantity]);
+  const memoizedRemoveItem = useCallback((id, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions, selectedSideDish) =>
+    removeItem(id, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions, selectedSideDish), [removeItem]);
+  const memoizedUpdateQuantity = useCallback((id, quantity, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions, selectedSideDish) =>
+    updateQuantity(id, quantity, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions, selectedSideDish), [updateQuantity]);
   const memoizedClearCart = useCallback(() => clearCart(), [clearCart]);
 
   // Mobile cart toggling

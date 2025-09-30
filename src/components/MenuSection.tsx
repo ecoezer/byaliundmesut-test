@@ -14,13 +14,14 @@ interface MenuSectionProps {
   items: MenuItem[];
   bgColor?: string;
   onAddToOrder: (
-    menuItem: MenuItem, 
-    selectedSize?: PizzaSize, 
-    selectedIngredients?: string[], 
+    menuItem: MenuItem,
+    selectedSize?: PizzaSize,
+    selectedIngredients?: string[],
     selectedExtras?: string[],
     selectedPastaType?: string,
     selectedSauce?: string,
-    selectedExclusions?: string[]
+    selectedExclusions?: string[],
+    selectedSideDish?: string
   ) => void;
 }
 

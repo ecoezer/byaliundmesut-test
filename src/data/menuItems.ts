@@ -29,11 +29,14 @@ export const meatTypes = ['mit Kalbfleisch', 'mit Hähnchenfleisch'] as const;
 // Salad exclusion options for Drehspieß items
 export const saladExclusionOptions = [
   'ohne Eisbergsalat',
-  'ohne Zwiebel', 
+  'ohne Zwiebel',
   'ohne Rotkohl',
   'ohne Tomaten',
   'ohne Gurken'
 ] as const;
+
+// Side dish options for Drehspieß Teller
+export const sideDishOptions = ['Pommes frites', 'Bulgur'] as const;
 
 // Wunsch Pizza ingredients
 export const wunschPizzaIngredients = [
