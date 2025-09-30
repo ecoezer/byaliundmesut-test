@@ -440,12 +440,12 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
             (item.isMeatSelection && currentStep === 'sauce')) && (
             <div>
               <h3 className="font-semibold text-gray-900 mb-3">
-                {item.id >= 568 && item.id <= 573 ? 'Dressing wählen' : (item.isMeatSelection && currentStep === 'sauce' ? 'Soßen wählen (mehrere möglich)' : 'Soße wählen')}
-                {!item.isMeatSelection && ((item.isSpezialitaet && ![81, 82].includes(item.id)) || (item.id >= 568 && item.id <= 573)) ? ' *' : ''}
+                {item.id >= 568 && item.id <= 573 ? 'Dressing wählen' : ((item.isMeatSelection && currentStep === 'sauce') || [11, 12, 14, 15, 16, 17, 18].includes(item.number) ? 'Soßen wählen (mehrere möglich)' : 'Soße wählen')}
+                {!item.isMeatSelection && ![11, 12, 14, 15, 16, 17, 18].includes(item.number) && ((item.isSpezialitaet && ![81, 82].includes(item.id)) || (item.id >= 568 && item.id <= 573)) ? ' *' : ''}
               </h3>
-              
-              {item.isMeatSelection && currentStep === 'sauce' ? (
-                // Multiple selection for meat selection items in step 2
+
+              {(item.isMeatSelection && currentStep === 'sauce') || [11, 12, 14, 15, 16, 17, 18].includes(item.number) ? (
+                // Multiple selection for meat selection items in step 2 and snack items
                 <div className="space-y-2">
                   {getVisibleSauceOptions().map((sauce) => (
                     <label
