@@ -33,18 +33,18 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gradient-to-br from-gray-50 to-orange-50 border-t-2 border-orange-400 py-8">
-      <div className="container mx-auto px-4 max-w-lg text-center space-y-6">
+    <footer className="bg-gradient-to-br from-gray-50 to-orange-50 border-t-2 border-orange-400 py-4">
+      <div className="container mx-auto px-4 max-w-lg text-center space-y-3">
         {/* Address */}
-        <div className="bg-white/60 rounded-xl p-4 hover:bg-white/80 transition-colors">
-          <div className="flex justify-center mb-2">
-            <div className="p-2 bg-orange-100 rounded-full">
-              <MapPin className="h-4 w-4 text-orange-600" />
+        <div className="bg-white/60 rounded-xl p-3 hover:bg-white/80 transition-colors">
+          <div className="flex justify-center mb-1">
+            <div className="p-1.5 bg-orange-100 rounded-full">
+              <MapPin className="h-3.5 w-3.5 text-orange-600" />
             </div>
           </div>
-          <div className="font-bold text-gray-800">🏠 FRANKFURTER STR. 7</div>
-          <div className="text-sm text-gray-600">📮 38729 LUTTER AM BARENBERGE</div>
-          <p className="text-xs text-gray-500 mt-1">🚗 by Ali und Mesut Lieferservice</p>
+          <div className="font-bold text-gray-800 text-sm">🏠 FRANKFURTER STR. 7</div>
+          <div className="text-xs text-gray-600">📮 38729 LUTTER AM BARENBERGE</div>
+          <p className="text-xs text-gray-500">🚗 by Ali und Mesut Lieferservice</p>
         </div>
 
         {/* WhatsApp Button */}
@@ -52,14 +52,14 @@ const Footer = () => {
           <a
             href={`https://wa.me/${phoneNumber}`}
             onClick={handleWhatsApp}
-            className="flex items-center justify-center gap-3 bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white rounded-xl p-4 shadow-lg hover:shadow-xl transition transform hover:scale-105"
+            className="flex items-center justify-center gap-2 bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white rounded-xl p-3 shadow-lg hover:shadow-xl transition transform hover:scale-105"
           >
-            <div className="p-2 bg-white/20 rounded-full">
-              <Phone className="h-5 w-5" />
+            <div className="p-1.5 bg-white/20 rounded-full">
+              <Phone className="h-4 w-4" />
             </div>
             <div>
               <div className="text-xs font-medium">💬 WhatsApp & Anrufen</div>
-              <div className="font-bold text-lg">{displayNumber}</div>
+              <div className="font-bold">{displayNumber}</div>
             </div>
           </a>
           {copied && (
@@ -70,15 +70,15 @@ const Footer = () => {
         </div>
 
         {/* Divider */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <div className="flex-1 h-px bg-gray-300" />
-          <Heart className="h-4 w-4 text-orange-400" />
+          <Heart className="h-3.5 w-3.5 text-orange-400" />
           <div className="flex-1 h-px bg-gray-300" />
         </div>
 
         {/* Footer Text */}
-        <div className="space-y-1">
-          <div className="font-medium text-gray-700">
+        <div className="space-y-0.5">
+          <div className="font-medium text-gray-700 text-sm">
             🍽️ Leckere Döner, Pizza & mehr in Lutter am Barenberge
           </div>
           <p className="text-xs text-gray-500">
