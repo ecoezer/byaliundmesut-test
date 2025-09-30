@@ -3,7 +3,7 @@ import { X, Plus, ShoppingCart } from 'lucide-react';
 import { MenuItem, PizzaSize } from '../types';
 import {
   wunschPizzaIngredients, pizzaExtras, pastaTypes,
-  sauceTypes, saladSauceTypes, beerTypes, meatTypes, saladExclusionOptions, sideDishOptions
+  sauceTypes, saladSauceTypes, pommesSauceTypes, beerTypes, meatTypes, saladExclusionOptions, sideDishOptions
 } from '../data/menuItems';
 
 interface ItemModalProps {
@@ -126,6 +126,9 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
   const getSauceOptions = useCallback(() => {
     if (item.id >= 568 && item.id <= 573 && item.isSpezialitaet) {
       return saladSauceTypes;
+    }
+    if (item.number === 17) {
+      return pommesSauceTypes;
     }
     if ([11, 12, 13, 14, 15].includes(item.number)) {
       return sauceTypes.filter(sauce => !['Tzatziki', 'Kräutersoße', 'Curry Sauce'].includes(sauce)).concat('Burger Sauce').sort();

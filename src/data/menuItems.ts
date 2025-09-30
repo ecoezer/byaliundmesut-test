@@ -23,6 +23,7 @@ export const sauceTypes = [
 ] as const;
 
 export const saladSauceTypes = ['Joghurt', 'French', 'Essig/Öl'] as const;
+export const pommesSauceTypes = ['Ketchup', 'Mayonnaise'] as const;
 export const beerTypes = ['Becks', 'Herrenhäuser'] as const;
 export const meatTypes = ['mit Kalbfleisch', 'mit Hähnchenfleisch'] as const;
 
