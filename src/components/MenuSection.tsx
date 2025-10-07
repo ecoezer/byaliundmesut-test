@@ -73,7 +73,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({ title, description, subTitle,
                     {item.name}
                   </h3>
                   {item.description && <p className="text-gray-600 mt-1">{item.description}</p>}
-                  {item.allergens && <p className="text-xs text-gray-500 mt-2"><strong>Allergene:</strong> {item.allergens}</p>}
+                  {item.allergens && <p className="text-xs text-gray-500 mt-2"><strong>Allergene:</strong> <span className="italic">{item.allergens}</span></p>}
 
                   <div className="flex flex-wrap gap-2 mt-3">
                     {isRippchenSpecial && <Badge color="red" icon={<Star className="w-3 h-3" />} text="🔥 RIPPCHEN-TAG SPEZIAL" />}
