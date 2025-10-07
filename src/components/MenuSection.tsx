@@ -73,7 +73,12 @@ const MenuSection: React.FC<MenuSectionProps> = ({ title, description, subTitle,
                     {item.name}
                   </h3>
                   {item.description && <p className="text-gray-600 mt-1">{item.description}</p>}
-                  {item.allergens && <p className="text-xs text-gray-500 mt-2"><strong>Allergene:</strong> <span className="italic">{item.allergens}</span></p>}
+                  {item.allergens && (
+                    <div className="mt-2 inline-flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-lg px-3 py-1.5">
+                      <span className="text-xs font-semibold text-amber-900">⚠️ Allergene:</span>
+                      <span className="text-xs italic text-amber-800 font-medium">{item.allergens}</span>
+                    </div>
+                  )}
 
                   <div className="flex flex-wrap gap-2 mt-3">
                     {isRippchenSpecial && <Badge color="red" icon={<Star className="w-3 h-3" />} text="🔥 RIPPCHEN-TAG SPEZIAL" />}
