@@ -3,8 +3,8 @@ import { MapPin, Phone, Heart } from 'lucide-react';
 
 const Footer = () => {
   const [copied, setCopied] = useState(false);
-  const phoneNumber = '+4915771459166';
-  const displayNumber = '01577 1459166';
+  const phoneNumber = '+491781555888';
+  const displayNumber = '0178 1555888';
 
   const handleWhatsApp = async (e: React.MouseEvent) => {
     e.preventDefault();
