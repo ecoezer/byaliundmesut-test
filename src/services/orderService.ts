@@ -41,6 +41,7 @@ export async function createOrder(
       selectedPastaType: item.selectedPastaType || null,
       selectedSauce: item.selectedSauce || null,
       selectedSideDish: item.selectedSideDish || null,
+      selectedExclusions: item.selectedExclusions || [],
     })),
     totalAmount,
     createdAt: Timestamp.now(),
