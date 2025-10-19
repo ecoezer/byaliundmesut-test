@@ -1,6 +1,7 @@
 import { collection, addDoc, getDocs, query, orderBy, updateDoc, doc, deleteDoc, Timestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import type { Order, OrderItem, CustomerInfo } from '../types';
+import { getMenuItemPrice } from '../utils/menuPriceHelper';
 
 const ORDERS_COLLECTION = 'orders';
 
@@ -103,22 +104,26 @@ export async function getAllOrders(): Promise<Order[]> {
   return querySnapshot.docs.map(doc => {
     const data = doc.data();
 
-    const items = data.items.map((item: any) => ({
-      menuItem: {
-        id: item.menuItemId,
-        number: item.menuItemNumber,
-        name: item.menuItemName,
-        price: item.menuItemPrice || 0,
-      },
-      quantity: item.quantity,
-      selectedSize: item.selectedSize || undefined,
-      selectedIngredients: item.selectedIngredients || undefined,
-      selectedExtras: item.selectedExtras || undefined,
-      selectedPastaType: item.selectedPastaType || undefined,
-      selectedSauce: item.selectedSauce || undefined,
-      selectedSideDish: item.selectedSideDish || undefined,
-      selectedExclusions: item.selectedExclusions || undefined,
-    }));
+    const items = data.items.map((item: any) => {
+      const price = item.menuItemPrice || getMenuItemPrice(item.menuItemId, item.menuItemName);
+
+      return {
+        menuItem: {
+          id: item.menuItemId,
+          number: item.menuItemNumber,
+          name: item.menuItemName,
+          price: price,
+        },
+        quantity: item.quantity,
+        selectedSize: item.selectedSize || undefined,
+        selectedIngredients: item.selectedIngredients || undefined,
+        selectedExtras: item.selectedExtras || undefined,
+        selectedPastaType: item.selectedPastaType || undefined,
+        selectedSauce: item.selectedSauce || undefined,
+        selectedSideDish: item.selectedSideDish || undefined,
+        selectedExclusions: item.selectedExclusions || undefined,
+      };
+    });
 
     return {
       id: doc.id,
