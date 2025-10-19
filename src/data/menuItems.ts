@@ -145,7 +145,7 @@ export const fleischgerichte: readonly MenuItem[] = [
   { id: 534, number: 6, name: "Sucuk Tasche", description: "mit türkischer Knoblauchwurst im Fladenbrot, mit gemischtem Salat & Soße", price: 9.00, isSpezialitaet: true, allergens: "A1, G, 1a, 4, 9, 12, 18" },
   { id: 535, number: 7, name: "Sucuk Teller", description: "mit türkischer Knoblauchwurst mit Bulgur oder Pommes, mit gemischtem Salat & Soße", price: 13.50, isSpezialitaet: true, allergens: "A1, G, 1a, 4, 9, 12, 18" },
   { id: 536, number: 8, name: "Lahmacun Salat", description: "mit gemischtem Salat & Soße", price: 6.00, isSpezialitaet: true, allergens: "A1" },
-  { id: 537, number: 9, name: "Lahmacun Kalb oder Hähnchen", description: "Drehspieß nach Wahl: Kalb oder Hähnchen mit gemischtem Salat & Soße", price: 7.00, isSpezialitaet: true, isMeatSelection: true, allergens: "A1, G, 1a, 12, 18" },
+  { id: 537, number: 9, name: "Lahmacun Kalb oder Hähnchen", description: "Drehspieß nach Wahl: Kalb oder Hähnchen mit gemischtem Salat & Soße", price: 9.00, isSpezialitaet: true, isMeatSelection: true, allergens: "A1, G, 1a, 12, 18" },
   { id: 538, number: 10, name: "Lahmacun Weichkäse", description: "mit Weichkäse, gemischtem Salat & Soße", price: 7.00, isSpezialitaet: true, allergens: "A1" }
 ];
 
