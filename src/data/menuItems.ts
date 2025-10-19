@@ -120,19 +120,19 @@ export const dips: readonly MenuItem[] = [
 
 // Drinks
 export const drinks: readonly MenuItem[] = [
-  { id: 100, name: "Coca-Cola", description: "0,33 L", price: 2.00 },
-  { id: 101, name: "Coca-Cola Zero", description: "0,33 L", price: 2.00 },
-  { id: 102, name: "Fanta Orange", description: "0,33 L", price: 2.00 },
-  { id: 103, name: "Fanta Exotic", description: "0,33 L", price: 2.00 },
-  { id: 104, name: "Sprite", description: "0,33 L", price: 2.00 },
-  { id: 105, name: "Mezzo-mix", description: "0,33 L", price: 2.00 },
-  { id: 106, name: "Apfelschorle", description: "0,33 L", price: 2.00 },
-  { id: 107, name: "Eistee Pfirsich", description: "0,33 L", price: 2.00 },
-  { id: 108, name: "Capri-Sonne", description: "0,20 L", price: 1.50 },
-  { id: 109, name: "Ayran", description: "0,25 L", price: 1.50 },
-  { id: 110, name: "Wasser", description: "0,33 L", price: 2.00 },
-  { id: 111, name: "Bier", description: "0,33 L", price: 2.00 },
-  { id: 112, name: "Alkoholfreies Bier", description: "0,33 L", price: 2.00 }
+  { id: 100, number: 100, name: "Coca-Cola", description: "0,33 L", price: 2.00 },
+  { id: 101, number: 101, name: "Coca-Cola Zero", description: "0,33 L", price: 2.00 },
+  { id: 102, number: 102, name: "Fanta Orange", description: "0,33 L", price: 2.00 },
+  { id: 103, number: 103, name: "Fanta Exotic", description: "0,33 L", price: 2.00 },
+  { id: 104, number: 104, name: "Sprite", description: "0,33 L", price: 2.00 },
+  { id: 105, number: 105, name: "Mezzo-mix", description: "0,33 L", price: 2.00 },
+  { id: 106, number: 106, name: "Apfelschorle", description: "0,33 L", price: 2.00 },
+  { id: 107, number: 107, name: "Eistee Pfirsich", description: "0,33 L", price: 2.00 },
+  { id: 108, number: 108, name: "Capri-Sonne", description: "0,20 L", price: 1.50 },
+  { id: 109, number: 109, name: "Ayran", description: "0,25 L", price: 1.50 },
+  { id: 110, number: 110, name: "Wasser", description: "0,33 L", price: 2.00 },
+  { id: 111, number: 111, name: "Bier", description: "0,33 L", price: 2.00 },
+  { id: 112, number: 112, name: "Alkoholfreies Bier", description: "0,33 L", price: 2.00 }
 ];
 
 // Drehspieß (Meat dishes)
