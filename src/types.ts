@@ -55,3 +55,22 @@ export interface WunschPizzaIngredient {
   name: string;
   disabled?: boolean;
 }
+
+export interface Order {
+  id: string;
+  customerName: string;
+  customerAddress: string;
+  customerPhone: string;
+  note?: string;
+  items: OrderItem[];
+  totalAmount: number;
+  createdAt: Date;
+  deviceInfo: {
+    userAgent: string;
+    screenResolution: string;
+    language: string;
+    platform: string;
+  };
+  ipAddress?: string;
+  status: 'pending' | 'processing' | 'completed' | 'cancelled';
+}

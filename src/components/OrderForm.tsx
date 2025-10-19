@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Trash2, Plus, Minus, ShoppingCart, Clock, MapPin, Phone, User, MessageSquare, Send } from 'lucide-react';
+import { createOrder } from '../services/orderService';
+import type { OrderItem as OrderItemType, CustomerInfo } from '../types';
 
 interface OrderItem {
   menuItem: {
@@ -270,51 +272,24 @@ const OrderForm: React.FC<OrderFormProps> = ({
     if (!canOrder || orderItems.length === 0) return;
 
     setIsSubmitting(true);
-    
+
     try {
-      // Send email notification first
-      try {
-        const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-order-email`;
-        const emailResponse = await fetch(apiUrl, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            orderType: data.orderType,
-            deliveryZone: data.deliveryZone,
-            deliveryTime: data.deliveryTime,
-            specificTime: data.specificTime,
-            name: data.name,
-            phone: data.phone,
-            street: data.street,
-            houseNumber: data.houseNumber,
-            postcode: data.postcode,
-            note: data.note,
-            orderItems,
-            subtotal,
-            deliveryFee,
-            total
-          }),
-        });
-        
-        if (emailResponse.ok) {
-          console.log('Email notification sent successfully');
-        } else {
-          console.warn('Email notification failed, but continuing with WhatsApp order');
-        }
-      } catch (error) {
-        console.warn('Email notification error:', error);
-      }
-      
-      // Generate WhatsApp message
+      const customerInfo: CustomerInfo = {
+        name: data.name,
+        address: data.orderType === 'delivery'
+          ? `${data.street} ${data.houseNumber}, ${data.postcode}`
+          : 'Abholung',
+        phone: data.phone,
+        note: data.note,
+      };
+
+      await createOrder(orderItems as OrderItemType[], customerInfo, total);
+
       const whatsappMessage = generateWhatsAppMessage(data);
       const whatsappUrl = `https://wa.me/+491781555888?text=${whatsappMessage}`;
-      
-      // Open WhatsApp
+
       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      
+
       if (isMobile) {
         try {
           const whatsappWindow = window.open(whatsappUrl, '_blank');
@@ -328,15 +303,15 @@ const OrderForm: React.FC<OrderFormProps> = ({
       } else {
         window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
       }
-      
-      // Clear cart and form after successful order
+
       setTimeout(() => {
         onClearCart();
         reset();
       }, 1000);
-      
+
     } catch (error) {
       console.error('Order submission error:', error);
+      alert('Fehler beim Speichern der Bestellung. Bitte versuchen Sie es erneut.');
     } finally {
       setIsSubmitting(false);
     }
