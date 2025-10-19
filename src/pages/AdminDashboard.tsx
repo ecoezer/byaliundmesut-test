@@ -164,17 +164,60 @@ const AdminDashboard: React.FC = () => {
 
                   <div className="bg-[#1e2836] rounded-lg p-5">
                     <h3 className="text-white font-semibold mb-4">Order Items</h3>
-                    <div className="space-y-3 mb-4">
+                    <div className="space-y-4 mb-4">
                       {order.items.map((item, idx) => {
-                        const itemPrice = item.selectedSize?.price || item.menuItem.price;
+                        const basePrice = item.selectedSize?.price || item.menuItem.price;
+                        const extrasPrice = (item.selectedExtras?.length || 0) * 1.00;
+                        const itemPrice = basePrice + extrasPrice;
                         const totalItemPrice = itemPrice * item.quantity;
+
                         return (
-                          <div key={idx} className="flex justify-between text-sm">
-                            <span className="text-gray-300">
-                              {item.quantity}x {item.menuItem.name}
-                              {item.selectedSize && ` (${item.selectedSize.name})`}
-                            </span>
-                            <span className="text-white font-medium">€{totalItemPrice.toFixed(2)}</span>
+                          <div key={idx} className="space-y-1.5">
+                            <div className="flex justify-between text-sm">
+                              <div className="flex-1">
+                                <div className="text-gray-300 font-medium">
+                                  {item.quantity}x {item.menuItem.name}
+                                  {item.selectedSize && ` (${item.selectedSize.name})`}
+                                </div>
+
+                                {item.selectedPastaType && (
+                                  <div className="text-gray-400 text-xs mt-1 ml-4">
+                                    → {item.selectedPastaType}
+                                  </div>
+                                )}
+
+                                {item.selectedSauce && (
+                                  <div className="text-gray-400 text-xs mt-1 ml-4">
+                                    → Sauce: {item.selectedSauce}
+                                  </div>
+                                )}
+
+                                {item.selectedSideDish && (
+                                  <div className="text-gray-400 text-xs mt-1 ml-4">
+                                    → Beilage: {item.selectedSideDish}
+                                  </div>
+                                )}
+
+                                {item.menuItem.isMeatSelection && item.selectedIngredients && item.selectedIngredients.length > 0 && (
+                                  <div className="text-gray-400 text-xs mt-1 ml-4">
+                                    → {item.selectedIngredients.join(', ')}
+                                  </div>
+                                )}
+
+                                {item.selectedExtras && item.selectedExtras.length > 0 && (
+                                  <div className="text-orange-400 text-xs mt-1 ml-4">
+                                    → Extras (+€{extrasPrice.toFixed(2)}): {item.selectedExtras.join(', ')}
+                                  </div>
+                                )}
+
+                                {item.selectedExclusions && item.selectedExclusions.length > 0 && (
+                                  <div className="text-red-400 text-xs mt-1 ml-4">
+                                    → {item.selectedExclusions.join(', ')}
+                                  </div>
+                                )}
+                              </div>
+                              <span className="text-white font-medium ml-4">€{totalItemPrice.toFixed(2)}</span>
+                            </div>
                           </div>
                         );
                       })}
