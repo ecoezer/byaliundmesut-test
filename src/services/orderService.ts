@@ -59,10 +59,35 @@ export async function getAllOrders(): Promise<Order[]> {
 
   return querySnapshot.docs.map(doc => {
     const data = doc.data();
+
+    const items = data.items.map((item: any) => ({
+      menuItem: {
+        id: item.menuItemId,
+        number: item.menuItemNumber,
+        name: item.menuItemName,
+        price: 0,
+      },
+      quantity: item.quantity,
+      selectedSize: item.selectedSize || undefined,
+      selectedIngredients: item.selectedIngredients || undefined,
+      selectedExtras: item.selectedExtras || undefined,
+      selectedPastaType: item.selectedPastaType || undefined,
+      selectedSauce: item.selectedSauce || undefined,
+      selectedSideDish: item.selectedSideDish || undefined,
+    }));
+
     return {
       id: doc.id,
-      ...data,
+      customerName: data.customerName,
+      customerAddress: data.customerAddress,
+      customerPhone: data.customerPhone,
+      note: data.note,
+      items,
+      totalAmount: data.totalAmount,
       createdAt: data.createdAt.toDate(),
+      deviceInfo: data.deviceInfo,
+      ipAddress: data.ipAddress,
+      status: data.status,
     } as Order;
   });
 }
