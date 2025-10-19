@@ -73,6 +73,7 @@ export async function createOrder(
       menuItemId: item.menuItem.id,
       menuItemName: item.menuItem.name,
       menuItemNumber: item.menuItem.number,
+      menuItemPrice: item.menuItem.price,
       quantity: item.quantity,
       selectedSize: item.selectedSize || null,
       selectedIngredients: item.selectedIngredients || [],
@@ -107,7 +108,7 @@ export async function getAllOrders(): Promise<Order[]> {
         id: item.menuItemId,
         number: item.menuItemNumber,
         name: item.menuItemName,
-        price: 0,
+        price: item.menuItemPrice || 0,
       },
       quantity: item.quantity,
       selectedSize: item.selectedSize || undefined,
@@ -116,6 +117,7 @@ export async function getAllOrders(): Promise<Order[]> {
       selectedPastaType: item.selectedPastaType || undefined,
       selectedSauce: item.selectedSauce || undefined,
       selectedSideDish: item.selectedSideDish || undefined,
+      selectedExclusions: item.selectedExclusions || undefined,
     }));
 
     return {
