@@ -1,8 +1,44 @@
-import { collection, addDoc, getDocs, query, orderBy, updateDoc, doc, Timestamp } from 'firebase/firestore';
+import { collection, addDoc, getDocs, query, orderBy, updateDoc, doc, deleteDoc, Timestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import type { Order, OrderItem, CustomerInfo } from '../types';
 
 const ORDERS_COLLECTION = 'orders';
+
+const detectDeviceType = (): 'mobile' | 'desktop' => {
+  const ua = navigator.userAgent;
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua) ? 'mobile' : 'desktop';
+};
+
+const detectBrowser = (): string => {
+  const ua = navigator.userAgent;
+  if (ua.indexOf('Firefox') > -1) return 'Firefox';
+  if (ua.indexOf('SamsungBrowser') > -1) return 'Samsung Internet';
+  if (ua.indexOf('Opera') > -1 || ua.indexOf('OPR') > -1) return 'Opera';
+  if (ua.indexOf('Trident') > -1) return 'Internet Explorer';
+  if (ua.indexOf('Edge') > -1) return 'Edge';
+  if (ua.indexOf('Chrome') > -1) return 'Chrome';
+  if (ua.indexOf('Safari') > -1) return 'Safari';
+  return 'Unknown';
+};
+
+const detectOS = (): string => {
+  const ua = navigator.userAgent;
+  if (ua.indexOf('Windows') > -1) return 'Windows';
+  if (ua.indexOf('Mac') > -1) return 'macOS';
+  if (ua.indexOf('Linux') > -1) return 'Linux';
+  if (ua.indexOf('Android') > -1) return 'Android';
+  if (ua.indexOf('iOS') > -1 || ua.indexOf('iPhone') > -1 || ua.indexOf('iPad') > -1) return 'iOS';
+  return 'Unknown';
+};
+
+const extractDeliveryZone = (address: string): string => {
+  const match = address.match(/\d{5}/);
+  if (match) {
+    return match[0];
+  }
+  const parts = address.split(',');
+  return parts[parts.length - 1]?.trim() || 'Unknown';
+};
 
 export async function createOrder(
   items: OrderItem[],
@@ -14,6 +50,9 @@ export async function createOrder(
     screenResolution: `${window.screen.width}x${window.screen.height}`,
     language: navigator.language,
     platform: navigator.platform,
+    deviceType: detectDeviceType(),
+    browser: detectBrowser(),
+    os: detectOS(),
   };
 
   let ipAddress: string | undefined;
@@ -48,6 +87,8 @@ export async function createOrder(
     deviceInfo,
     ipAddress: ipAddress || 'unknown',
     status: 'pending',
+    deliveryType: 'delivery',
+    deliveryZone: extractDeliveryZone(customerInfo.address),
   };
 
   const docRef = await addDoc(collection(db, ORDERS_COLLECTION), orderData);
@@ -89,6 +130,8 @@ export async function getAllOrders(): Promise<Order[]> {
       deviceInfo: data.deviceInfo,
       ipAddress: data.ipAddress,
       status: data.status,
+      deliveryType: data.deliveryType || 'delivery',
+      deliveryZone: data.deliveryZone || 'Unknown',
     } as Order;
   });
 }
@@ -96,4 +139,9 @@ export async function getAllOrders(): Promise<Order[]> {
 export async function updateOrderStatus(orderId: string, status: Order['status']): Promise<void> {
   const orderRef = doc(db, ORDERS_COLLECTION, orderId);
   await updateDoc(orderRef, { status });
+}
+
+export async function deleteOrder(orderId: string): Promise<void> {
+  const orderRef = doc(db, ORDERS_COLLECTION, orderId);
+  await deleteDoc(orderRef);
 }

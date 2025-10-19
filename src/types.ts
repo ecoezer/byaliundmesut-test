@@ -71,7 +71,12 @@ export interface Order {
     screenResolution: string;
     language: string;
     platform: string;
+    deviceType?: 'mobile' | 'desktop';
+    browser?: string;
+    os?: string;
   };
   ipAddress?: string;
   status: 'pending' | 'processing' | 'completed' | 'cancelled';
+  deliveryType?: 'pickup' | 'delivery';
+  deliveryZone?: string;
 }
