@@ -313,8 +313,8 @@ function OrderCard({ order, onAccept, onClose }: OrderCardProps) {
                     )}
 
                     {item.selectedExclusions && item.selectedExclusions.length > 0 && (
-                      <div className="text-red-400 text-xs mt-1 ml-4">
-                        → Without: {item.selectedExclusions.join(', ')}
+                      <div className="text-red-500 text-xs mt-1 ml-4 font-semibold">
+                        ❌ Without: {item.selectedExclusions.join(', ')} ❗
                       </div>
                     )}
                   </div>
