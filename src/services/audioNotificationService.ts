@@ -3,13 +3,34 @@ class AudioNotificationService {
   private isPlaying = false;
   private isMuted = false;
   private volume = 0.7;
+  private currentAudioPath: string = '/notification.mp3';
 
   initialize(audioPath: string = '/notification.mp3'): void {
+    if (this.audio && this.currentAudioPath !== audioPath) {
+      this.stop();
+      this.audio = null;
+    }
+
     if (!this.audio) {
+      this.currentAudioPath = audioPath;
       this.audio = new Audio(audioPath);
       this.audio.loop = true;
       this.audio.volume = this.volume;
+
+      this.audio.onerror = () => {
+        console.error('Error loading audio file, falling back to default');
+        if (audioPath !== '/notification.mp3') {
+          this.audio = new Audio('/notification.mp3');
+          this.audio.loop = true;
+          this.audio.volume = this.volume;
+          this.currentAudioPath = '/notification.mp3';
+        }
+      };
     }
+  }
+
+  getCurrentAudioPath(): string {
+    return this.currentAudioPath;
   }
 
   play(): void {

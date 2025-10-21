@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { monitorAuth } from '../lib/monitorAuth';
 import { orderMonitorService, MonitorOrder } from '../services/orderMonitorService';
 import { audioNotificationService } from '../services/audioNotificationService';
+import { getActiveSoundSettings } from '../services/soundSettingsService';
 import { LogOut, Volume2, VolumeX, TestTube, Bell, BellOff, CheckCircle, Package, Search, Filter } from 'lucide-react';
 import { formatPrice } from '../utils/menuPriceHelper';
 
@@ -21,7 +22,18 @@ export default function OrderMonitor() {
       return;
     }
 
-    audioNotificationService.initialize();
+    const initializeAudio = async () => {
+      try {
+        const soundSettings = await getActiveSoundSettings();
+        const soundUrl = soundSettings?.soundFileURL || '/notification.mp3';
+        audioNotificationService.initialize(soundUrl);
+      } catch (error) {
+        console.error('Error loading sound settings, using default:', error);
+        audioNotificationService.initialize('/notification.mp3');
+      }
+    };
+
+    initializeAudio();
 
     const enableAudio = () => {
       audioNotificationService.test();
