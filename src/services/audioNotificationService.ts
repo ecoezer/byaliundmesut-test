@@ -20,7 +20,11 @@ class AudioNotificationService {
         this.isPlaying = true;
       })
       .catch((error) => {
-        console.error('Error playing audio:', error);
+        if (error.name === 'NotAllowedError') {
+          console.warn('Audio playback requires user interaction first');
+        } else {
+          console.error('Error playing audio:', error);
+        }
       });
   }
 

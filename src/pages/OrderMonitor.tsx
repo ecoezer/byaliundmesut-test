@@ -23,21 +23,30 @@ export default function OrderMonitor() {
 
     audioNotificationService.initialize();
 
+    const enableAudio = () => {
+      audioNotificationService.test();
+      document.removeEventListener('click', enableAudio);
+    };
+    document.addEventListener('click', enableAudio, { once: true });
+
     orderMonitorService.startListening(
       (updatedOrders) => {
         setOrders(updatedOrders);
         setIsConnected(true);
       },
       (newOrder) => {
-        audioNotificationService.play();
+        if (!isMuted) {
+          audioNotificationService.play();
+        }
       }
     );
 
     return () => {
       orderMonitorService.stopListening();
       audioNotificationService.stop();
+      document.removeEventListener('click', enableAudio);
     };
-  }, [navigate]);
+  }, [navigate, isMuted]);
 
   const handleLogout = () => {
     monitorAuth.logout();
@@ -258,15 +267,19 @@ function OrderCard({ order, onAccept, onClose }: OrderCardProps) {
       <div className="border-t border-slate-700 pt-4 mb-4">
         <h4 className="text-sm font-semibold text-slate-400 mb-3">ORDER ITEMS</h4>
         <div className="space-y-2">
-          {order.items.map((item, index) => (
-            <div key={index} className="flex justify-between text-slate-300">
-              <span>
-                {item.quantity}x {item.menuItem.name}
-                {item.selectedSize && ` (${item.selectedSize.name})`}
-              </span>
-              <span>{formatPrice((item.selectedSize?.price || item.menuItem.price) * item.quantity)}</span>
-            </div>
-          ))}
+          {order.items.map((item, index) => {
+            const itemName = item.menuItem?.name || item.name || 'Unknown Item';
+            const itemPrice = item.selectedSize?.price || item.menuItem?.price || item.price || 0;
+            return (
+              <div key={index} className="flex justify-between text-slate-300">
+                <span>
+                  {item.quantity}x {itemName}
+                  {item.selectedSize && ` (${item.selectedSize.name})`}
+                </span>
+                <span>{formatPrice(itemPrice * item.quantity)}</span>
+              </div>
+            );
+          })}
         </div>
       </div>
 
