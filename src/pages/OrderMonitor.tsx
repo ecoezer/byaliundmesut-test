@@ -266,17 +266,60 @@ function OrderCard({ order, onAccept, onClose }: OrderCardProps) {
 
       <div className="border-t border-slate-700 pt-4 mb-4">
         <h4 className="text-sm font-semibold text-slate-400 mb-3">ORDER ITEMS</h4>
-        <div className="space-y-2">
+        <div className="space-y-3">
           {order.items.map((item, index) => {
-            const itemName = item.menuItem?.name || item.name || 'Unknown Item';
-            const itemPrice = item.selectedSize?.price || item.menuItem?.price || item.price || 0;
+            const basePrice = item.selectedSize?.price || item.menuItem?.price || 0;
+            const extrasPrice = (item.selectedExtras?.length || 0) * 1.00;
+            const itemPrice = basePrice + extrasPrice;
+            const totalItemPrice = itemPrice * item.quantity;
+
             return (
-              <div key={index} className="flex justify-between text-slate-300">
-                <span>
-                  {item.quantity}x {itemName}
-                  {item.selectedSize && ` (${item.selectedSize.name})`}
-                </span>
-                <span>{formatPrice(itemPrice * item.quantity)}</span>
+              <div key={index} className="space-y-1">
+                <div className="flex justify-between">
+                  <div className="flex-1">
+                    <div className="text-slate-200 font-medium">
+                      {item.quantity}x {item.menuItem?.name || 'Unknown Item'}
+                      {item.selectedSize && ` (${item.selectedSize.name})`}
+                    </div>
+
+                    {item.selectedPastaType && (
+                      <div className="text-slate-400 text-xs mt-1 ml-4">
+                        → {item.selectedPastaType}
+                      </div>
+                    )}
+
+                    {item.selectedSauce && (
+                      <div className="text-slate-400 text-xs mt-1 ml-4">
+                        → Sauce: {item.selectedSauce}
+                      </div>
+                    )}
+
+                    {item.selectedSideDish && (
+                      <div className="text-slate-400 text-xs mt-1 ml-4">
+                        → Beilage: {item.selectedSideDish}
+                      </div>
+                    )}
+
+                    {item.menuItem?.isMeatSelection && item.selectedIngredients && item.selectedIngredients.length > 0 && (
+                      <div className="text-slate-400 text-xs mt-1 ml-4">
+                        → {item.selectedIngredients.join(', ')}
+                      </div>
+                    )}
+
+                    {item.selectedExtras && item.selectedExtras.length > 0 && (
+                      <div className="text-orange-400 text-xs mt-1 ml-4">
+                        → Extras (+{formatPrice(extrasPrice)}): {item.selectedExtras.join(', ')}
+                      </div>
+                    )}
+
+                    {item.selectedExclusions && item.selectedExclusions.length > 0 && (
+                      <div className="text-red-400 text-xs mt-1 ml-4">
+                        → Without: {item.selectedExclusions.join(', ')}
+                      </div>
+                    )}
+                  </div>
+                  <span className="text-white font-medium ml-4">{formatPrice(totalItemPrice)}</span>
+                </div>
               </div>
             );
           })}
