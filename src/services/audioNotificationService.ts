@@ -10,7 +10,7 @@ class AudioNotificationService {
     if (this.isInitialized) return;
 
     try {
-      this.audio = new Audio('/notification.mp3');
+      this.audio = new Audio('/doordash.mp3');
       this.audio.loop = true;
       this.audio.volume = this.volume;
       this.isInitialized = true;
@@ -107,7 +107,7 @@ class AudioNotificationService {
     }
 
     try {
-      const testAudio = new Audio('/notification.mp3');
+      const testAudio = new Audio('/doordash.mp3');
       testAudio.volume = this.volume;
       await testAudio.play();
       setTimeout(() => {
