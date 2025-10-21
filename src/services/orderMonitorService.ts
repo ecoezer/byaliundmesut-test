@@ -1,5 +1,5 @@
 import { collection, onSnapshot, query, orderBy, doc, updateDoc, Timestamp } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { db, ensureFirebaseInitialized } from '../lib/firebase';
 import { Order } from '../types';
 
 export type OrderStatus = 'new' | 'accepted' | 'closed';
@@ -19,6 +19,12 @@ class OrderMonitorService {
     onOrdersUpdate: OrderCallback,
     onNewOrder: NewOrderCallback
   ): void {
+    ensureFirebaseInitialized();
+
+    if (!db) {
+      throw new Error('Firebase database is not initialized');
+    }
+
     const ordersQuery = query(
       collection(db, 'orders'),
       orderBy('createdAt', 'desc')
@@ -86,6 +92,12 @@ class OrderMonitorService {
 
   async updateOrderStatus(orderId: string, status: OrderStatus): Promise<void> {
     try {
+      ensureFirebaseInitialized();
+
+      if (!db) {
+        throw new Error('Firebase database is not initialized');
+      }
+
       const orderRef = doc(db, 'orders', orderId);
       await updateDoc(orderRef, {
         monitorStatus: status,

@@ -1,5 +1,5 @@
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { initializeApp, FirebaseApp } from 'firebase/app';
+import { getFirestore, Firestore } from 'firebase/firestore';
 import { getAnalytics } from 'firebase/analytics';
 
 const firebaseConfig = {
@@ -12,9 +12,34 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
-const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
+let app: FirebaseApp | null = null;
+let db: Firestore | null = null;
+let firebaseError: Error | null = null;
 
-if (typeof window !== 'undefined' && import.meta.env.VITE_FIREBASE_MEASUREMENT_ID) {
-  getAnalytics(app);
+try {
+  if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
+    throw new Error('Firebase configuration is missing. Please check your environment variables in Netlify.');
+  }
+
+  app = initializeApp(firebaseConfig);
+  db = getFirestore(app);
+
+  if (typeof window !== 'undefined' && import.meta.env.VITE_FIREBASE_MEASUREMENT_ID) {
+    getAnalytics(app);
+  }
+} catch (error) {
+  console.error('Firebase initialization error:', error);
+  firebaseError = error instanceof Error ? error : new Error(String(error));
+  db = null;
+}
+
+export { db, firebaseError };
+
+export function ensureFirebaseInitialized(): void {
+  if (firebaseError) {
+    throw firebaseError;
+  }
+  if (!db) {
+    throw new Error('Firebase is not initialized');
+  }
 }

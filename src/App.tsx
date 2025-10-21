@@ -6,6 +6,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import AnalyticsDashboard from './pages/AnalyticsDashboard';
 import MonitorLogin from './pages/MonitorLogin';
 import OrderMonitor from './pages/OrderMonitor';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { checkAdminAuth } from './lib/adminAuth';
 import { monitorAuth } from './lib/monitorAuth';
 
@@ -45,9 +46,11 @@ function App() {
         <Route
           path="/monitor"
           element={
-            <MonitorProtectedRoute>
-              <OrderMonitor />
-            </MonitorProtectedRoute>
+            <ErrorBoundary fallbackMessage="Failed to load Order Monitor. Check Firebase configuration.">
+              <MonitorProtectedRoute>
+                <OrderMonitor />
+              </MonitorProtectedRoute>
+            </ErrorBoundary>
           }
         />
       </Routes>
