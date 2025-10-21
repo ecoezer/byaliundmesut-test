@@ -295,23 +295,26 @@ function OrderCard({ order, onAccept, onClose }: OrderCardProps) {
                   </div>
                 )}
 
-                {item.menuItem?.isMeatSelection && item.selectedIngredients && item.selectedIngredients.length > 0 && (
-                  <>
-                    {item.selectedIngredients.map((ingredient, idx) => (
-                      <div key={idx} className="text-slate-200 text-lg leading-tight">
-                        <span className="text-green-500 mr-1">✓</span>
-                        {ingredient}
-                      </div>
-                    ))}
-                  </>
-                )}
+                {item.menuItem?.isMeatSelection && item.selectedSauce && (() => {
+                  const parts = item.selectedSauce.split(' - ');
+                  const meatType = parts[0];
+                  const sauces = parts[1] ? parts[1].split(', ') : [];
 
-                {item.menuItem?.isMeatSelection && item.selectedSauce && (
-                  <div className="text-slate-200 text-lg leading-tight">
-                    <span className="text-green-500 mr-1">✓</span>
-                    Soße: {item.selectedSauce}
-                  </div>
-                )}
+                  return (
+                    <>
+                      <div className="text-slate-200 text-lg leading-tight">
+                        <span className="text-green-500 mr-1">✓</span>
+                        {meatType}
+                      </div>
+                      {sauces.map((sauce, idx) => (
+                        <div key={idx} className="text-slate-200 text-lg leading-tight">
+                          <span className="text-green-500 mr-1">✓</span>
+                          Soße: {sauce}
+                        </div>
+                      ))}
+                    </>
+                  );
+                })()}
 
                 {!item.menuItem?.isMeatSelection && item.selectedSauce && (
                   <div className="text-slate-200 text-lg leading-tight">
@@ -354,7 +357,7 @@ function OrderCard({ order, onAccept, onClose }: OrderCardProps) {
                     {item.selectedExclusions.map((exclusion, idx) => (
                       <div key={idx} className="text-red-400 text-lg font-bold leading-tight">
                         <span className="mr-1">❌</span>
-                        Ohne: {exclusion}
+                        {exclusion}
                       </div>
                     ))}
                   </>
