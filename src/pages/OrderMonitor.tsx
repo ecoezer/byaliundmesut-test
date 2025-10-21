@@ -14,6 +14,8 @@ export default function OrderMonitor() {
   const [searchTerm, setSearchTerm] = useState('');
   const [showClosed, setShowClosed] = useState(false);
   const [isConnected, setIsConnected] = useState(true);
+  const [audioError, setAudioError] = useState<string | null>(null);
+  const [audioInitialized, setAudioInitialized] = useState(false);
 
   useEffect(() => {
     if (!monitorAuth.isAuthenticated()) {
@@ -23,10 +25,26 @@ export default function OrderMonitor() {
 
     audioNotificationService.initialize();
 
-    const enableAudio = () => {
-      audioNotificationService.test();
-      document.removeEventListener('click', enableAudio);
+    setIsMuted(audioNotificationService.isMutedState());
+    setVolume(audioNotificationService.getVolume());
+
+    const error = audioNotificationService.getInitializationError();
+    if (error) {
+      setAudioError(error);
+    }
+
+    const enableAudio = async () => {
+      try {
+        await audioNotificationService.test();
+        setAudioInitialized(true);
+        setAudioError(null);
+        console.log('Audio test completed successfully');
+      } catch (error) {
+        console.error('Audio test failed:', error);
+        setAudioError('Audio initialization failed. Please check browser permissions.');
+      }
     };
+
     document.addEventListener('click', enableAudio, { once: true });
 
     orderMonitorService.startListening(
@@ -35,7 +53,8 @@ export default function OrderMonitor() {
         setIsConnected(true);
       },
       (newOrder) => {
-        if (!isMuted) {
+        console.log('New order callback triggered for:', newOrder.id);
+        if (!audioNotificationService.isMutedState()) {
           audioNotificationService.play();
         }
       }
@@ -46,7 +65,7 @@ export default function OrderMonitor() {
       audioNotificationService.stop();
       document.removeEventListener('click', enableAudio);
     };
-  }, [navigate, isMuted]);
+  }, [navigate]);
 
   const handleLogout = () => {
     monitorAuth.logout();
@@ -113,6 +132,22 @@ export default function OrderMonitor() {
                   {isConnected ? 'Verbunden' : 'Getrennt'}
                 </span>
               </div>
+              {audioInitialized && !audioError && (
+                <div className="flex items-center space-x-2 bg-green-500/20 border border-green-500 px-3 py-1 rounded-full">
+                  <Volume2 className="w-4 h-4 text-green-500" />
+                  <span className="text-xs text-green-500">
+                    Ton aktiv
+                  </span>
+                </div>
+              )}
+              {audioError && (
+                <div className="flex items-center space-x-2 bg-yellow-500/20 border border-yellow-500 px-3 py-1 rounded-full">
+                  <VolumeX className="w-4 h-4 text-yellow-500" />
+                  <span className="text-xs text-yellow-500">
+                    Ton-Fehler
+                  </span>
+                </div>
+              )}
               {newOrdersCount > 0 && (
                 <div className="flex items-center space-x-2 bg-red-500 px-3 py-1 rounded-full animate-pulse">
                   <Bell className="w-4 h-4 text-white" />

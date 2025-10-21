@@ -14,6 +14,7 @@ type NewOrderCallback = (order: MonitorOrder) => void;
 class OrderMonitorService {
   private unsubscribe: (() => void) | null = null;
   private seenOrderIds = new Set<string>();
+  private isFirstLoad = true;
 
   startListening(
     onOrdersUpdate: OrderCallback,
@@ -34,6 +35,7 @@ class OrderMonitorService {
       ordersQuery,
       (snapshot) => {
         const orders: MonitorOrder[] = [];
+        const newOrders: MonitorOrder[] = [];
 
         snapshot.docs.forEach((doc) => {
           const data = doc.data();
@@ -77,15 +79,18 @@ class OrderMonitorService {
 
           orders.push(order);
 
-          if (!this.seenOrderIds.has(order.id) && order.monitorStatus === 'new') {
+          if (!this.seenOrderIds.has(order.id)) {
             this.seenOrderIds.add(order.id);
-            if (this.seenOrderIds.size > 1) {
-              onNewOrder(order);
+            if (!this.isFirstLoad && order.monitorStatus === 'new') {
+              newOrders.push(order);
             }
-          } else {
-            this.seenOrderIds.add(order.id);
           }
         });
+
+        if (this.isFirstLoad) {
+          this.isFirstLoad = false;
+          console.log('Initial orders loaded. Sound notifications now active.');
+        }
 
         orders.sort((a, b) => {
           const statusOrder = { new: 0, accepted: 1, closed: 2 };
@@ -96,6 +101,11 @@ class OrderMonitorService {
         });
 
         onOrdersUpdate(orders);
+
+        newOrders.forEach(order => {
+          console.log('New order detected:', order.id);
+          onNewOrder(order);
+        });
       },
       (error) => {
         console.error('Error listening to orders:', error);
@@ -109,6 +119,7 @@ class OrderMonitorService {
       this.unsubscribe = null;
     }
     this.seenOrderIds.clear();
+    this.isFirstLoad = true;
   }
 
   async updateOrderStatus(orderId: string, status: OrderStatus): Promise<void> {
