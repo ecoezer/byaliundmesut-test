@@ -300,18 +300,22 @@ function OrderCard({ order, onAccept, onClose }: OrderCardProps) {
                   const meatType = parts[0];
                   const sauces = parts[1] ? parts[1].split(', ') : [];
 
+                  const meatEmoji = meatType.toLowerCase().includes('hähnchen') || meatType.toLowerCase().includes('chicken')
+                    ? '🐔'
+                    : '🥩';
+
                   return (
                     <>
                       <div className="text-slate-200 text-lg leading-tight">
-                        <span className="text-green-500 mr-1">✓</span>
+                        <span className="mr-1">{meatEmoji}</span>
                         {meatType}
                       </div>
-                      {sauces.map((sauce, idx) => (
-                        <div key={idx} className="text-slate-200 text-lg leading-tight">
+                      {sauces.length > 0 && (
+                        <div className="text-slate-200 text-lg leading-tight">
                           <span className="text-green-500 mr-1">✓</span>
-                          Soße: {sauce}
+                          Soße: {sauces.join(', ')}
                         </div>
-                      ))}
+                      )}
                     </>
                   );
                 })()}
