@@ -266,7 +266,7 @@ function OrderCard({ order, onAccept, onClose }: OrderCardProps) {
 
       <div className="border-t border-slate-700 pt-4 mb-4">
         <h4 className="text-sm font-semibold text-slate-400 mb-3">ORDER ITEMS</h4>
-        <div className="space-y-3">
+        <div className="space-y-4">
           {order.items.map((item, index) => {
             const basePrice = item.selectedSize?.price || item.menuItem?.price || 0;
             const extrasPrice = (item.selectedExtras?.length || 0) * 1.00;
@@ -274,51 +274,73 @@ function OrderCard({ order, onAccept, onClose }: OrderCardProps) {
             const totalItemPrice = itemPrice * item.quantity;
 
             return (
-              <div key={index} className="space-y-1">
-                <div className="flex justify-between">
-                  <div className="flex-1">
-                    <div className="text-slate-200 font-medium">
-                      {item.quantity}x {item.menuItem?.name || 'Unknown Item'}
-                      {item.selectedSize && ` (${item.selectedSize.name})`}
-                    </div>
-
-                    {item.selectedPastaType && (
-                      <div className="text-slate-400 text-xs mt-1 ml-4">
-                        → {item.selectedPastaType}
-                      </div>
-                    )}
-
-                    {item.selectedSauce && (
-                      <div className="text-slate-400 text-xs mt-1 ml-4">
-                        → Sauce: {item.selectedSauce}
-                      </div>
-                    )}
-
-                    {item.selectedSideDish && (
-                      <div className="text-slate-400 text-xs mt-1 ml-4">
-                        → Beilage: {item.selectedSideDish}
-                      </div>
-                    )}
-
-                    {item.menuItem?.isMeatSelection && item.selectedIngredients && item.selectedIngredients.length > 0 && (
-                      <div className="text-slate-400 text-xs mt-1 ml-4">
-                        → {item.selectedIngredients.join(', ')}
-                      </div>
-                    )}
-
-                    {item.selectedExtras && item.selectedExtras.length > 0 && (
-                      <div className="text-orange-400 text-xs mt-1 ml-4">
-                        → Extras (+{formatPrice(extrasPrice)}): {item.selectedExtras.join(', ')}
-                      </div>
-                    )}
-
-                    {item.selectedExclusions && item.selectedExclusions.length > 0 && (
-                      <div className="text-red-500 text-xs mt-1 ml-4 font-semibold">
-                        ❌ Without: {item.selectedExclusions.join(', ')} ❗
-                      </div>
+              <div key={index} className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
+                <div className="flex justify-between items-start mb-3">
+                  <div className="text-white font-semibold text-lg">
+                    {item.quantity}x {item.menuItem?.name || 'Unknown Item'}
+                    {item.selectedSize && (
+                      <span className="text-slate-400 font-normal text-base ml-2">
+                        ({item.selectedSize.name})
+                      </span>
                     )}
                   </div>
-                  <span className="text-white font-medium ml-4">{formatPrice(totalItemPrice)}</span>
+                  <span className="text-white font-bold text-lg">{formatPrice(totalItemPrice)}</span>
+                </div>
+
+                <div className="space-y-1.5 ml-3">
+                  {item.selectedPastaType && (
+                    <div className="text-slate-300 text-sm">
+                      <span className="text-green-500 mr-2">✓</span>
+                      {item.selectedPastaType}
+                    </div>
+                  )}
+
+                  {item.selectedSauce && (
+                    <div className="text-slate-300 text-sm">
+                      <span className="text-green-500 mr-2">✓</span>
+                      Sauce: {item.selectedSauce}
+                    </div>
+                  )}
+
+                  {item.selectedSideDish && (
+                    <div className="text-slate-300 text-sm">
+                      <span className="text-green-500 mr-2">✓</span>
+                      Beilage: {item.selectedSideDish}
+                    </div>
+                  )}
+
+                  {item.menuItem?.isMeatSelection && item.selectedIngredients && item.selectedIngredients.length > 0 && (
+                    <>
+                      {item.selectedIngredients.map((ingredient, idx) => (
+                        <div key={idx} className="text-slate-300 text-sm">
+                          <span className="text-green-500 mr-2">✓</span>
+                          {ingredient}
+                        </div>
+                      ))}
+                    </>
+                  )}
+
+                  {item.selectedExtras && item.selectedExtras.length > 0 && (
+                    <>
+                      {item.selectedExtras.map((extra, idx) => (
+                        <div key={idx} className="text-orange-400 text-sm font-medium">
+                          <span className="text-green-500 mr-2">✓</span>
+                          Extra: {extra} (+{formatPrice(1.00)})
+                        </div>
+                      ))}
+                    </>
+                  )}
+
+                  {item.selectedExclusions && item.selectedExclusions.length > 0 && (
+                    <>
+                      {item.selectedExclusions.map((exclusion, idx) => (
+                        <div key={idx} className="text-red-400 text-sm font-semibold">
+                          <span className="mr-2">❌</span>
+                          Without: {exclusion}
+                        </div>
+                      ))}
+                    </>
+                  )}
                 </div>
               </div>
             );
