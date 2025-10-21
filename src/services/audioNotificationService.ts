@@ -6,7 +6,7 @@ class AudioNotificationService {
 
   initialize(): void {
     if (!this.audio) {
-      this.audio = new Audio('/notification.wav');
+      this.audio = new Audio('/notification.mp3');
       this.audio.loop = true;
       this.audio.volume = this.volume;
     }
