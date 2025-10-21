@@ -12,6 +12,8 @@ export interface MenuItem {
   isSpezialitaet?: boolean;
   isBeerSelection?: boolean;
   isMeatSelection?: boolean;
+  isMultipleSauceSelection?: boolean;
+  hasSideDishSelection?: boolean;
 }
 
 export interface PizzaSize {
@@ -41,6 +43,7 @@ export interface OrderItem {
   selectedExtras?: string[];
   selectedPastaType?: string;
   selectedSauce?: string;
+  selectedSauces?: string[];
   selectedSideDish?: string;
   selectedExclusions?: string[];
 }

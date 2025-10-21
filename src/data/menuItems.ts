@@ -61,12 +61,12 @@ export const pizzaExtras = [
 // Vegetarian dishes
 export const vegetarischeGerichte: readonly MenuItem[] = [
   { id: 519, number: 19, name: "Zigaretten Börek", description: "knusprige Börek-Röllchen, gefüllt mit Käse", price: 1.00, allergens: "A1, G" },
-  { id: 520, number: 20, name: "Halloumi-Tasche", description: "im Fladenbrot mit gegrilltem Halloumi, frischem Salat & Soße", price: 7.00, isSpezialitaet: true, allergens: "A1, G" },
-  { id: 521, number: 21, name: "Halloumi-Dürüm", description: "im dünnen Fladenbrot mit gegrilltem Halloumi, frischem Salat & Soße", price: 8.00, isSpezialitaet: true, allergens: "A1, G" },
-  { id: 522, number: 22, name: "Halloumi-Teller", description: "mit gegrilltem Halloumi, Bulgur oder Pommes, Salat & Soße", price: 13.50, isSpezialitaet: true, allergens: "A1, G" },
-  { id: 523, number: 23, name: "Falafel-Tasche", description: "im Fladenbrot mit hausgemachten Falafel, gemischtem Salat & Soße", price: 7.00, isSpezialitaet: true, allergens: "A1, F" },
-  { id: 524, number: 24, name: "Falafel-Dürüm", description: "im dünnen Fladenbrot mit Falafel, gemischtem Salat & Soße", price: 8.00, isSpezialitaet: true, allergens: "A1, F" },
-  { id: 525, number: 25, name: "Falafel-Teller", description: "mit Bulgur oder Pommes frites, gemischtem Salat & Soße", price: 13.50, isSpezialitaet: true, allergens: "A1, F" }
+  { id: 520, number: 20, name: "Halloumi-Tasche", description: "im Fladenbrot mit gegrilltem Halloumi, frischem Salat & Soße", price: 7.00, isSpezialitaet: true, isMultipleSauceSelection: true, allergens: "A1, G" },
+  { id: 521, number: 21, name: "Halloumi-Dürüm", description: "im dünnen Fladenbrot mit gegrilltem Halloumi, frischem Salat & Soße", price: 8.00, isSpezialitaet: true, isMultipleSauceSelection: true, allergens: "A1, G" },
+  { id: 522, number: 22, name: "Halloumi-Teller", description: "mit gegrilltem Halloumi, Bulgur oder Pommes, Salat & Soße", price: 13.50, isSpezialitaet: true, isMultipleSauceSelection: true, hasSideDishSelection: true, allergens: "A1, G" },
+  { id: 523, number: 23, name: "Falafel-Tasche", description: "im Fladenbrot mit hausgemachten Falafel, gemischtem Salat & Soße", price: 7.00, isSpezialitaet: true, isMultipleSauceSelection: true, allergens: "A1, F" },
+  { id: 524, number: 24, name: "Falafel-Dürüm", description: "im dünnen Fladenbrot mit Falafel, gemischtem Salat & Soße", price: 8.00, isSpezialitaet: true, isMultipleSauceSelection: true, allergens: "A1, F" },
+  { id: 525, number: 25, name: "Falafel-Teller", description: "mit Bulgur oder Pommes frites, gemischtem Salat & Soße", price: 13.50, isSpezialitaet: true, isMultipleSauceSelection: true, hasSideDishSelection: true, allergens: "A1, F" }
 ];
 
 // Croques
