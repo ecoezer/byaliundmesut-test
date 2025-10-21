@@ -186,7 +186,30 @@ const AdminDashboard: React.FC = () => {
                                   </div>
                                 )}
 
-                                {item.selectedSauce && (
+                                {item.menuItem.isMeatSelection && item.selectedSauce && (() => {
+                                  const parts = item.selectedSauce.split(' - ');
+                                  const meatType = parts[0];
+                                  const sauces = parts[1] ? parts[1].split(', ') : [];
+
+                                  const meatEmoji = meatType.toLowerCase().includes('hähnchen') || meatType.toLowerCase().includes('chicken')
+                                    ? '🐔'
+                                    : '🥩';
+
+                                  return (
+                                    <>
+                                      <div className="text-gray-400 text-xs mt-1 ml-4">
+                                        → {meatEmoji} {meatType}
+                                      </div>
+                                      {sauces.length > 0 && (
+                                        <div className="text-gray-400 text-xs mt-1 ml-4">
+                                          → Soße: {sauces.join(', ')}
+                                        </div>
+                                      )}
+                                    </>
+                                  );
+                                })()}
+
+                                {!item.menuItem.isMeatSelection && item.selectedSauce && (
                                   <div className="text-gray-400 text-xs mt-1 ml-4">
                                     → Sauce: {item.selectedSauce}
                                   </div>
@@ -198,7 +221,7 @@ const AdminDashboard: React.FC = () => {
                                   </div>
                                 )}
 
-                                {item.menuItem.isMeatSelection && item.selectedIngredients && item.selectedIngredients.length > 0 && (
+                                {!item.menuItem.isMeatSelection && item.selectedIngredients && item.selectedIngredients.length > 0 && (
                                   <div className="text-gray-400 text-xs mt-1 ml-4">
                                     → {item.selectedIngredients.join(', ')}
                                   </div>
