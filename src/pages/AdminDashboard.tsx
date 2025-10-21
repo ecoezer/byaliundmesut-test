@@ -8,8 +8,7 @@ import {
   Phone,
   Mail,
   Trash2,
-  BarChart3,
-  Settings
+  BarChart3
 } from 'lucide-react';
 import { getAllOrders, deleteOrder } from '../services/orderService';
 import { logoutAdmin } from '../lib/adminAuth';
@@ -89,13 +88,6 @@ const AdminDashboard: React.FC = () => {
               >
                 <BarChart3 className="w-4 h-4" />
                 Analytics
-              </button>
-              <button
-                onClick={() => navigate('/admin/settings')}
-                className="flex items-center gap-2 px-5 py-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-medium"
-              >
-                <Settings className="w-4 h-4" />
-                Settings
               </button>
               <button
                 onClick={handleLogout}

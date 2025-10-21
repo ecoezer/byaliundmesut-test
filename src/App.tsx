@@ -4,7 +4,6 @@ import HomePage from './pages/HomePage';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import AnalyticsDashboard from './pages/AnalyticsDashboard';
-import SettingsPage from './pages/SettingsPage';
 import MonitorLogin from './pages/MonitorLogin';
 import OrderMonitor from './pages/OrderMonitor';
 import { ErrorBoundary } from './components/ErrorBoundary';
@@ -40,14 +39,6 @@ function App() {
           element={
             <ProtectedRoute>
               <AnalyticsDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/settings"
-          element={
-            <ProtectedRoute>
-              <SettingsPage />
             </ProtectedRoute>
           }
         />
