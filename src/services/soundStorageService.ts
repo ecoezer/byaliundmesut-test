@@ -1,4 +1,4 @@
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject, listAll } from 'firebase/storage';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject, listAll } from 'firebase/storage';
 import { initializeApp, getApps } from 'firebase/app';
 
 const MAX_FILE_SIZE = 1024 * 1024;
@@ -47,14 +47,30 @@ export async function uploadSoundFile(file: File, onProgress?: (progress: number
   const fileName = `sound_${timestamp}.wav`;
   const storageRef = ref(storage, `${STORAGE_PATH}/${fileName}`);
 
-  await uploadBytes(storageRef, file);
+  return new Promise((resolve, reject) => {
+    const uploadTask = uploadBytesResumable(storageRef, file);
 
-  if (onProgress) {
-    onProgress(100);
-  }
-
-  const downloadURL = await getDownloadURL(storageRef);
-  return downloadURL;
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        if (onProgress) {
+          onProgress(Math.round(progress));
+        }
+      },
+      (error) => {
+        reject(error);
+      },
+      async () => {
+        try {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          resolve(downloadURL);
+        } catch (error) {
+          reject(error);
+        }
+      }
+    );
+  });
 }
 
 export async function deleteOldSoundFiles(currentFileUrl?: string): Promise<void> {
