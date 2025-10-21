@@ -295,10 +295,21 @@ function OrderCard({ order, onAccept, onClose }: OrderCardProps) {
                   </div>
                 )}
 
+                {item.menuItem?.isMeatSelection && item.selectedIngredients && item.selectedIngredients.length > 0 && (
+                  <>
+                    {item.selectedIngredients.map((ingredient, idx) => (
+                      <div key={idx} className="text-slate-200 text-lg leading-tight">
+                        <span className="text-green-500 mr-1">✓</span>
+                        {ingredient}
+                      </div>
+                    ))}
+                  </>
+                )}
+
                 {item.menuItem?.isMeatSelection && item.selectedSauce && (
                   <div className="text-slate-200 text-lg leading-tight">
                     <span className="text-green-500 mr-1">✓</span>
-                    {item.selectedSauce}
+                    Soße: {item.selectedSauce}
                   </div>
                 )}
 
@@ -314,17 +325,6 @@ function OrderCard({ order, onAccept, onClose }: OrderCardProps) {
                     <span className="text-green-500 mr-1">✓</span>
                     Beilage: {item.selectedSideDish}
                   </div>
-                )}
-
-                {item.menuItem?.isMeatSelection && item.selectedIngredients && item.selectedIngredients.length > 0 && (
-                  <>
-                    {item.selectedIngredients.map((ingredient, idx) => (
-                      <div key={idx} className="text-slate-200 text-lg leading-tight">
-                        <span className="text-green-500 mr-1">✓</span>
-                        Soße: {ingredient}
-                      </div>
-                    ))}
-                  </>
                 )}
 
                 {!item.menuItem?.isMeatSelection && item.selectedIngredients && item.selectedIngredients.length > 0 && (
