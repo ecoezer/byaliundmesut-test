@@ -118,7 +118,7 @@ export const dips: readonly MenuItem[] = [
   { id: 572, number: 72, name: "Mayonnaise", description: "", price: 1.00 }
 ];
 
-// Drinks
+// Drinks (alcohol-free only)
 export const drinks: readonly MenuItem[] = [
   { id: 100, number: 100, name: "Coca-Cola", description: "0,33 L", price: 2.00 },
   { id: 101, number: 101, name: "Coca-Cola Zero", description: "0,33 L", price: 2.00 },
@@ -131,7 +131,6 @@ export const drinks: readonly MenuItem[] = [
   { id: 108, number: 108, name: "Capri-Sonne", description: "0,20 L", price: 1.50 },
   { id: 109, number: 109, name: "Ayran", description: "0,25 L", price: 1.50 },
   { id: 110, number: 110, name: "Wasser", description: "0,33 L", price: 2.00 },
-  { id: 111, number: 111, name: "Bier", description: "0,33 L", price: 2.00 },
   { id: 112, number: 112, name: "Alkoholfreies Bier", description: "0,33 L", price: 2.00 }
 ];
 
