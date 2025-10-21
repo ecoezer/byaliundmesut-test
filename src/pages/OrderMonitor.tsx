@@ -63,7 +63,7 @@ export default function OrderMonitor() {
   };
 
   const handleCloseOrder = async (orderId: string) => {
-    if (window.confirm('Mark this order as delivered?')) {
+    if (window.confirm('Diese Bestellung als geliefert markieren?')) {
       try {
         await orderMonitorService.closeOrder(orderId);
       } catch (error) {
@@ -106,18 +106,18 @@ export default function OrderMonitor() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <h1 className="text-2xl font-bold text-white">Order Monitor</h1>
+              <h1 className="text-2xl font-bold text-white">Bestellmonitor</h1>
               <div className="flex items-center space-x-2">
                 <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} />
                 <span className="text-sm text-slate-300">
-                  {isConnected ? 'Connected' : 'Disconnected'}
+                  {isConnected ? 'Verbunden' : 'Getrennt'}
                 </span>
               </div>
               {newOrdersCount > 0 && (
                 <div className="flex items-center space-x-2 bg-red-500 px-3 py-1 rounded-full animate-pulse">
                   <Bell className="w-4 h-4 text-white" />
                   <span className="text-sm font-semibold text-white">
-                    {newOrdersCount} New
+                    {newOrdersCount} Neu
                   </span>
                 </div>
               )}
@@ -165,7 +165,7 @@ export default function OrderMonitor() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
                 type="text"
-                placeholder="Search by name, phone, or order ID..."
+                placeholder="Suche nach Name, Telefon oder Best.-Nr..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -180,7 +180,7 @@ export default function OrderMonitor() {
               }`}
             >
               <Filter className="w-5 h-5" />
-              <span>{showClosed ? 'Hide' : 'Show'} Closed</span>
+              <span>{showClosed ? 'Verstecke' : 'Zeige'} Abgeschlossene</span>
             </button>
           </div>
         </div>
@@ -190,7 +190,7 @@ export default function OrderMonitor() {
         {filteredOrders.length === 0 ? (
           <div className="text-center py-12">
             <Package className="w-16 h-16 text-slate-600 mx-auto mb-4" />
-            <p className="text-slate-400 text-lg">No orders to display</p>
+            <p className="text-slate-400 text-lg">Keine Bestellungen zum Anzeigen</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -223,50 +223,50 @@ function OrderCard({ order, onAccept, onClose }: OrderCardProps) {
   };
 
   const statusLabels = {
-    new: 'NEW ORDER',
-    accepted: 'ACCEPTED',
-    closed: 'CLOSED'
+    new: 'NEUE BESTELLUNG',
+    accepted: 'ANGENOMMEN',
+    closed: 'ABGESCHLOSSEN'
   };
 
   return (
     <div
-      className={`border-2 rounded-lg p-6 transition-all ${statusColors[order.monitorStatus]} ${
+      className={`border-2 rounded-lg p-3 transition-all ${statusColors[order.monitorStatus]} ${
         order.monitorStatus === 'new' ? 'animate-pulse' : ''
       }`}
       onClick={() => order.monitorStatus === 'new' && onAccept(order.id)}
       style={{ cursor: order.monitorStatus === 'new' ? 'pointer' : 'default' }}
     >
-      <div className="flex items-start justify-between mb-4">
+      <div className="flex items-start justify-between mb-2">
         <div className="flex-1">
-          <div className="flex items-center space-x-3 mb-2">
-            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+          <div className="flex items-center space-x-2 mb-1">
+            <span className={`px-2 py-0.5 rounded text-sm font-bold ${
               order.monitorStatus === 'new' ? 'bg-red-500 text-white' :
               order.monitorStatus === 'accepted' ? 'bg-blue-500 text-white' :
               'bg-slate-600 text-slate-300'
             }`}>
               {statusLabels[order.monitorStatus]}
             </span>
-            <span className="text-slate-400 text-sm">
-              {order.createdAt.toLocaleString()}
+            <span className="text-slate-400 text-base">
+              {order.createdAt.toLocaleString('de-DE')}
             </span>
           </div>
-          <h3 className="text-xl font-bold text-white mb-1">{order.customerName}</h3>
-          <p className="text-slate-300">{order.customerPhone}</p>
-          <p className="text-slate-300">{order.customerAddress}</p>
+          <h3 className="text-2xl font-bold text-white">{order.customerName}</h3>
+          <p className="text-slate-300 text-lg">{order.customerPhone}</p>
+          <p className="text-slate-300 text-lg">{order.customerAddress}</p>
           {order.note && (
-            <p className="text-yellow-400 mt-2 text-sm">Note: {order.note}</p>
+            <p className="text-yellow-400 mt-1 text-base font-semibold">Notiz: {order.note}</p>
           )}
         </div>
 
         <div className="text-right">
-          <p className="text-3xl font-bold text-white">{formatPrice(order.totalAmount)}</p>
-          <p className="text-slate-400 text-sm">Order #{order.id.slice(0, 8)}</p>
+          <p className="text-4xl font-bold text-white">{formatPrice(order.totalAmount)}</p>
+          <p className="text-slate-400 text-base">Best. #{order.id.slice(0, 8)}</p>
         </div>
       </div>
 
-      <div className="border-t border-slate-700 pt-4 mb-4">
-        <h4 className="text-sm font-semibold text-slate-400 mb-3">ORDER ITEMS</h4>
-        <div className="space-y-4">
+      <div className="border-t border-slate-700 pt-2 mb-2">
+        <h4 className="text-base font-bold text-slate-400 mb-1">BESTELLPOSITIONEN</h4>
+        <div className="space-y-0">
           {order.items.map((item, index) => {
             const basePrice = item.selectedSize?.price || item.menuItem?.price || 0;
             const extrasPrice = (item.selectedExtras?.length || 0) * 1.00;
@@ -274,74 +274,73 @@ function OrderCard({ order, onAccept, onClose }: OrderCardProps) {
             const totalItemPrice = itemPrice * item.quantity;
 
             return (
-              <div key={index} className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-                <div className="flex justify-between items-start mb-3">
-                  <div className="text-white font-semibold text-lg">
-                    {item.quantity}x {item.menuItem?.name || 'Unknown Item'}
+              <div key={index} className="bg-slate-800/50 border-b border-slate-700 py-1 px-2">
+                <div className="flex justify-between items-center">
+                  <div className="text-white font-bold text-xl">
+                    <span className="text-yellow-400 mr-2">#{item.menuItem?.number || '?'}</span>
+                    {item.quantity}x {item.menuItem?.name || 'Unbekanntes Artikel'}
                     {item.selectedSize && (
-                      <span className="text-slate-400 font-normal text-base ml-2">
+                      <span className="text-slate-400 font-normal text-lg ml-2">
                         ({item.selectedSize.name})
                       </span>
                     )}
                   </div>
-                  <span className="text-white font-bold text-lg">{formatPrice(totalItemPrice)}</span>
+                  <span className="text-white font-bold text-xl ml-4">{formatPrice(totalItemPrice)}</span>
                 </div>
 
-                <div className="space-y-1.5 ml-3">
-                  {item.selectedPastaType && (
-                    <div className="text-slate-300 text-sm">
-                      <span className="text-green-500 mr-2">✓</span>
-                      {item.selectedPastaType}
-                    </div>
-                  )}
+                {item.selectedPastaType && (
+                  <div className="text-slate-200 text-lg leading-tight">
+                    <span className="text-green-500 mr-1">✓</span>
+                    {item.selectedPastaType}
+                  </div>
+                )}
 
-                  {item.selectedSauce && (
-                    <div className="text-slate-300 text-sm">
-                      <span className="text-green-500 mr-2">✓</span>
-                      Sauce: {item.selectedSauce}
-                    </div>
-                  )}
+                {item.selectedSauce && (
+                  <div className="text-slate-200 text-lg leading-tight">
+                    <span className="text-green-500 mr-1">✓</span>
+                    Soße: {item.selectedSauce}
+                  </div>
+                )}
 
-                  {item.selectedSideDish && (
-                    <div className="text-slate-300 text-sm">
-                      <span className="text-green-500 mr-2">✓</span>
-                      Beilage: {item.selectedSideDish}
-                    </div>
-                  )}
+                {item.selectedSideDish && (
+                  <div className="text-slate-200 text-lg leading-tight">
+                    <span className="text-green-500 mr-1">✓</span>
+                    Beilage: {item.selectedSideDish}
+                  </div>
+                )}
 
-                  {item.menuItem?.isMeatSelection && item.selectedIngredients && item.selectedIngredients.length > 0 && (
-                    <>
-                      {item.selectedIngredients.map((ingredient, idx) => (
-                        <div key={idx} className="text-slate-300 text-sm">
-                          <span className="text-green-500 mr-2">✓</span>
-                          {ingredient}
-                        </div>
-                      ))}
-                    </>
-                  )}
+                {item.menuItem?.isMeatSelection && item.selectedIngredients && item.selectedIngredients.length > 0 && (
+                  <>
+                    {item.selectedIngredients.map((ingredient, idx) => (
+                      <div key={idx} className="text-slate-200 text-lg leading-tight">
+                        <span className="text-green-500 mr-1">✓</span>
+                        {ingredient}
+                      </div>
+                    ))}
+                  </>
+                )}
 
-                  {item.selectedExtras && item.selectedExtras.length > 0 && (
-                    <>
-                      {item.selectedExtras.map((extra, idx) => (
-                        <div key={idx} className="text-orange-400 text-sm font-medium">
-                          <span className="text-green-500 mr-2">✓</span>
-                          Extra: {extra} (+{formatPrice(1.00)})
-                        </div>
-                      ))}
-                    </>
-                  )}
+                {item.selectedExtras && item.selectedExtras.length > 0 && (
+                  <>
+                    {item.selectedExtras.map((extra, idx) => (
+                      <div key={idx} className="text-orange-400 text-lg font-semibold leading-tight">
+                        <span className="text-green-500 mr-1">✓</span>
+                        Extra: {extra} (+{formatPrice(1.00)})
+                      </div>
+                    ))}
+                  </>
+                )}
 
-                  {item.selectedExclusions && item.selectedExclusions.length > 0 && (
-                    <>
-                      {item.selectedExclusions.map((exclusion, idx) => (
-                        <div key={idx} className="text-red-400 text-sm font-semibold">
-                          <span className="mr-2">❌</span>
-                          Without: {exclusion}
-                        </div>
-                      ))}
-                    </>
-                  )}
-                </div>
+                {item.selectedExclusions && item.selectedExclusions.length > 0 && (
+                  <>
+                    {item.selectedExclusions.map((exclusion, idx) => (
+                      <div key={idx} className="text-red-400 text-lg font-bold leading-tight">
+                        <span className="mr-1">❌</span>
+                        Ohne: {exclusion}
+                      </div>
+                    ))}
+                  </>
+                )}
               </div>
             );
           })}
@@ -349,25 +348,25 @@ function OrderCard({ order, onAccept, onClose }: OrderCardProps) {
       </div>
 
       {order.monitorStatus === 'accepted' && (
-        <div className="flex justify-end">
+        <div className="flex justify-end mt-2">
           <button
             onClick={() => onClose(order.id)}
-            className="flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
+            className="flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg transition-colors text-xl font-bold"
           >
-            <CheckCircle className="w-5 h-5" />
-            <span>Mark as Delivered</span>
+            <CheckCircle className="w-6 h-6" />
+            <span>Als Geliefert markieren</span>
           </button>
         </div>
       )}
 
       {order.monitorStatus === 'new' && (
-        <div className="flex justify-end">
+        <div className="flex justify-end mt-2">
           <button
             onClick={() => onAccept(order.id)}
-            className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors text-lg font-semibold"
+            className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg transition-colors text-2xl font-bold"
           >
-            <BellOff className="w-6 h-6" />
-            <span>Accept Order</span>
+            <BellOff className="w-7 h-7" />
+            <span>Bestellung Annehmen</span>
           </button>
         </div>
       )}
