@@ -3,7 +3,7 @@ import { X, Plus, ShoppingCart } from 'lucide-react';
 import { MenuItem, PizzaSize } from '../types';
 import {
   wunschPizzaIngredients, pizzaExtras, pastaTypes,
-  sauceTypes, saladSauceTypes, pommesSauceTypes, beerTypes, meatTypes, saladExclusionOptions, sideDishOptions
+  sauceTypes, saladSauceTypes, pommesSauceTypes, beerTypes, meatTypes, saladExclusionOptions, sideDishOptions, drinks
 } from '../data/menuItems';
 
 interface ItemModalProps {
@@ -18,7 +18,8 @@ interface ItemModalProps {
     selectedPastaType?: string,
     selectedSauce?: string,
     selectedExclusions?: string[],
-    selectedSideDish?: string
+    selectedSideDish?: string,
+    selectedDrink?: string
   ) => void;
 }
 
@@ -40,6 +41,7 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
   const [selectedSideDish, setSelectedSideDish] = useState<string>(
     item.number === 4 ? sideDishOptions[0] : ''
   );
+  const [selectedDrink, setSelectedDrink] = useState<string>('');
   const [currentStep, setCurrentStep] = useState<'meat' | 'sauce' | 'exclusions' | 'sidedish' | 'complete'>('meat');
   const [showAllSauces, setShowAllSauces] = useState(false);
   const [showAllExclusions, setShowAllExclusions] = useState(false);
@@ -122,7 +124,8 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
       selectedPastaType || undefined,
       finalSauce,
       selectedExclusions,
-      selectedSideDish || undefined
+      selectedSideDish || undefined,
+      selectedDrink || undefined
     );
     onClose();
   }, [item, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedSauces, selectedMeatType, selectedExclusions, selectedSideDish, onAddToOrder, onClose, currentStep]);
@@ -444,6 +447,42 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
                       className="text-orange-500 focus:ring-orange-500 w-4 h-4"
                     />
                     <span className="font-medium">{meatType}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Drink Selection for Snack Menus */}
+          {[14, 15, 16].includes(item.number) && (currentStep !== 'sauce' && currentStep !== 'exclusions') && (
+            <div>
+              <h3 className="font-semibold text-gray-900 mb-3">Getränk wählen *</h3>
+              <div className="space-y-2 max-h-60 overflow-y-auto">
+                {drinks.map((drink) => (
+                  <label
+                    key={drink.id}
+                    className={`flex items-center justify-between p-2 rounded-lg border-2 cursor-pointer transition-all ${
+                      selectedDrink === drink.name
+                        ? 'border-orange-500 bg-orange-50'
+                        : 'border-gray-200 hover:border-orange-300'
+                    }`}
+                  >
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="radio"
+                        name="drink"
+                        value={drink.name}
+                        checked={selectedDrink === drink.name}
+                        onChange={(e) => setSelectedDrink(e.target.value)}
+                        className="text-orange-500 focus:ring-orange-500 w-4 h-4"
+                      />
+                      <div>
+                        <div className="font-medium">{drink.name}</div>
+                        {drink.description && (
+                          <div className="text-sm text-gray-600">{drink.description}</div>
+                        )}
+                      </div>
+                    </div>
                   </label>
                 ))}
               </div>

@@ -76,16 +76,16 @@ function HomePage() {
     setTimeout(() => setCartAnimation(false), 1000);
   }, []);
 
-  const memoizedAddItem = useCallback((menuItem, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions, selectedSideDish) => {
-    addItem(menuItem, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions, selectedSideDish);
+  const memoizedAddItem = useCallback((menuItem, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions, selectedSideDish, selectedDrink) => {
+    addItem(menuItem, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions, selectedSideDish, selectedDrink);
     triggerCartAnimation();
   }, [addItem, triggerCartAnimation]);
 
-  const memoizedRemoveItem = useCallback((id, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions, selectedSideDish) =>
-    removeItem(id, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions, selectedSideDish), [removeItem]);
+  const memoizedRemoveItem = useCallback((id, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions, selectedSideDish, selectedDrink) =>
+    removeItem(id, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions, selectedSideDish, selectedDrink), [removeItem]);
 
-  const memoizedUpdateQuantity = useCallback((id, quantity, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions, selectedSideDish) =>
-    updateQuantity(id, quantity, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions, selectedSideDish), [updateQuantity]);
+  const memoizedUpdateQuantity = useCallback((id, quantity, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions, selectedSideDish, selectedDrink) =>
+    updateQuantity(id, quantity, selectedSize, selectedIngredients, selectedExtras, selectedPastaType, selectedSauce, selectedExclusions, selectedSideDish, selectedDrink), [updateQuantity]);
 
   const memoizedClearCart = useCallback(() => clearCart(), [clearCart]);
 

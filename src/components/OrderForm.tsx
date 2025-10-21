@@ -24,12 +24,13 @@ interface OrderItem {
   selectedSauce?: string;
   selectedExclusions?: string[];
   selectedSideDish?: string;
+  selectedDrink?: string;
 }
 
 interface OrderFormProps {
   orderItems: OrderItem[];
-  onRemoveItem: (id: number, selectedSize?: any, selectedIngredients?: string[], selectedExtras?: string[], selectedPastaType?: string, selectedSauce?: string, selectedExclusions?: string[], selectedSideDish?: string) => void;
-  onUpdateQuantity: (id: number, quantity: number, selectedSize?: any, selectedIngredients?: string[], selectedExtras?: string[], selectedPastaType?: string, selectedSauce?: string, selectedExclusions?: string[], selectedSideDish?: string) => void;
+  onRemoveItem: (id: number, selectedSize?: any, selectedIngredients?: string[], selectedExtras?: string[], selectedPastaType?: string, selectedSauce?: string, selectedExclusions?: string[], selectedSideDish?: string, selectedDrink?: string) => void;
+  onUpdateQuantity: (id: number, quantity: number, selectedSize?: any, selectedIngredients?: string[], selectedExtras?: string[], selectedPastaType?: string, selectedSauce?: string, selectedExclusions?: string[], selectedSideDish?: string, selectedDrink?: string) => void;
   onClearCart: () => void;
   onCloseMobileCart?: () => void;
   hideTitle?: boolean;
@@ -202,6 +203,10 @@ const OrderForm: React.FC<OrderFormProps> = ({
         itemText += ` - Beilage: ${item.selectedSideDish}`;
       }
 
+      if (item.selectedDrink) {
+        itemText += ` - Getränk: ${item.selectedDrink}`;
+      }
+
       if (item.selectedIngredients && item.selectedIngredients.length > 0) {
         itemText += ` - Zutaten: ${item.selectedIngredients.join(', ')}`;
       }
@@ -327,7 +332,8 @@ const OrderForm: React.FC<OrderFormProps> = ({
         item.selectedPastaType,
         item.selectedSauce,
         item.selectedExclusions,
-        item.selectedSideDish
+        item.selectedSideDish,
+        item.selectedDrink
       );
     } else {
       onUpdateQuantity(
@@ -339,7 +345,8 @@ const OrderForm: React.FC<OrderFormProps> = ({
         item.selectedPastaType,
         item.selectedSauce,
         item.selectedExclusions,
-        item.selectedSideDish
+        item.selectedSideDish,
+        item.selectedDrink
       );
     }
   }, [onRemoveItem, onUpdateQuantity]);
@@ -353,7 +360,8 @@ const OrderForm: React.FC<OrderFormProps> = ({
       item.selectedPastaType,
       item.selectedSauce,
       item.selectedExclusions,
-      item.selectedSideDish
+      item.selectedSideDish,
+      item.selectedDrink
     );
   }, [onRemoveItem]);
 
@@ -495,7 +503,15 @@ const OrderForm: React.FC<OrderFormProps> = ({
                       </span>
                     </div>
                   )}
-                  
+
+                  {item.selectedDrink && (
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        🥤 {item.selectedDrink}
+                      </span>
+                    </div>
+                  )}
+
                   {item.selectedIngredients && item.selectedIngredients.length > 0 && (
                     <div className="space-y-1">
                       <p className="text-xs font-medium text-gray-600">🥬 Zutaten:</p>
