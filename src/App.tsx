@@ -4,11 +4,19 @@ import HomePage from './pages/HomePage';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import AnalyticsDashboard from './pages/AnalyticsDashboard';
+import MonitorLogin from './pages/MonitorLogin';
+import OrderMonitor from './pages/OrderMonitor';
 import { checkAdminAuth } from './lib/adminAuth';
+import { monitorAuth } from './lib/monitorAuth';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const isAuthenticated = checkAdminAuth();
   return isAuthenticated ? <>{children}</> : <Navigate to="/admin" replace />;
+};
+
+const MonitorProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const isAuthenticated = monitorAuth.isAuthenticated();
+  return isAuthenticated ? <>{children}</> : <Navigate to="/monitor-login" replace />;
 };
 
 function App() {
@@ -31,6 +39,15 @@ function App() {
             <ProtectedRoute>
               <AnalyticsDashboard />
             </ProtectedRoute>
+          }
+        />
+        <Route path="/monitor-login" element={<MonitorLogin />} />
+        <Route
+          path="/monitor"
+          element={
+            <MonitorProtectedRoute>
+              <OrderMonitor />
+            </MonitorProtectedRoute>
           }
         />
       </Routes>

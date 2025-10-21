@@ -29,3 +29,7 @@ export function getMenuItemPrice(itemId: number, itemName?: string): number {
 
   return 0;
 }
+
+export function formatPrice(price: number): string {
+  return `€${price.toFixed(2)}`;
+}
