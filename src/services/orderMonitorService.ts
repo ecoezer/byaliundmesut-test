@@ -37,13 +37,31 @@ class OrderMonitorService {
 
         snapshot.docs.forEach((doc) => {
           const data = doc.data();
+
+          const items = data.items.map((item: any) => ({
+            menuItem: {
+              id: item.menuItemId,
+              number: item.menuItemNumber,
+              name: item.menuItemName,
+              price: item.menuItemPrice,
+            },
+            quantity: item.quantity,
+            selectedSize: item.selectedSize || undefined,
+            selectedIngredients: item.selectedIngredients || undefined,
+            selectedExtras: item.selectedExtras || undefined,
+            selectedPastaType: item.selectedPastaType || undefined,
+            selectedSauce: item.selectedSauce || undefined,
+            selectedSideDish: item.selectedSideDish || undefined,
+            selectedExclusions: item.selectedExclusions || undefined,
+          }));
+
           const order: MonitorOrder = {
             id: doc.id,
             customerName: data.customerName,
             customerAddress: data.customerAddress,
             customerPhone: data.customerPhone,
             note: data.note,
-            items: data.items,
+            items,
             totalAmount: data.totalAmount,
             createdAt: data.createdAt?.toDate() || new Date(),
             deviceInfo: data.deviceInfo,
