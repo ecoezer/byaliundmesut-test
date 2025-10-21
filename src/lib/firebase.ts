@@ -1,5 +1,6 @@
 import { initializeApp, FirebaseApp } from 'firebase/app';
 import { getFirestore, Firestore } from 'firebase/firestore';
+import { getStorage, FirebaseStorage } from 'firebase/storage';
 import { getAnalytics } from 'firebase/analytics';
 
 const firebaseConfig = {
@@ -14,6 +15,7 @@ const firebaseConfig = {
 
 let app: FirebaseApp | null = null;
 let db: Firestore | null = null;
+let storage: FirebaseStorage | null = null;
 let firebaseError: Error | null = null;
 
 try {
@@ -23,6 +25,7 @@ try {
 
   app = initializeApp(firebaseConfig);
   db = getFirestore(app);
+  storage = getStorage(app);
 
   if (typeof window !== 'undefined' && import.meta.env.VITE_FIREBASE_MEASUREMENT_ID) {
     getAnalytics(app);
@@ -31,9 +34,10 @@ try {
   console.error('Firebase initialization error:', error);
   firebaseError = error instanceof Error ? error : new Error(String(error));
   db = null;
+  storage = null;
 }
 
-export { db, firebaseError };
+export { db, storage, firebaseError };
 
 export function ensureFirebaseInitialized(): void {
   if (firebaseError) {
@@ -41,5 +45,14 @@ export function ensureFirebaseInitialized(): void {
   }
   if (!db) {
     throw new Error('Firebase is not initialized');
+  }
+}
+
+export function ensureStorageInitialized(): void {
+  if (firebaseError) {
+    throw firebaseError;
+  }
+  if (!storage) {
+    throw new Error('Firebase Storage is not initialized');
   }
 }

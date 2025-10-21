@@ -1,16 +1,16 @@
-import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject, listAll } from 'firebase/storage';
-import { initializeApp, getApps } from 'firebase/app';
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject, listAll } from 'firebase/storage';
+import { storage, ensureStorageInitialized } from '../lib/firebase';
 
 const MAX_FILE_SIZE = 1024 * 1024;
 const ALLOWED_FORMATS = ['audio/wav', 'audio/x-wav', 'audio/wave'];
 const STORAGE_PATH = 'notification-sounds';
 
 function getStorageInstance() {
-  const apps = getApps();
-  if (apps.length === 0) {
-    throw new Error('Firebase app not initialized');
+  ensureStorageInitialized();
+  if (!storage) {
+    throw new Error('Firebase Storage is not initialized');
   }
-  return getStorage(apps[0]);
+  return storage;
 }
 
 export interface FileValidationResult {
