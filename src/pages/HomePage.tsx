@@ -212,7 +212,7 @@ function HomePage() {
               <ShoppingCart className={`w-5 h-5 ${cartAnimation ? 'animate-cart-shake' : ''}`} />
             </div>
             {totalItemsCount > 0 && (
-              <span className={`absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold`}>
+              <span className={`absolute -top-1 -right-1 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold`}>
                 {totalItemsCount}
               </span>
             )}
