@@ -202,18 +202,18 @@ function HomePage() {
 
       {isMobile && totalItemsCount > 0 && (
         <button id="mobile-cart-button" onClick={toggleMobileCart}
-          className={`fixed bottom-4 left-4 right-4 bg-orange-500 text-white py-2 px-4 rounded-full shadow-xl flex items-center justify-center z-50`}>
+          className={`fixed bottom-4 left-4 right-4 bg-white/20 backdrop-blur-md text-gray-900 py-4 px-6 rounded-full shadow-xl flex items-center justify-center z-50 border border-white/40 hover:bg-white/30 transition-all duration-300`}>
           <div className="relative flex-shrink-0">
-            <div className={`w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center ${cartAnimation ? 'animate-cart-mobile-pulse' : ''}`}>
-              <ShoppingCart className={`w-4 h-4 ${cartAnimation ? 'animate-cart-shake' : ''}`} />
+            <div className={`w-8 h-8 bg-white bg-opacity-30 rounded-full flex items-center justify-center ${cartAnimation ? 'animate-cart-mobile-pulse' : ''}`}>
+              <ShoppingCart className={`w-5 h-5 ${cartAnimation ? 'animate-cart-shake' : ''}`} />
             </div>
             {totalItemsCount > 0 && (
-              <span className={`absolute -top-1 -right-1 bg-gray-800 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center font-bold`}>
+              <span className={`absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold`}>
                 {totalItemsCount}
               </span>
             )}
           </div>
-          <span className="font-medium text-lg ml-2">
+          <span className="font-bold text-lg ml-3">
             Warenkorb ansehen ({items.reduce((sum, item) => {
               const basePrice = item.selectedSize ? item.selectedSize.price : item.menuItem.price;
               const extrasPrice = (item.selectedExtras?.length || 0) * 1.00;
