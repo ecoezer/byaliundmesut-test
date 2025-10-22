@@ -127,46 +127,79 @@ const Navigation = () => {
   };
 
   return (
-    <div className="w-full bg-white border-b border-gray-200 sticky top-0 z-50 lg:pr-80">
+    <div className="w-full sticky top-0 z-50 lg:pr-80" style={{
+      backgroundColor: 'rgba(255, 255, 255, 0.7)',
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
+      borderBottom: '1px solid rgba(229, 231, 235, 0.3)',
+      boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.05)'
+    }}>
       <div className="max-w-7xl mx-auto px-4 lg:pr-0 lg:max-w-none">
         <div className="flex items-center h-16">
-          
+
           {/* Left Arrow */}
           {isMobile && showLeftArrow && (
             <div className="flex-shrink-0 pr-2">
               <button
                 onClick={() => scroll('left')}
-                className="w-8 h-8 rounded-full bg-white shadow-lg border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors"
+                className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/40 transition-all"
+                style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.6)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
+                  border: '1px solid rgba(229, 231, 235, 0.4)',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'
+                }}
                 aria-label="Nach links scrollen"
               >
-                <ChevronLeft className="h-4 w-4 text-gray-600" />
+                <ChevronLeft className="h-4 w-4 text-gray-700" />
               </button>
             </div>
           )}
 
           {/* Navigation Items */}
-          <div 
+          <div
             ref={scrollContainerRef}
             className="flex items-center justify-start gap-2 overflow-x-auto scrollbar-hide flex-1 lg:justify-center px-2"
-            style={{ 
-              scrollbarWidth: 'none', 
+            style={{
+              scrollbarWidth: 'none',
               msOverflowStyle: 'none',
               scrollSnapType: 'x mandatory'
             }}
           >
             {navigationItems.map(([id, label], index) => {
               const isActive = activeSection === id;
-              
+
               return (
                 <button
                   key={id}
                   onClick={() => handleItemClick(id)}
                   className={`flex-shrink-0 px-6 py-2 rounded-full text-sm font-medium transition-all duration-200 whitespace-nowrap ${
-                    isActive 
-                      ? 'bg-gray-900 text-white' 
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    isActive
+                      ? 'text-white'
+                      : 'text-gray-700'
                   }`}
-                  style={{ scrollSnapAlign: 'start' }}
+                  style={{
+                    scrollSnapAlign: 'start',
+                    backgroundColor: isActive
+                      ? 'rgba(17, 24, 39, 0.85)'
+                      : 'rgba(243, 244, 246, 0.5)',
+                    backdropFilter: 'blur(8px)',
+                    WebkitBackdropFilter: 'blur(8px)',
+                    border: isActive
+                      ? '1px solid rgba(17, 24, 39, 0.2)'
+                      : '1px solid rgba(229, 231, 235, 0.3)'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.backgroundColor = 'rgba(243, 244, 246, 0.7)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.backgroundColor = 'rgba(243, 244, 246, 0.5)';
+                    }
+                  }}
                 >
                   {label}
                 </button>
@@ -179,10 +212,17 @@ const Navigation = () => {
             <div className="flex-shrink-0 pl-2">
               <button
                 onClick={() => scroll('right')}
-                className="w-8 h-8 rounded-full bg-white shadow-lg border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors"
+                className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/40 transition-all"
+                style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.6)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
+                  border: '1px solid rgba(229, 231, 235, 0.4)',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'
+                }}
                 aria-label="Nach rechts scrollen"
               >
-                <ChevronRight className="h-4 w-4 text-gray-600" />
+                <ChevronRight className="h-4 w-4 text-gray-700" />
               </button>
             </div>
           )}
