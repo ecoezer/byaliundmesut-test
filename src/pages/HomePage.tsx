@@ -202,7 +202,7 @@ function HomePage() {
 
       {isMobile && totalItemsCount > 0 && (
         <button id="mobile-cart-button" onClick={toggleMobileCart}
-          className={`fixed bottom-4 left-4 right-4 bg-white/20 backdrop-blur-md text-gray-900 py-4 px-6 rounded-full shadow-xl flex items-center justify-center z-50 border border-white/40 hover:bg-white/30 transition-all duration-300`}>
+          className={`fixed bottom-4 left-4 right-4 bg-white/20 backdrop-blur-md text-gray-900 py-4 px-6 rounded-full shadow-xl flex items-center justify-center z-50 border-2 border-white/60 hover:bg-white/30 hover:border-white/80 transition-all duration-300`}>
           <div className="relative flex-shrink-0">
             <div className={`w-8 h-8 bg-white bg-opacity-30 rounded-full flex items-center justify-center ${cartAnimation ? 'animate-cart-mobile-pulse' : ''}`}>
               <ShoppingCart className={`w-5 h-5 ${cartAnimation ? 'animate-cart-shake' : ''}`} />
