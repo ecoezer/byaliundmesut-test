@@ -128,11 +128,11 @@ const Navigation = () => {
 
   return (
     <div className="w-full sticky top-0 z-50 lg:pr-80" style={{
-      backgroundColor: 'rgba(255, 255, 255, 0.4)',
-      backdropFilter: 'blur(16px)',
-      WebkitBackdropFilter: 'blur(16px)',
-      borderBottom: '1px solid rgba(229, 231, 235, 0.2)',
-      boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.03)'
+      backgroundColor: 'rgba(255, 255, 255, 0.5)',
+      backdropFilter: 'blur(20px) saturate(180%)',
+      WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+      borderBottom: '1px solid rgba(255, 255, 255, 0.3)',
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)'
     }}>
       <div className="max-w-7xl mx-auto px-4 lg:pr-0 lg:max-w-none">
         <div className="flex items-center h-16">
@@ -142,17 +142,17 @@ const Navigation = () => {
             <div className="flex-shrink-0 pr-2">
               <button
                 onClick={() => scroll('left')}
-                className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/30 transition-all"
+                className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/60 transition-all"
                 style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.3)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(229, 231, 235, 0.3)',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
+                  backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                  backdropFilter: 'blur(12px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(12px) saturate(180%)',
+                  border: '1px solid rgba(255, 255, 255, 0.4)',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'
                 }}
                 aria-label="Nach links scrollen"
               >
-                <ChevronLeft className="h-4 w-4 text-gray-700" />
+                <ChevronLeft className="h-4 w-4 text-gray-800" />
               </button>
             </div>
           )}
@@ -177,27 +177,27 @@ const Navigation = () => {
                   className={`flex-shrink-0 px-6 py-2 rounded-full text-sm font-medium transition-all duration-200 whitespace-nowrap ${
                     isActive
                       ? 'text-white'
-                      : 'text-gray-700'
+                      : 'text-gray-800'
                   }`}
                   style={{
                     scrollSnapAlign: 'start',
                     backgroundColor: isActive
-                      ? 'rgba(17, 24, 39, 0.75)'
-                      : 'rgba(243, 244, 246, 0.3)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
+                      ? 'rgba(17, 24, 39, 0.8)'
+                      : 'rgba(255, 255, 255, 0.5)',
+                    backdropFilter: 'blur(12px) saturate(180%)',
+                    WebkitBackdropFilter: 'blur(12px) saturate(180%)',
                     border: isActive
-                      ? '1px solid rgba(17, 24, 39, 0.2)'
-                      : '1px solid rgba(229, 231, 235, 0.25)'
+                      ? '1px solid rgba(17, 24, 39, 0.3)'
+                      : '1px solid rgba(255, 255, 255, 0.4)'
                   }}
                   onMouseEnter={(e) => {
                     if (!isActive) {
-                      e.currentTarget.style.backgroundColor = 'rgba(243, 244, 246, 0.5)';
+                      e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (!isActive) {
-                      e.currentTarget.style.backgroundColor = 'rgba(243, 244, 246, 0.3)';
+                      e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
                     }
                   }}
                 >
@@ -212,17 +212,17 @@ const Navigation = () => {
             <div className="flex-shrink-0 pl-2">
               <button
                 onClick={() => scroll('right')}
-                className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/30 transition-all"
+                className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/60 transition-all"
                 style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.3)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(229, 231, 235, 0.3)',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
+                  backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                  backdropFilter: 'blur(12px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(12px) saturate(180%)',
+                  border: '1px solid rgba(255, 255, 255, 0.4)',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'
                 }}
                 aria-label="Nach rechts scrollen"
               >
-                <ChevronRight className="h-4 w-4 text-gray-700" />
+                <ChevronRight className="h-4 w-4 text-gray-800" />
               </button>
             </div>
           )}
