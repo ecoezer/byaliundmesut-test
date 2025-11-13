@@ -70,7 +70,8 @@ const orderSchema = z.object({
   deliveryZone: z.string().optional(),
   deliveryTime: z.enum(['asap', 'specific']),
   specificTime: z.string().optional(),
-  name: z.string().min(2, 'Name muss mindestens 2 Zeichen haben'),
+  firstName: z.string().min(2, 'Vorname muss mindestens 2 Zeichen haben'),
+  lastName: z.string().min(2, 'Nachname muss mindestens 2 Zeichen haben'),
   phone: z.string().min(10, 'Telefonnummer muss mindestens 10 Zeichen haben'),
   street: z.string().optional(),
   houseNumber: z.string().optional(),
@@ -164,9 +165,9 @@ const OrderForm: React.FC<OrderFormProps> = ({
   // Generate WhatsApp message
   const generateWhatsAppMessage = useCallback((data: OrderFormData) => {
     let message = `🍕 *Neue Bestellung - by Ali und Mesut*\n\n`;
-    
+
     // Customer info
-    message += `👤 *Kunde:* ${data.name}\n`;
+    message += `👤 *Kunde:* ${data.firstName} ${data.lastName}\n`;
     message += `📞 *Telefon:* ${data.phone}\n`;
     message += `📦 *Art:* ${data.orderType === 'pickup' ? 'Abholung' : 'Lieferung'}\n`;
     
@@ -245,7 +246,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
         deliveryZone: data.deliveryZone,
         deliveryTime: data.deliveryTime,
         specificTime: data.specificTime,
-        name: data.name,
+        name: `${data.firstName} ${data.lastName}`,
         phone: data.phone,
         street: data.street,
         houseNumber: data.houseNumber,
@@ -280,7 +281,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
 
     try {
       const customerInfo: CustomerInfo = {
-        name: data.name,
+        name: `${data.firstName} ${data.lastName}`,
         address: data.orderType === 'delivery'
           ? `${data.street} ${data.houseNumber}, ${data.postcode}`
           : 'Abholung',
@@ -795,23 +796,41 @@ const OrderForm: React.FC<OrderFormProps> = ({
             <h3 className="font-semibold text-gray-900 text-base flex items-center gap-2">
               👤 Ihre Kontaktdaten
             </h3>
-            
+
             <div className="space-y-3">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Name *
-                </label>
-                <input
-                  type="text"
-                  {...register('name')}
-                  className="w-full rounded-xl border-2 border-orange-200 focus:border-orange-500 focus:ring-orange-500 p-3 text-sm bg-white"
-                  placeholder="Ihr Name"
-                />
-                {errors.name && (
-                  <p className="text-sm text-red-600 mt-1 flex items-center gap-1">
-                    ⚠️ {errors.name.message}
-                  </p>
-                )}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Vorname *
+                  </label>
+                  <input
+                    type="text"
+                    {...register('firstName')}
+                    className="w-full rounded-xl border-2 border-orange-200 focus:border-orange-500 focus:ring-orange-500 p-3 text-sm bg-white"
+                    placeholder="Vorname"
+                  />
+                  {errors.firstName && (
+                    <p className="text-sm text-red-600 mt-1 flex items-center gap-1">
+                      ⚠️ {errors.firstName.message}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Nachname *
+                  </label>
+                  <input
+                    type="text"
+                    {...register('lastName')}
+                    className="w-full rounded-xl border-2 border-orange-200 focus:border-orange-500 focus:ring-orange-500 p-3 text-sm bg-white"
+                    placeholder="Nachname"
+                  />
+                  {errors.lastName && (
+                    <p className="text-sm text-red-600 mt-1 flex items-center gap-1">
+                      ⚠️ {errors.lastName.message}
+                    </p>
+                  )}
+                </div>
               </div>
               
               <div>
