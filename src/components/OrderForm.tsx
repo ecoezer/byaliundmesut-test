@@ -39,15 +39,15 @@ interface OrderFormProps {
 // Delivery zones with minimum order and delivery fee
 const DELIVERY_ZONES = {
   'lutter': { label: 'Lutter am Barenberge', minOrder: 0, fee: 0 },
-  'ostlutter': { label: 'Ostlutter', minOrder: 20, fee: 2 },
-  'wallmoden': { label: 'Wallmoden', minOrder: 20, fee: 2 },
-  'alt-wallmoden': { label: 'Alt Wallmoden', minOrder: 20, fee: 2 },
-  'neuwallmoden': { label: 'Neuwallmoden', minOrder: 20, fee: 2 },
-  'nauen': { label: 'Nauen', minOrder: 20, fee: 2 },
-  'hahausen': { label: 'Hahausen', minOrder: 20, fee: 2 },
-  'bodenstein': { label: 'Bodenstein', minOrder: 20, fee: 2 },
-  'rhode': { label: 'Rhode', minOrder: 20, fee: 2 },
-  'sehlde': { label: 'Sehlde', minOrder: 20, fee: 2 }
+  'ostlutter': { label: 'Ostlutter', minOrder: 20, fee: 0 },
+  'wallmoden': { label: 'Wallmoden', minOrder: 20, fee: 0 },
+  'alt-wallmoden': { label: 'Alt Wallmoden', minOrder: 20, fee: 0 },
+  'neuwallmoden': { label: 'Neuwallmoden', minOrder: 20, fee: 0 },
+  'nauen': { label: 'Nauen', minOrder: 20, fee: 0 },
+  'hahausen': { label: 'Hahausen', minOrder: 20, fee: 0 },
+  'bodenstein': { label: 'Bodenstein', minOrder: 20, fee: 0 },
+  'rhode': { label: 'Rhode', minOrder: 20, fee: 0 },
+  'sehlde': { label: 'Sehlde', minOrder: 20, fee: 0 }
 } as const;
 
 // Form validation schema
