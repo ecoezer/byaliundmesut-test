@@ -66,11 +66,25 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
   }, []);
 
   const handleExclusionToggle = useCallback((exclusion: string) => {
-    setSelectedExclusions(prev => 
-      prev.includes(exclusion) 
-        ? prev.filter(e => e !== exclusion)
-        : [...prev, exclusion]
-    );
+    setSelectedExclusions(prev => {
+      const isBareSalad = exclusion === 'Ohne Beilagen bzw. Salate';
+
+      if (isBareSalad) {
+        if (prev.includes(exclusion)) {
+          return prev.filter(e => e !== exclusion);
+        } else {
+          return [exclusion];
+        }
+      } else {
+        if (prev.includes('Ohne Beilagen bzw. Salate')) {
+          return [exclusion];
+        }
+
+        return prev.includes(exclusion)
+          ? prev.filter(e => e !== exclusion)
+          : [...prev, exclusion];
+      }
+    });
   }, []);
 
   const handleSauceToggle = useCallback((sauce: string) => {
@@ -611,24 +625,33 @@ const ItemModal: React.FC<ItemModalProps> = ({ item, isOpen, onClose, onAddToOrd
               <h3 className="font-semibold text-gray-900 mb-3">Salat anpassen (mehrere möglich, optional)</h3>
               <p className="text-sm text-gray-600 mb-4">Wählen Sie aus, was Sie nicht in Ihrem Salat möchten:</p>
               <div className="space-y-2">
-                {getVisibleExclusionOptions().map((exclusion) => (
-                  <label
-                    key={exclusion}
-                    className={`flex items-center space-x-2 p-2 rounded-lg border-2 cursor-pointer transition-all ${
-                      selectedExclusions.includes(exclusion)
-                        ? 'border-orange-500 bg-orange-50'
-                        : 'border-gray-200 hover:border-orange-300'
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={selectedExclusions.includes(exclusion)}
-                      onChange={() => handleExclusionToggle(exclusion)}
-                      className="text-orange-500 focus:ring-orange-500 w-4 h-4"
-                    />
-                    <span className="font-medium">{exclusion}</span>
-                  </label>
-                ))}
+                {getVisibleExclusionOptions().map((exclusion) => {
+                  const isBareSalad = exclusion === 'Ohne Beilagen bzw. Salate';
+                  const isSelected = selectedExclusions.includes(exclusion);
+                  const isDisabled = selectedExclusions.includes('Ohne Beilagen bzw. Salate') && !isBareSalad;
+
+                  return (
+                    <label
+                      key={exclusion}
+                      className={`flex items-center space-x-2 p-2 rounded-lg border-2 transition-all ${
+                        isDisabled
+                          ? 'opacity-50 cursor-not-allowed border-gray-200 bg-gray-50'
+                          : isSelected
+                          ? 'border-orange-500 bg-orange-50 cursor-pointer'
+                          : 'border-gray-200 hover:border-orange-300 cursor-pointer'
+                      } ${isBareSalad ? 'font-semibold bg-blue-50 border-blue-200' : ''}`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={() => handleExclusionToggle(exclusion)}
+                        disabled={isDisabled}
+                        className="text-orange-500 focus:ring-orange-500 w-4 h-4"
+                      />
+                      <span className="font-medium">{exclusion}</span>
+                    </label>
+                  );
+                })}
               </div>
               
               {/* Show More/Less Button for Exclusions in Step 3 */}

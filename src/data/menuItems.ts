@@ -29,6 +29,7 @@ export const meatTypes = ['mit Kalbfleisch', 'mit Hähnchenfleisch'] as const;
 
 // Salad exclusion options for Drehspieß items
 export const saladExclusionOptions = [
+  'Ohne Beilagen bzw. Salate',
   'ohne Eisbergsalat',
   'ohne Zwiebel',
   'ohne Rotkohl',
