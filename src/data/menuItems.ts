@@ -161,7 +161,7 @@ export const pizzas: readonly MenuItem[] = [
   { id: 532, number: 32, name: "Pizza Hollandaise", description: "mit Hähnchenbrustfilet, Broccoli, Tomaten, Hollandaise-Soße", price: 12.00, isPizza: true, allergens: "A1, G, C, 3" },
   { id: 533, number: 33, name: "Pizza Hawaii", description: "mit Ananas & Putenschinken", price: 12.00, isPizza: true, allergens: "A1, 1, G, 9, 9, I, 12" },
   { id: 534, number: 34, name: "Pizza Athen", description: "mit Spinat & Weichkäse", price: 12.00, isPizza: true, allergens: "A1, 1" },
-  { id: 535, number: 35, name: "Pizza Rio", description: "mit Sucuk, Weichkäse, Zwiebeln & Peperoni", price: 12.50, isPizza: true, allergens: "A1, 1, G, 4, 9, 3, 9, 14, 12, 18" },
+  { id: 535, number: 35, name: "Pizza Rio", description: "mit Sucuk, Weichkäse, Zwiebeln, Peperoni & Sauce Hollandaise", price: 12.50, isPizza: true, allergens: "A1, 1, G, 4, 9, 3, 9, 14, 12, 18" },
   { id: 536, number: 36, name: "Calzone", description: "mit 3 Zutaten nach Wahl, jede extra Zutat +1 €", price: 12.00, isPizza: true, allergens: "A1, 1" },
   { id: 537, number: 37, name: "Pizza Art Drehspieß", description: "mit Drehspieß nach Wahl & Zwiebeln", price: 11.00, isPizza: true, isMeatSelection: true, allergens: "A1, G, 1a, 14, 12, 18" },
   { id: 538, number: 38, name: "Pizza Hamburger", description: "mit Hamburger-Patty, Salat, jede extra Zutat +1 €, Burgersoße", price: 12.00, isPizza: true, allergens: "A1, 1, C, 3" },
