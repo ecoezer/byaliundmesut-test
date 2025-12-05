@@ -161,7 +161,7 @@ export const pizzas: readonly MenuItem[] = [
   { id: 534, number: 34, name: "Pizza Athen", description: "mit Spinat & Weichkäse", price: 12.00, isPizza: true, allergens: "A1, 1" },
   { id: 535, number: 35, name: "Pizza Rio", description: "mit Sucuk, Weichkäse, Zwiebeln & Peperoni", price: 12.50, isPizza: true, allergens: "A1, 1, G, 4, 9, 3, 9, 14, 12, 18" },
   { id: 536, number: 36, name: "Calzone", description: "mit 3 Zutaten nach Wahl, jede extra Zutat +1 €", price: 12.00, isPizza: true, allergens: "A1, 1" },
-  { id: 537, number: 37, name: "Pizza Art Drehspieß", description: "mit Drehspieß nach Wahl & Zwiebeln", price: 12.50, isPizza: true, isMeatSelection: true, allergens: "A1, G, 1a, 14, 12, 18" },
+  { id: 537, number: 37, name: "Pizza Art Drehspieß", description: "mit Drehspieß nach Wahl & Zwiebeln", price: 11.00, isPizza: true, isMeatSelection: true, allergens: "A1, G, 1a, 14, 12, 18" },
   { id: 538, number: 38, name: "Pizza Hamburger", description: "mit Hamburger-Patty, Salat, jede extra Zutat +1 €, Burgersoße", price: 12.00, isPizza: true, allergens: "A1, 1, C, 3" },
   { id: 539, number: 39, name: "Pizza Mozzarella", description: "mit frischem Mozzarella & Tomaten", price: 12.00, isPizza: true, allergens: "A1, 1" },
   { id: 540, number: 40, name: "Pizza Italia", description: "mit Rindersalami, Mozzarella & frischem Basilikum", price: 11.00, isPizza: true, allergens: "A1, 1, C, G, 9, I" },
