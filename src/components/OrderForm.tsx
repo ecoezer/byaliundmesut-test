@@ -39,29 +39,15 @@ interface OrderFormProps {
 // Delivery zones with minimum order and delivery fee
 const DELIVERY_ZONES = {
   'lutter': { label: 'Lutter am Barenberge', minOrder: 0, fee: 0 },
-  'banteln': { label: 'Banteln', minOrder: 25, fee: 2.5 },
-  'barfelde': { label: 'Barfelde', minOrder: 20, fee: 2.5 },
-  'betheln': { label: 'Betheln', minOrder: 25, fee: 3 },
-  'brueggen': { label: 'Brüggen', minOrder: 35, fee: 3 },
-  'deinsen': { label: 'Deinsen', minOrder: 35, fee: 4 },
-  'duingen': { label: 'Duingen', minOrder: 40, fee: 4 },
-  'dunsen-gime': { label: 'Dunsen (Gime)', minOrder: 30, fee: 3 },
-  'eime': { label: 'Eime', minOrder: 25, fee: 3 },
-  'eitzum': { label: 'Eitzum', minOrder: 25, fee: 3 },
-  'elze': { label: 'Elze', minOrder: 35, fee: 4 },
-  'gronau': { label: 'Gronau', minOrder: 15, fee: 1.5 },
-  'gronau-doetzum': { label: 'Gronau Dötzum', minOrder: 20, fee: 2 },
-  'gronau-eddighausen': { label: 'Gronau Eddighausen', minOrder: 20, fee: 2.5 },
-  'haus-escherde': { label: 'Haus Escherde', minOrder: 25, fee: 3 },
-  'heinum': { label: 'Heinum', minOrder: 25, fee: 3 },
-  'kolonie-godenau': { label: 'Kolonie Godenau', minOrder: 40, fee: 4 },
-  'mehle-elze': { label: 'Mehle (Elze)', minOrder: 35, fee: 4 },
-  'nienstedt': { label: 'Nienstedt', minOrder: 35, fee: 4 },
-  'nordstemmen': { label: 'Nordstemmen', minOrder: 35, fee: 4 },
-  'rheden-elze': { label: 'Rheden (Elze)', minOrder: 25, fee: 3 },
-  'sibesse': { label: 'Sibesse', minOrder: 40, fee: 4 },
-  'sorsum-elze': { label: 'Sorsum (Elze)', minOrder: 35, fee: 4 },
-  'wallensted': { label: 'Wallensted', minOrder: 25, fee: 3 }
+  'ostlutter': { label: 'Ostlutter', minOrder: 20, fee: 2 },
+  'wallmoden': { label: 'Wallmoden', minOrder: 20, fee: 2 },
+  'alt-wallmoden': { label: 'Alt Wallmoden', minOrder: 20, fee: 2 },
+  'neuwallmoden': { label: 'Neuwallmoden', minOrder: 20, fee: 2 },
+  'nauen': { label: 'Nauen', minOrder: 20, fee: 2 },
+  'hahausen': { label: 'Hahausen', minOrder: 20, fee: 2 },
+  'bodenstein': { label: 'Bodenstein', minOrder: 20, fee: 2 },
+  'rhode': { label: 'Rhode', minOrder: 20, fee: 2 },
+  'sehlde': { label: 'Sehlde', minOrder: 20, fee: 2 }
 } as const;
 
 // Form validation schema
