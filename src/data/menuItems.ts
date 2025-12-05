@@ -33,7 +33,8 @@ export const saladExclusionOptions = [
   'ohne Zwiebel',
   'ohne Rotkohl',
   'ohne Tomaten',
-  'ohne Gurken'
+  'ohne Gurken',
+  'ohne Weißkraut'
 ] as const;
 
 // Side dish options for Drehspieß Teller
